@@ -419,7 +419,7 @@ export const projects: Project[] = [
           ['Runs in the published report', '390'],
           ['Setups compared', '7'],
           ['Tasks', '13'],
-          ["Judged quality across setups", "9.3 to 9.5 of 10"],
+          ['Judged quality across setups', '9.3 to 9.5 of 10'],
         ],
         proofNote:
           'The finding is unglamorous: on isolated tasks configuration barely moved quality, while the richest setup cost about 20% more per run.',
@@ -442,7 +442,7 @@ export const projects: Project[] = [
           ['Прогони в опублікованому звіті', '390'],
           ['Порівняні конфігурації', '7'],
           ['Завдання', '13'],
-          ["Оцінка якості за конфігураціями", "від 9,3 до 9,5 з 10"],
+          ['Оцінка якості за конфігураціями', 'від 9,3 до 9,5 з 10'],
         ],
         proofNote:
           'Висновок непоказний: на ізольованих завданнях налаштування майже не змінили якість, а найбагатша конфігурація коштувала приблизно на 20% більше за прогін.',
