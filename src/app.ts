@@ -10,12 +10,22 @@ import {
 import { findProject, type Lang } from './content.js';
 import { renderHome, renderNotFound, renderProject } from './render.js';
 
-export function createApp(root: string, delivery: DeliveryConfig): Express {
+export function createApp(
+  root: string,
+  delivery: DeliveryConfig,
+  options: { noindex?: boolean } = {}
+): Express {
   const app = express();
   const limiter = new RateLimiter(5, 10 * 60_000);
 
   app.set('trust proxy', 1);
   app.disable('x-powered-by');
+  if (options.noindex) {
+    app.use((_req, res, next) => {
+      res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+      next();
+    });
+  }
   app.use(express.json({ limit: '8kb' }));
   app.use(express.static(join(root, 'public'), { maxAge: '1h' }));
 

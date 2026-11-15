@@ -162,3 +162,12 @@ describe('brief delivery', () => {
     });
   });
 });
+
+describe('preview mode', () => {
+  it('asks search engines to stay away when the flag is set', async () => {
+    const server = createApp(root, {}, { noindex: true }).listen(0);
+    const res = await fetch(`http://127.0.0.1:${(server.address() as AddressInfo).port}/`);
+    server.close();
+    expect(res.headers.get('x-robots-tag')).toBe('noindex, nofollow');
+  });
+});
