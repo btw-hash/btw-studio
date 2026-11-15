@@ -454,6 +454,57 @@ export const projects: Project[] = [
       },
     },
   },
+  {
+    slug: 'studio-site-v1',
+    kind: 'live',
+    demo: 'https://v1.btwstudio.dev',
+    repo: 'https://github.com/btw-hash/btw-site',
+    video: false,
+    poster: 'studio-site-v1.webp',
+    onStage: false,
+    text: {
+      en: {
+        name: 'studio-site-v1',
+        title: ['Our previous site,', 'with a 3D scene.'],
+        line: 'The first version of the studio site: a live 3D shape in the hero, editorial layout and two languages. Kept online as an archive.',
+        stage: '',
+        problem:
+          'A studio site that has to stand out among template landing pages without turning into a slow tech demo.',
+        built:
+          'A dark editorial site with a three-dimensional iridescent shape rendered in the browser, motion tuned section by section, case studies and an English and Ukrainian version. It runs in a self-hosted container behind a tunnel.',
+        proof: [
+          ['3D scene', 'rendered live in the browser'],
+          ['Languages', 'English and Ukrainian'],
+          ['Status', 'archived version, still online'],
+        ],
+        facts: [
+          ['Built with', 'Next.js 15, React 19, react-three-fiber, Framer Motion'],
+          ['Runs as', 'A self-hosted container'],
+          ['Good fit for', 'Brand sites and launches that need a visual hook'],
+        ],
+      },
+      uk: {
+        name: 'studio-site-v1',
+        title: ['Наш попередній сайт', 'із 3D-сценою.'],
+        line: 'Перша версія сайту студії: жива 3D-фігура на головній, редакційна верстка і дві мови. Залишена онлайн як архів.',
+        stage: '',
+        problem:
+          'Сайт студії має вирізнятися серед шаблонних лендингів і при цьому не перетворитися на повільне техно-демо.',
+        built:
+          'Темний редакційний сайт із тривимірною райдужною фігурою, яку малює браузер, з анімацією, налаштованою для кожного розділу, кейсами та англійською й українською версіями. Працює у власному контейнері за тунелем.',
+        proof: [
+          ['3D-сцена', 'малюється наживо в браузері'],
+          ['Мови', 'англійська та українська'],
+          ['Стан', 'архівна версія, досі онлайн'],
+        ],
+        facts: [
+          ['Стек', 'Next.js 15, React 19, react-three-fiber, Framer Motion'],
+          ['Запуск', 'Власний контейнер'],
+          ['Кому підійде', 'Сайти брендів і запуски, яким потрібен візуальний гачок'],
+        ],
+      },
+    },
+  },
 ];
 
 export const ui = {
