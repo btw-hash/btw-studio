@@ -65,6 +65,22 @@ describe('pages', () => {
     }
   });
 
+  it('shows every clip of a project with its caption, in both languages', async () => {
+    const nox = projects.find((x) => x.slug === 'nox')!;
+    expect(nox.clips?.length).toBe(5);
+    for (const [path, lang] of [
+      ['/work/nox', 'en'],
+      ['/uk/work/nox', 'uk'],
+    ] as const) {
+      const html = await (await fetch(`${base}${path}`)).text();
+      for (const c of nox.clips!) {
+        expect(html).toContain(`/media/${c.file}.mp4`);
+        expect(html).toContain(c.label[lang]);
+        expect((await fetch(`${base}/media/${c.file}.mp4`, { method: 'HEAD' })).status).toBe(200);
+      }
+    }
+  });
+
   it('escapes content when rendering', async () => {
     const html = await (await fetch(`${base}/work/citewise`)).text();
     expect(html).toContain('&quot;lose my laptop&quot;');

@@ -180,6 +180,16 @@ export function renderProject(lang: Lang, p: Project): string {
     <span class="links">${buttons}</span>
   </div>
   ${p.poster ? `<div class="stage solo"><div class="screen">${media(p, lang)}</div></div>` : ''}
+  ${
+    p.clips
+      ? `<div class="clips">${p.clips
+          .map(
+            (c) =>
+              `<figure><video src="/media/${c.file}.mp4" poster="/media/${c.file}.webp" muted loop playsinline autoplay preload="metadata" aria-label="${esc(c.label[lang])}"></video><figcaption>${esc(c.label[lang])}</figcaption></figure>`
+          )
+          .join('')}</div>`
+      : ''
+  }
   <div class="pcols">
     <div>
       <h2>${esc(t.project.problem)}</h2>

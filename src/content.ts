@@ -21,6 +21,7 @@ export interface Project {
   video: boolean;
   poster?: string;
   onStage: boolean;
+  clips?: { file: string; label: Record<Lang, string> }[];
   text: Record<Lang, ProjectText>;
 }
 
@@ -305,23 +306,64 @@ export const projects: Project[] = [
     slug: 'nox',
     kind: 'private',
     repo: 'https://github.com/btw-hash/nox',
-    video: false,
-    onStage: false,
+    video: true,
+    poster: 'nox.webp',
+    onStage: true,
+    clips: [
+      {
+        file: 'nox-chat',
+        label: {
+          en: 'Chat: an answer with its steps, a result card, search across conversations',
+          uk: 'Чат: відповідь із кроками, картка результату, пошук у всіх розмовах',
+        },
+      },
+      {
+        file: 'nox-events',
+        label: {
+          en: 'Events: signals grouped by source, read on sight, archived with a swipe',
+          uk: 'Події: сигнали згруповані за джерелом, прочитане зникає саме, свайп прибирає в архів',
+        },
+      },
+      {
+        file: 'nox-watchdog',
+        label: {
+          en: 'Watchdog: one alert per outage, false alarms swallowed with a diagnosis',
+          uk: 'Сторож: одна тривога на відключення, хибні тривоги заглушено з діагнозом',
+        },
+      },
+      {
+        file: 'nox-tasks',
+        label: {
+          en: 'Tasks and projects: today, deadlines, progress per project',
+          uk: 'Задачі та проєкти: сьогодні, дедлайни, прогрес за проєктами',
+        },
+      },
+      {
+        file: 'nox-planner',
+        label: {
+          en: 'Planner: counters, checklists, a study journal, unfinished items carried over',
+          uk: 'Щоденник: лічильники, списки, журнал навчання, незроблене переноситься саме',
+        },
+      },
+    ],
     text: {
       en: {
         name: 'nox',
         title: ['A personal assistant', 'in daily use.'],
         line: 'A Telegram bot, an Android app and a background agent on a self-hosted server. It has run every day since April 2026.',
-        stage: '',
+        stage:
+          'A personal assistant in daily use: chat, events, a server watchdog and a planner in one phone app. Recorded on demo data.',
         problem:
           'Tasks, mail, client replies and server alerts arrive in different places, and most assistants are demos that nobody uses a month later.',
         built:
           'One assistant reachable from a chat and a phone app. Incoming signals become cards with one notification per batch. A watchdog monitors the server it runs on: one outage produces one alert, and a narrow set of repairs happens without a human.',
         proof: [
           ['In daily use since', 'April 2026'],
-          ['Releases shipped through pull requests', '46'],
+          ['Releases shipped through pull requests', '60'],
           ['Side effects', 'smoke-tested against the live system'],
         ],
+        proofNote:
+          'The recordings use a fictional owner and seeded data; the interface is in Ukrainian because that is the language it is used in.',
         facts: [
           ['Built with', 'TypeScript, grammY, SQLite, Claude Agent SDK'],
           ['Clients', 'Telegram, Android with over-the-air updates'],
@@ -332,16 +374,18 @@ export const projects: Project[] = [
         name: 'nox',
         title: ['Особистий асистент', 'у щоденній роботі.'],
         line: 'Telegram-бот, застосунок для Android і фоновий агент на власному сервері. Працює щодня з квітня 2026 року.',
-        stage: '',
+        stage:
+          'Особистий асистент у щоденній роботі: чат, події, сторож сервера і щоденник в одному застосунку. Записано на демо-даних.',
         problem:
           'Завдання, пошта, відповіді клієнтів і тривоги сервера приходять у різні місця, а більшість асистентів — це демо, яким за місяць ніхто не користується.',
         built:
           'Один асистент, доступний із чату та з телефона. Вхідні сигнали стають картками з одним сповіщенням на пачку. Сторож стежить за сервером, на якому працює: одне відключення дає одну тривогу, а вузький набір ремонтів виконується без людини.',
         proof: [
           ['У щоденній роботі з', 'квітня 2026'],
-          ['Релізи через pull request', '46'],
+          ['Релізи через pull request', '60'],
           ['Побічні дії', 'перевірені на живій системі'],
         ],
+        proofNote: 'Записи зроблено на вигаданому власникові та демо-даних.',
         facts: [
           ['Стек', 'TypeScript, grammY, SQLite, Claude Agent SDK'],
           ['Клієнти', 'Telegram, Android з оновленням без перевстановлення'],
