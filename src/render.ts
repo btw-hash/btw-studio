@@ -1,6 +1,8 @@
 import { projects, ui, type Lang, type Project } from './content.js';
 
 const ORIGIN = 'https://btwstudio.dev';
+// Changes on every deploy, so a cached stylesheet never meets newer markup.
+const V = Date.now().toString(36);
 
 export function esc(value: string): string {
   return value.replace(
@@ -36,7 +38,7 @@ function layout(
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/styles.css?v=${V}">
 <script>document.documentElement.className='js'</script>
 </head>
 <body>
@@ -57,7 +59,7 @@ ${opts.body}
   <span>© 2026 ${esc(t.footer.rights)}</span>
   <a href="https://github.com/btw-hash">${esc(t.footer.github)}</a>
 </footer>
-<script src="/app.js" defer></script>
+<script src="/app.js?v=${V}" defer></script>
 </body>
 </html>`;
 }
