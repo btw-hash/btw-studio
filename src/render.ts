@@ -37,8 +37,10 @@ function layout(
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/styles.css">
+<script>document.documentElement.className='js'</script>
 </head>
 <body>
+<div class="progress" aria-hidden="true"></div>
 <header class="in bar">
   <a class="mark" href="${home(lang)}">BTW Studio</a>
   <nav aria-label="Main">
@@ -90,9 +92,9 @@ export function renderHome(lang: Lang): string {
   const link = primaryLink(first, lang);
 
   const body = `<div class="in">
-  <h1 class="h">${esc(t.hero[0])} <span>${esc(t.hero[1])}</span></h1>
-  <p class="sub">${esc(t.sub)}</p>
-  <section class="stage" id="work" data-stage='${esc(JSON.stringify(stageData))}'>
+  <h1 class="h rise">${esc(t.hero[0])} <span>${esc(t.hero[1])}</span></h1>
+  <p class="sub rise" style="--i:1">${esc(t.sub)}</p>
+  <section class="stage rise" style="--i:2" id="work" data-stage='${esc(JSON.stringify(stageData))}'>
     <div class="screen" id="screen">${media(first, lang)}</div>
     <div class="chan" role="group" aria-label="${esc(t.stageGroup)}">
       ${stage
@@ -112,14 +114,14 @@ export function renderHome(lang: Lang): string {
   </section>
 
   <section class="doors">
-    <div class="d"><h2>${esc(t.doors[0][0])}</h2><p>${esc(t.doors[0][1])}</p></div>
-    <div class="d alt"><h2>${esc(t.doors[1][0])}</h2><p>${esc(t.doors[1][1])}</p></div>
+    <div class="d rv"><h2>${esc(t.doors[0][0])}</h2><p>${esc(t.doors[0][1])}</p></div>
+    <div class="d alt rv" style="--i:1"><h2>${esc(t.doors[1][0])}</h2><p>${esc(t.doors[1][1])}</p></div>
   </section>
 
   <section id="method">
     <h2 class="lab">${esc(t.methodTitle)}</h2>
     <div class="how">
-      ${t.method.map(([h, p]) => `<div><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n      ')}
+      ${t.method.map(([h, p], i) => `<div class="rv" style="--i:${i}"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n      ')}
     </div>
   </section>
 
@@ -128,7 +130,7 @@ export function renderHome(lang: Lang): string {
     <div class="list">
       ${projects
         .map(
-          (p) => `<a class="item" href="${workPath(lang, p.slug)}">
+          (p, i) => `<a class="item rv" style="--i:${i % 3}" href="${workPath(lang, p.slug)}">
         <span class="tag">${esc(t.kind[p.kind])}</span>
         <b>${esc(p.text[lang].title.join(' '))}</b>
         <span>${esc(p.text[lang].line)}</span>
@@ -139,7 +141,7 @@ export function renderHome(lang: Lang): string {
     </div>
   </section>
 
-  <section class="brief" id="brief">
+  <section class="brief rv" id="brief">
     <div><h2>${esc(t.brief.title)}</h2><p class="promise">${esc(t.brief.promise)}</p></div>
     <form id="brief-form" novalidate data-lang="${lang}" data-msg='${esc(JSON.stringify({ sending: t.brief.sending, ok: t.brief.ok, ...t.brief.errors }))}'>
       <fieldset class="seg">
@@ -166,6 +168,7 @@ export function renderHome(lang: Lang): string {
 export function renderProject(lang: Lang, p: Project): string {
   const t = ui[lang];
   const x = p.text[lang];
+  const study = x.study;
   const index = projects.indexOf(p);
   const next = projects[(index + 1) % projects.length]!;
   const buttons = [
@@ -185,19 +188,33 @@ export function renderProject(lang: Lang, p: Project): string {
       ? `<div class="clips">${p.clips
           .map(
             (c) =>
-              `<figure><video src="/media/${c.file}.mp4" poster="/media/${c.file}.webp" muted loop playsinline autoplay preload="metadata" aria-label="${esc(c.label[lang])}"></video><figcaption>${esc(c.label[lang])}</figcaption></figure>`
+              `<figure class="rv"><video src="/media/${c.file}.mp4" poster="/media/${c.file}.webp" muted loop playsinline autoplay preload="metadata" aria-label="${esc(c.label[lang])}"></video><figcaption>${esc(c.label[lang])}</figcaption></figure>`
           )
           .join('')}</div>`
       : ''
   }
-  <div class="pcols">
+  ${
+    study
+      ? `<section class="plain rv">
+    <h2 class="lab">${esc(t.project.plain)}</h2>
+    <p class="lead">${esc(study.plain)}</p>
+  </section>
+  <section>
+    <h2 class="lab">${esc(t.project.steps)}</h2>
+    <ol class="steps">
+      ${study.steps.map(([h, d], i) => `<li class="rv" style="--i:${i}"><h3>${esc(h)}</h3><p>${esc(d)}</p></li>`).join('\n      ')}
+    </ol>
+  </section>`
+      : ''
+  }
+  <div class="pcols rv">
     <div>
       <h2>${esc(t.project.problem)}</h2>
       <p>${esc(x.problem)}</p>
       <h2>${esc(t.project.built)}</h2>
       <p>${esc(x.built)}</p>
       <h2>${esc(t.project.proof)}</h2>
-      <table>
+      <table class="proof">
         ${x.proof.map(([k, v]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td></tr>`).join('\n        ')}
       </table>
       ${x.proofNote ? `<p class="pnote">${esc(x.proofNote)}</p>` : ''}
@@ -206,6 +223,26 @@ export function renderProject(lang: Lang, p: Project): string {
       ${x.facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('\n      ')}
     </dl>
   </div>
+  ${
+    study
+      ? `<section class="hood rv">
+    <h2>${esc(t.project.hood)}</h2>
+    <ol class="flow" style="--n:${study.flow.length}">
+      ${study.flow
+        .map(
+          (n, i) =>
+            `<li style="--i:${i}"><div class="node"><b>${esc(n.label)}</b><span>${esc(n.note)}</span></div>${n.or ? `<em>${esc(t.project.or)}</em><div class="node alt"><b>${esc(n.or.label)}</b><span>${esc(n.or.note)}</span></div>` : ''}</li>`
+        )
+        .join('\n      ')}
+    </ol>
+    ${study.flowNote ? `<p class="fnote">${esc(study.flowNote)}</p>` : ''}
+    <h3 class="lab">${esc(t.project.decisions)}</h3>
+    <div class="dec">
+      ${study.decisions.map(([h, d], i) => `<div class="rv" style="--i:${i % 2}"><h4>${esc(h)}</h4><p>${esc(d)}</p></div>`).join('\n      ')}
+    </div>
+  </section>`
+      : ''
+  }
   <div class="next">
     <a href="${workPath(lang, next.slug)}"><b>${esc(t.project.next)}:</b> ${esc(next.text[lang].title.join(' '))} →</a>
     <a class="btn acc" href="${home(lang)}#brief">${esc(t.project.cta)}</a>

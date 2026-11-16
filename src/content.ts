@@ -1,6 +1,14 @@
 export type Lang = 'en' | 'uk';
 export const LANGS: Lang[] = ['en', 'uk'];
 
+export interface CaseStudy {
+  plain: string;
+  steps: [string, string][];
+  flow: { label: string; note: string; or?: { label: string; note: string } }[];
+  flowNote?: string;
+  decisions: [string, string][];
+}
+
 export interface ProjectText {
   name: string;
   title: [string, string];
@@ -11,6 +19,7 @@ export interface ProjectText {
   proof: [string, string][];
   proofNote?: string;
   facts: [string, string][];
+  study?: CaseStudy;
 }
 
 export interface Project {
@@ -115,6 +124,55 @@ export const projects: Project[] = [
           ['Checks', '9 unit tests, eval gate'],
           ['Good fit for', 'Help centers, internal handbooks, policy search'],
         ],
+        study: {
+          plain:
+            'You ask a question about your company documents and get a short answer. Next to each sentence is the exact line it came from. When the documents do not hold the answer, it says so instead of guessing.',
+          steps: [
+            [
+              'Ask in your own words',
+              'The question goes in the way a person would type it into a help chat.',
+            ],
+            [
+              'Get an answer with its sources',
+              'Each sentence links to the passage it rests on. One click highlights the quoted line in the document.',
+            ],
+            [
+              'Or an honest "I do not know"',
+              'A question the documents do not cover is refused. Nothing is filled in from general knowledge.',
+            ],
+          ],
+          flow: [
+            { label: 'Documents', note: 'Markdown, one chunk per heading' },
+            { label: 'Search', note: 'BM25 picks the closest passages' },
+            { label: 'Draft', note: 'Claims, each with a source and a quote' },
+            { label: 'Check', note: 'The quote must be in the source, word for word' },
+            {
+              label: 'Answer',
+              note: 'Only claims that passed',
+              or: { label: 'Refusal', note: 'Nothing passed' },
+            },
+          ],
+          flowNote:
+            'The model path is covered by tests against a stubbed endpoint, including a fabricated quote that must be dropped. It has not been run against a live provider yet.',
+          decisions: [
+            [
+              'The check is code, not a prompt',
+              'String matching does not depend on the model behaving. A made-up quote is dropped every time.',
+            ],
+            [
+              'Keyword search before embeddings',
+              'BM25 needs no outside service, so the demo costs nothing to run. The index sits behind one class and can be swapped for embeddings or a hybrid.',
+            ],
+            [
+              'The model is replaceable',
+              'It sits behind one interface. Without a key the answer is assembled from the best-matching sentences, so the whole pipeline runs with no model at all.',
+            ],
+            [
+              'The misses stay visible',
+              'Two test questions fail and are shown on the demo page. They mark where keyword search stops.',
+            ],
+          ],
+        },
       },
       uk: {
         name: 'citewise',
@@ -141,6 +199,55 @@ export const projects: Project[] = [
           ['Перевірки', '9 тестів, поріг якості'],
           ['Кому підійде', 'Довідкові центри, внутрішні регламенти, політики'],
         ],
+        study: {
+          plain:
+            'Ви ставите запитання за документами компанії й отримуєте коротку відповідь. Поруч із кожним реченням видно рядок, з якого воно взяте. Якщо в документах відповіді немає, система так і каже, а не вигадує.',
+          steps: [
+            [
+              'Запитайте своїми словами',
+              'Запитання вводять так, як людина написала б у чат підтримки.',
+            ],
+            [
+              'Отримайте відповідь із джерелами',
+              'Кожне речення веде до фрагмента, на який спирається. Один клік підсвічує процитований рядок у документі.',
+            ],
+            [
+              'Або чесне «не знаю»',
+              'На запитання поза документами система відмовляє. Із загальних знань нічого не додається.',
+            ],
+          ],
+          flow: [
+            { label: 'Документи', note: 'Markdown, фрагмент на кожен заголовок' },
+            { label: 'Пошук', note: 'BM25 знаходить найближчі фрагменти' },
+            { label: 'Чернетка', note: 'Твердження з джерелом і цитатою' },
+            { label: 'Перевірка', note: 'Цитата має бути в джерелі дослівно' },
+            {
+              label: 'Відповідь',
+              note: 'Лише твердження, що пройшли',
+              or: { label: 'Відмова', note: 'Не пройшло жодне' },
+            },
+          ],
+          flowNote:
+            'Шлях із моделлю покрито тестами на підставному сервері, зокрема з вигаданою цитатою, яку система має відкинути. На живому провайдері його ще не запускали.',
+          decisions: [
+            [
+              'Перевіряє код, а не промпт',
+              'Порівняння рядків не залежить від поведінки моделі. Вигадану цитату відкидає щоразу.',
+            ],
+            [
+              'Пошук за словами до ембедингів',
+              'BM25 не потребує зовнішніх сервісів, тож демо нічого не коштує. Індекс схований за одним класом, його можна замінити на ембединги чи гібрид.',
+            ],
+            [
+              'Модель можна замінити',
+              'Вона стоїть за одним інтерфейсом. Без ключа відповідь складається з найближчих речень, тож увесь ланцюжок працює й без моделі.',
+            ],
+            [
+              'Промахи лишаються на видноті',
+              'Два тестові запитання не проходять і показані на сторінці демо. Вони позначають межу пошуку за словами.',
+            ],
+          ],
+        },
       },
     },
   },
@@ -621,6 +728,11 @@ export const ui = {
       proof: 'How we know it works',
       next: 'Next',
       cta: 'Need something like this? Send a brief',
+      plain: 'In plain words',
+      steps: 'How it works',
+      hood: 'Under the hood',
+      decisions: 'Decisions and why',
+      or: 'or',
     },
     footer: { rights: 'BTW Studio', github: 'GitHub' },
     notFound: { title: 'This page does not exist.', back: 'Back to the work' },
@@ -695,6 +807,11 @@ export const ui = {
       proof: 'Звідки відомо, що це працює',
       next: 'Далі',
       cta: 'Потрібне щось подібне? Надішліть бриф',
+      plain: 'Простими словами',
+      steps: 'Як це працює',
+      hood: 'Як це влаштовано',
+      decisions: 'Рішення і чому',
+      or: 'або',
     },
     footer: { rights: 'BTW Studio', github: 'GitHub' },
     notFound: { title: 'Такої сторінки немає.', back: 'Повернутися до робіт' },
