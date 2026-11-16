@@ -7,6 +7,7 @@ export interface Brief {
   when: string;
   reply: string;
   lang: string;
+  via?: 'telegram';
 }
 
 export type BriefError = 'what' | 'reply';
@@ -46,7 +47,7 @@ export function isConfigured(cfg: DeliveryConfig): boolean {
 
 export function formatBrief(brief: Brief): string {
   return [
-    `New brief (${brief.who === 'team' ? 'product team' : 'studio or agency'}, ${brief.lang})`,
+    `New brief (${brief.who === 'team' ? 'product team' : 'studio or agency'}, ${brief.lang}${brief.via ? ', via the Telegram bot' : ''})`,
     '',
     brief.what,
     '',

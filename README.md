@@ -18,6 +18,7 @@ src/
   content.ts   every project and every interface string, in both languages
   render.ts    server-side HTML: layout, home, project page, 404
   brief.ts     brief validation, Telegram delivery, rate limiter
+  bot.ts       the same brief taken as a Telegram conversation
   app.ts       Express routes
   server.ts    entry point, reads the environment
 public/
@@ -39,6 +40,12 @@ Pages are rendered on the server from `content.ts`, so adding a project is one o
 | `BRIEF_LOG_DIR` | Optional folder for a JSONL copy of every brief |
 
 Without the first two the endpoint answers `503` and the page tells the visitor the form is not connected. It never reports success for a brief that went nowhere.
+
+## The brief bot
+
+The same bot also takes briefs in Telegram. `/start` asks who the client is, what to build, by when and where to reply, shows the brief back and sends it to the same chat only after the client confirms. It runs inside this service by long polling, so there is no webhook to register; the page links to it under the form once the bot's name is known.
+
+`/id` in any chat answers with that chat's id, which is the value for `BRIEF_TG_CHAT_ID`. Outside private chats the bot answers nothing else. One chat can send three briefs an hour.
 
 ## Deploy
 

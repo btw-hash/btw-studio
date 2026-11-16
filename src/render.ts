@@ -78,7 +78,7 @@ function primaryLink(p: Project, lang: Lang): { href: string; label: string } {
   return p.demo ? { href: p.demo, label: t.open } : { href: p.repo ?? '#', label: t.code };
 }
 
-export function renderHome(lang: Lang): string {
+export function renderHome(lang: Lang, botUsername?: string): string {
   const t = ui[lang];
   const stage = projects.filter((p) => p.onStage);
   const first = stage[0]!;
@@ -159,7 +159,12 @@ export function renderHome(lang: Lang): string {
       <input id="f-reply" name="reply" type="text" maxlength="200" required autocomplete="email" placeholder="${esc(t.brief.replyPh)}">
       <div class="hp" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
       <button type="submit" class="btn acc">${esc(t.brief.send)}</button>
-      <p class="status" id="brief-status" role="status" aria-live="polite"></p>
+      <p class="status" id="brief-status" role="status" aria-live="polite"></p>${
+        botUsername
+          ? `
+      <p class="alt"><a href="https://t.me/${esc(botUsername)}?start=${lang}" rel="noopener">${esc(t.brief.tg)} →</a></p>`
+          : ''
+      }
     </form>
   </section>
 </div>`;

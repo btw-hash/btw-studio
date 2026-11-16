@@ -13,7 +13,7 @@ import { renderHome, renderNotFound, renderProject } from './render.js';
 export function createApp(
   root: string,
   delivery: DeliveryConfig,
-  options: { noindex?: boolean } = {}
+  options: { noindex?: boolean; site?: { botUsername?: string } } = {}
 ): Express {
   const app = express();
   const limiter = new RateLimiter(5, 10 * 60_000);
@@ -63,7 +63,7 @@ export function createApp(
   const page = (lang: Lang) => {
     const base = lang === 'uk' ? '/uk' : '';
     app.get(base || '/', (_req, res) => {
-      res.type('html').send(renderHome(lang));
+      res.type('html').send(renderHome(lang, options.site?.botUsername));
     });
     app.get(`${base}/work/:slug`, (req, res) => {
       const project = findProject(req.params.slug);
