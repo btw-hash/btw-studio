@@ -1036,6 +1036,152 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: 'ua-mcp',
+    kind: 'code',
+    repo: 'https://github.com/btw-hash/ua-mcp',
+    video: false,
+    onStage: false,
+    text: {
+      en: {
+        name: 'ua-mcp',
+        title: ['Ask the post and the bank', 'in plain words.'],
+        line: 'One connector that lets an AI assistant track parcels, find a branch, price a delivery and read a bank statement across Nova Poshta, Ukrposhta and Monobank.',
+        stage: '',
+        problem:
+          'An assistant that can call a delivery or banking API still fails on the question a person asks. "How much to send two kilos from Kyiv to Odesa" takes four calls and internal ids the user never sees.',
+        built:
+          'A server for the Model Context Protocol with seven tools shaped around questions: where the parcel is, which branch is open, what delivery costs and when it arrives, what was spent. Every tool only reads; nothing creates a waybill or moves money.',
+        proof: [
+          ['Tool choice', '23 of 23 test questions'],
+          ['Live check', '5 calls to the real services pass'],
+          ['Writes', 'none, by design'],
+        ],
+        proofNote:
+          'The 23 questions and the tool descriptions were written by the same person, so that score is a regression check, not a field measurement. The Ukrposhta and personal Monobank tools are tested on saved answers only: no live token was used.',
+        facts: [
+          ['Built with', 'TypeScript, Model Context Protocol SDK'],
+          ['Runs as', 'A local process next to Claude or any MCP client'],
+          ['Good fit for', 'Shops, CRMs and support desks that ship in Ukraine'],
+        ],
+        study: {
+          plain:
+            'An AI assistant on its own cannot look up where a parcel is or what was paid yesterday. This connector gives it that ability for three Ukrainian services. You ask in ordinary words, in Ukrainian or English, and the assistant picks the right lookup itself.',
+          steps: [
+            [
+              'Connect it once',
+              'Add the server to Claude or another assistant; three lookups work with no keys at all.',
+            ],
+            [
+              'Ask a normal question',
+              '"Where is parcel 2045…?" or "What does two kilos to Odesa cost?"',
+            ],
+            [
+              'Get a checked answer',
+              'Status, address, price or total comes back as plain numbers, not codes.',
+            ],
+          ],
+          flow: [
+            { label: 'Question', note: 'In Ukrainian, Russian or English' },
+            { label: 'Assistant', note: 'Picks one of seven tools and fills its fields' },
+            { label: 'Connector', note: 'Turns city names into ids, checks limits' },
+            { label: 'Service', note: 'Nova Poshta, Ukrposhta or Monobank' },
+            { label: 'Answer', note: 'Hryvnias and dates, with "not found" said plainly' },
+          ],
+          flowNote:
+            'A tool appears only when it can work: with no keys the assistant sees four tools, and the other three show up when their token is set.',
+          decisions: [
+            [
+              'Questions, not endpoints',
+              'One tool takes two city names and returns price and arrival date; the assistant never carries internal ids between calls.',
+            ],
+            [
+              'Read-only',
+              'No tool can create a waybill or move money, so an assistant can run them without asking each time.',
+            ],
+            [
+              'Limits become advice',
+              'The bank allows one personal request a minute; the connector says "wait a minute" instead of failing.',
+            ],
+            [
+              'The live check earned its place',
+              'Calling the real service caught a bug the saved answers hid: parcel lockers were lost behind a page of branches.',
+            ],
+          ],
+        },
+      },
+      uk: {
+        name: 'ua-mcp',
+        title: ['Питайте пошту й банк', 'звичайними словами.'],
+        line: 'Один конектор, з яким ШІ-асистент відстежує посилки, знаходить відділення, рахує вартість доставки й читає банківську виписку: Нова Пошта, Укрпошта, Monobank.',
+        stage: '',
+        problem:
+          'Асистент, який уміє викликати API доставки чи банку, все одно спотикається на запитанні людини. «Скільки коштує відправити два кілограми з Києва до Одеси» — це чотири виклики й внутрішні ідентифікатори, яких користувач ніколи не бачить.',
+        built:
+          'Сервер для Model Context Protocol із сімома інструментами, побудованими навколо запитань: де посилка, яке відділення працює, скільки коштує доставка й коли вона приїде, на що витрачено гроші. Усі інструменти лише читають; жоден не створює накладну й не переказує гроші.',
+        proof: [
+          ['Вибір інструмента', '23 із 23 тестових запитань'],
+          ['Перевірка наживо', '5 викликів справжніх сервісів проходять'],
+          ['Запис', 'немає, так задумано'],
+        ],
+        proofNote:
+          'Ці 23 запитання й описи інструментів писала одна людина, тож результат є регресійною перевіркою, а не польовим вимірюванням. Інструменти Укрпошти й особистого Monobank перевірено лише на збережених відповідях: справжніх токенів не використовували.',
+        facts: [
+          ['Стек', 'TypeScript, Model Context Protocol SDK'],
+          ['Запуск', 'Локальний процес поруч із Claude чи іншим MCP-клієнтом'],
+          ['Кому підійде', 'Магазинам, CRM і підтримці, що доставляють по Україні'],
+        ],
+        study: {
+          plain:
+            'Сам по собі ШІ-асистент не може подивитися, де посилка чи що вчора списали з картки. Цей конектор дає йому таку можливість для трьох українських сервісів. Ви питаєте звичайними словами, українською чи англійською, а асистент сам обирає потрібний запит.',
+          steps: [
+            [
+              'Під’єднайте один раз',
+              'Додайте сервер до Claude чи іншого асистента; три запити працюють узагалі без ключів.',
+            ],
+            [
+              'Поставте звичайне запитання',
+              '«Де посилка 2045…?» або «Скільки коштує два кілограми до Одеси?»',
+            ],
+            [
+              'Отримайте перевірену відповідь',
+              'Статус, адреса, ціна чи сума повертаються звичайними числами, а не кодами.',
+            ],
+          ],
+          flow: [
+            { label: 'Запитання', note: 'Українською, російською чи англійською' },
+            { label: 'Асистент', note: 'Обирає один із семи інструментів і заповнює поля' },
+            {
+              label: 'Конектор',
+              note: 'Перетворює назви міст на ідентифікатори, перевіряє обмеження',
+            },
+            { label: 'Сервіс', note: 'Нова Пошта, Укрпошта або Monobank' },
+            { label: 'Відповідь', note: 'Гривні й дати, а «не знайдено» сказано прямо' },
+          ],
+          flowNote:
+            'Інструмент з’являється лише тоді, коли може працювати: без ключів асистент бачить чотири інструменти, а решта три додаються разом зі своїм токеном.',
+          decisions: [
+            [
+              'Запитання, а не методи API',
+              'Один інструмент приймає назви двох міст і повертає ціну й дату прибуття; асистент не переносить внутрішні ідентифікатори між викликами.',
+            ],
+            [
+              'Лише читання',
+              'Жоден інструмент не створює накладну й не переказує гроші, тож асистент може викликати їх без запиту щоразу.',
+            ],
+            [
+              'Обмеження стають порадою',
+              'Банк дозволяє один особистий запит на хвилину; конектор каже «зачекайте хвилину», а не падає.',
+            ],
+            [
+              'Перевірка наживо себе виправдала',
+              'Виклик справжнього сервісу виявив помилку, якої не було видно на збережених відповідях: поштомати губилися за сторінкою відділень.',
+            ],
+          ],
+        },
+      },
+    },
+  },
+  {
     slug: 'benchmark-cc',
     kind: 'code',
     repo: 'https://github.com/btw-hash/benchmark-cc',
