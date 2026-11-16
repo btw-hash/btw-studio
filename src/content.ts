@@ -65,6 +65,53 @@ export const projects: Project[] = [
           ['Runs as', 'Docker Compose: app, database, mock ERP'],
           ['Good fit for', 'Sales teams, distributors, internal back offices'],
         ],
+        study: {
+          plain:
+            'A sales department works in one place instead of spreadsheets. Each person sees only their part of the job: the head of sales sees the whole team, a manager sees their own deals, logistics sees what ships today. An assistant answers questions about the numbers, and it reads the same numbers the screens show.',
+          steps: [
+            [
+              'Pick a role',
+              'The demo has six logins, from head of sales to logistics. Each opens a different workspace.',
+            ],
+            [
+              'Move a deal',
+              'Deals sit on a board and pass from stage to stage, down to accounting and dispatch.',
+            ],
+            [
+              'Ask the assistant',
+              'It answers from calculations over the live data, so a figure in the chat matches the figure on the dashboard.',
+            ],
+          ],
+          flow: [
+            { label: 'Screens', note: 'Pages and forms; they only call use-cases' },
+            { label: 'Use-cases', note: 'Business actions; they depend on interfaces' },
+            { label: 'Domain', note: 'Entities and rules; imports nothing else' },
+            {
+              label: 'Adapters',
+              note: 'Database, accounting system, model; chosen by configuration',
+            },
+          ],
+          flowNote:
+            'Dependencies point inward. Swapping a stub for the real accounting system, or one model provider for another, happens in one file.',
+          decisions: [
+            [
+              'The assistant computes, the model words it',
+              'Figures come from deterministic calculations over the same data as the screens. The model never makes up a number.',
+            ],
+            [
+              'Everything outside sits behind an interface',
+              'The accounting system, the model and the database are adapters. The demo runs on stubs and an in-memory store; a real deployment swaps them in one place.',
+            ],
+            [
+              'A guard on what leaves for the model',
+              'Outgoing text is scanned for amounts, company-name suffixes and tax-number shapes. A hit blocks the call before it reaches the network.',
+            ],
+            [
+              'Six roles, one codebase',
+              'Each role gets its own workspace. The technologist works a test queue that carries no commercial data.',
+            ],
+          ],
+        },
       },
       uk: {
         name: 'crm-pro',
@@ -87,6 +134,50 @@ export const projects: Project[] = [
           ['Запуск', 'Docker Compose: застосунок, база, макет обліку'],
           ['Кому підійде', "Відділи продажів, дистриб'ютори, бек-офіси"],
         ],
+        study: {
+          plain:
+            'Відділ продажів працює в одному місці замість таблиць. Кожен бачить лише свою частину роботи: керівник відділу — усю команду, менеджер — власні угоди, логіст — що сьогодні відвантажується. Асистент відповідає на запитання про цифри і читає ті самі цифри, що й екрани.',
+          steps: [
+            [
+              'Оберіть роль',
+              'У демо шість входів, від керівника продажів до логіста. Кожен відкриває свій робочий простір.',
+            ],
+            [
+              'Пересуньте угоду',
+              'Угоди лежать на дошці та йдуть від етапу до етапу, аж до бухгалтерії й відвантаження.',
+            ],
+            [
+              'Запитайте асистента',
+              'Він відповідає з розрахунків за живими даними, тож цифра в чаті збігається з цифрою на панелі.',
+            ],
+          ],
+          flow: [
+            { label: 'Екрани', note: 'Сторінки й форми; викликають лише сценарії' },
+            { label: 'Сценарії', note: 'Бізнес-дії; залежать від інтерфейсів' },
+            { label: 'Домен', note: 'Сутності й правила; нічого не імпортує' },
+            { label: 'Адаптери', note: 'База, облікова система, модель; обираються конфігурацією' },
+          ],
+          flowNote:
+            'Залежності спрямовані всередину. Заглушку на справжню облікову систему чи одного провайдера моделі на іншого міняють в одному файлі.',
+          decisions: [
+            [
+              'Рахує код, формулює модель',
+              'Цифри беруться з детермінованих розрахунків за тими самими даними, що й екрани. Модель чисел не вигадує.',
+            ],
+            [
+              'Усе зовнішнє — за інтерфейсом',
+              'Облікова система, модель і база є адаптерами. Демо працює на заглушках і сховищі в пам’яті; у справжньому розгортанні їх міняють в одному місці.',
+            ],
+            [
+              'Запобіжник на те, що йде до моделі',
+              'Вихідний текст перевіряється на суми, форми власності в назвах і числа, схожі на податкові. Збіг блокує виклик ще до мережі.',
+            ],
+            [
+              'Шість ролей, один код',
+              'У кожної ролі свій робочий простір. Технолог працює з чергою тестів, де немає комерційних даних.',
+            ],
+          ],
+        },
       },
     },
   },
@@ -284,6 +375,51 @@ export const projects: Project[] = [
           ['Output', 'JSON, after a human review step'],
           ['Good fit for', 'Accounting intake, logistics paperwork, back office'],
         ],
+        study: {
+          plain:
+            'You upload an invoice and get its fields as data: vendor, dates, amounts, line items. Before you see them, code re-does the arithmetic. Anything that does not add up is marked with the reason, next to the line of the document it was read from.',
+          steps: [
+            [
+              'Upload a PDF or paste text',
+              'A sample invoice opens by default, one where the lines do not add up.',
+            ],
+            [
+              'See what was read and what failed',
+              'Every field has a status: ok, missing or inconsistent, with the reason in plain words.',
+            ],
+            [
+              'Fix it and export',
+              'Editing a value re-runs the checks at once. The checked result is copied as JSON.',
+            ],
+          ],
+          flow: [
+            { label: 'PDF', note: 'Text layer, lines rebuilt from positions' },
+            { label: 'Read', note: 'Rules by default; a model is optional' },
+            { label: 'Check', note: 'Arithmetic, dates and sources, in code' },
+            { label: 'Review', note: 'A person fixes what is flagged' },
+            { label: 'JSON', note: 'Exported after the review' },
+          ],
+          flowNote:
+            'Scanned pages without a text layer are rejected; there is no OCR. The model path is tested against a stubbed endpoint and has not been run on a live provider yet.',
+          decisions: [
+            [
+              'Reading and checking are separate',
+              'Arithmetic does not depend on the reader behaving, so the same checks run on rules and on a model.',
+            ],
+            [
+              'Rules first, model optional',
+              'The default reader is deterministic and needs no key, so the demo is free and repeatable.',
+            ],
+            [
+              'A person stays in the loop',
+              'A wrong vendor name can still add up. The review screen exists for what arithmetic cannot catch.',
+            ],
+            [
+              'Limits are written down',
+              'Whole-number prices, wrapped descriptions and scanned pages are listed in the repository as known gaps.',
+            ],
+          ],
+        },
       },
       uk: {
         name: 'docfields',
@@ -309,6 +445,51 @@ export const projects: Project[] = [
           ['Результат', 'JSON після перевірки людиною'],
           ['Кому підійде', 'Бухгалтерія, логістика, бек-офіс'],
         ],
+        study: {
+          plain:
+            'Ви завантажуєте рахунок і отримуєте його поля як дані: постачальник, дати, суми, рядки. Перш ніж ви їх побачите, код перераховує арифметику. Усе, що не сходиться, позначено з причиною — поруч із рядком документа, з якого це прочитано.',
+          steps: [
+            [
+              'Завантажте PDF або вставте текст',
+              'За замовчуванням відкривається зразок рахунку, у якому рядки не сходяться.',
+            ],
+            [
+              'Подивіться, що прочитано і що не пройшло',
+              'Кожне поле має статус: гаразд, відсутнє або не сходиться, з поясненням простими словами.',
+            ],
+            [
+              'Виправте й експортуйте',
+              'Зміна значення одразу запускає перевірки знову. Перевірений результат копіюється як JSON.',
+            ],
+          ],
+          flow: [
+            { label: 'PDF', note: 'Текстовий шар, рядки відновлено за позиціями' },
+            { label: 'Читання', note: 'Типово правила; модель за бажанням' },
+            { label: 'Перевірка', note: 'Арифметика, дати й джерела — кодом' },
+            { label: 'Рев’ю', note: 'Людина виправляє позначене' },
+            { label: 'JSON', note: 'Експорт після перевірки людиною' },
+          ],
+          flowNote:
+            'Скановані сторінки без текстового шару відхиляються: розпізнавання немає. Шлях із моделлю покрито тестами на підставному сервері, на живому провайдері його ще не запускали.',
+          decisions: [
+            [
+              'Читання і перевірка розділені',
+              'Арифметика не залежить від того, хто читав документ, тож ті самі перевірки працюють і для правил, і для моделі.',
+            ],
+            [
+              'Спершу правила, модель за бажанням',
+              'Типовий читач детермінований і не потребує ключа, тому демо безкоштовне й відтворюване.',
+            ],
+            [
+              'Людина лишається в процесі',
+              'Неправильна назва постачальника може сходитися арифметично. Екран рев’ю існує для того, чого арифметика не ловить.',
+            ],
+            [
+              'Обмеження записані',
+              'Ціни без копійок, перенесені описи та скановані сторінки перелічено в репозиторії як відомі прогалини.',
+            ],
+          ],
+        },
       },
     },
   },
@@ -339,6 +520,42 @@ export const projects: Project[] = [
           ['Runs as', 'A local server next to your agents'],
           ['Good fit for', 'Teams running several coding agents at once'],
         ],
+        study: {
+          plain:
+            'When several AI coding agents run at once, it is hard to tell who is busy. Here each agent is a small character in a pixel office: at a desk while it works, wandering off when it is idle. One look tells you who stopped.',
+          steps: [
+            [
+              'Start it next to your agents',
+              'A small local server finds the running sessions by itself.',
+            ],
+            [
+              'Watch the office',
+              'A character sits down when its agent uses a tool and gets up when the agent goes quiet.',
+            ],
+            ['Open the side panel', 'Every agent is listed with the tool it is using right now.'],
+          ],
+          flow: [
+            { label: 'Session logs', note: 'Files the coding agents already write' },
+            { label: 'Watcher', note: 'Reads new lines as they appear' },
+            { label: 'Server', note: 'Node.js, keeps the state of each agent' },
+            { label: 'Live channel', note: 'WebSocket, with polling as a fallback' },
+            { label: 'Office', note: 'Canvas 2D in the browser' },
+          ],
+          decisions: [
+            [
+              'Read the logs, change nothing',
+              'The agents are not modified or wrapped. The dashboard only reads files they already write.',
+            ],
+            [
+              'Push first, poll as a fallback',
+              'Updates arrive over WebSocket. Where that is unavailable, the page polls every two seconds.',
+            ],
+            [
+              'A scene instead of a table',
+              'Busy and idle are visible from across the room, which a list of statuses is not.',
+            ],
+          ],
+        },
       },
       uk: {
         name: 'agent-dashboard',
@@ -358,6 +575,45 @@ export const projects: Project[] = [
           ['Запуск', 'Локальний сервер поруч з агентами'],
           ['Кому підійде', 'Командам, де працює кілька агентів одночасно'],
         ],
+        study: {
+          plain:
+            'Коли кілька ШІ-агентів пишуть код одночасно, важко зрозуміти, хто зайнятий. Тут кожен агент — маленький персонаж у піксельному офісі: за столом, поки працює, і блукає, коли простоює. Одного погляду досить, щоб побачити, хто зупинився.',
+          steps: [
+            [
+              'Запустіть поруч з агентами',
+              'Невеликий локальний сервер сам знаходить активні сесії.',
+            ],
+            [
+              'Дивіться на офіс',
+              'Персонаж сідає, коли його агент викликає інструмент, і встає, коли агент затих.',
+            ],
+            [
+              'Відкрийте бічну панель',
+              'Там перелічено кожного агента з інструментом, який він використовує просто зараз.',
+            ],
+          ],
+          flow: [
+            { label: 'Журнали сесій', note: 'Файли, які агенти й так пишуть' },
+            { label: 'Спостерігач', note: 'Читає нові рядки, щойно з’являються' },
+            { label: 'Сервер', note: 'Node.js, тримає стан кожного агента' },
+            { label: 'Живий канал', note: 'WebSocket, запасний варіант — опитування' },
+            { label: 'Офіс', note: 'Canvas 2D у браузері' },
+          ],
+          decisions: [
+            [
+              'Читати журнали, нічого не міняти',
+              'Агентів не змінюють і не обгортають. Панель лише читає файли, які вони вже пишуть.',
+            ],
+            [
+              'Спершу пуш, опитування як запас',
+              'Оновлення приходять через WebSocket. Де він недоступний, сторінка опитує сервер кожні дві секунди.',
+            ],
+            [
+              'Сцена замість таблиці',
+              'Хто зайнятий, а хто простоює, видно здалеку — зі списку статусів так не побачиш.',
+            ],
+          ],
+        },
       },
     },
   },
@@ -365,9 +621,9 @@ export const projects: Project[] = [
     slug: 'fancon-map',
     kind: 'live',
     demo: 'https://fancon.btwstudio.dev',
-    video: false,
+    video: true,
     poster: 'fancon-map.webp',
-    onStage: true,
+    onStage: false,
     text: {
       en: {
         name: 'fancon-map',
@@ -387,6 +643,39 @@ export const projects: Project[] = [
           ['Runs as', 'A static site with a tiny leaderboard API'],
           ['Good fit for', 'Events, venues, exhibitions'],
         ],
+        study: {
+          plain:
+            'A paper map of a convention is two hundred numbered boxes. This one you can walk: move a character through the hall, come up to any stand and open its card to see who is there.',
+          steps: [
+            ['Walk the hall', 'Arrow keys or WASD move a visitor across the real floor plan.'],
+            ['Open a stand', 'Click a booth for its card: who it is and what they do.'],
+            [
+              'Visit the featured ones',
+              'Featured stands have their own interiors and a small game.',
+            ],
+          ],
+          flow: [
+            { label: 'Floor plan', note: 'The official map, turned into one layout file' },
+            { label: 'World', note: 'A Phaser scene: floor, booths, the visitor' },
+            { label: 'Stand', note: 'Each one is a self-contained file' },
+            { label: 'Card or game', note: 'Opens on top of the world' },
+            { label: 'Scores', note: 'A tiny leaderboard API' },
+          ],
+          decisions: [
+            [
+              'One file knows where everything is',
+              'Booth positions live in a single layout file taken from the official plan.',
+            ],
+            [
+              'Stands are plug-ins',
+              'Each booth is one file, loaded automatically. A missing one shows a placeholder, so the map is never empty.',
+            ],
+            [
+              'A static site',
+              'It ships as static files plus a tiny scores API, so hosting it costs next to nothing.',
+            ],
+          ],
+        },
       },
       uk: {
         name: 'fancon-map',
@@ -406,6 +695,36 @@ export const projects: Project[] = [
           ['Запуск', 'Статичний сайт із маленьким API рейтингу'],
           ['Кому підійде', 'Події, майданчики, виставки'],
         ],
+        study: {
+          plain:
+            'Паперова карта фестивалю — це двісті пронумерованих квадратиків. Цією можна пройтися: ведіть персонажа залом, підходьте до будь-якого стенда й відкривайте картку, щоб дізнатися, хто там.',
+          steps: [
+            ['Пройдіться залом', 'Стрілки або WASD ведуть відвідувача справжнім планом залу.'],
+            ['Відкрийте стенд', 'Клік по стенду відкриває картку: хто це і чим займається.'],
+            ['Зазирніть до головних', 'У головних стендів є власні інтер’єри та невелика гра.'],
+          ],
+          flow: [
+            { label: 'План залу', note: 'Офіційна карта, перенесена в один файл розкладки' },
+            { label: 'Світ', note: 'Сцена Phaser: підлога, стенди, відвідувач' },
+            { label: 'Стенд', note: 'Кожен — окремий самодостатній файл' },
+            { label: 'Картка або гра', note: 'Відкривається поверх світу' },
+            { label: 'Рекорди', note: 'Крихітний API таблиці лідерів' },
+          ],
+          decisions: [
+            [
+              'Один файл знає, де що стоїть',
+              'Позиції стендів лежать в одному файлі розкладки, знятому з офіційного плану.',
+            ],
+            [
+              'Стенди як плагіни',
+              'Кожен стенд — один файл, що підвантажується автоматично. Замість відсутнього стоїть заглушка, тож карта ніколи не порожня.',
+            ],
+            [
+              'Статичний сайт',
+              'Це статичні файли та крихітний API рекордів, тож хостинг майже нічого не коштує.',
+            ],
+          ],
+        },
       },
     },
   },
@@ -476,6 +795,50 @@ export const projects: Project[] = [
           ['Clients', 'Telegram, Android with over-the-air updates'],
           ['Code', 'Private; the showcase repository describes the design'],
         ],
+        study: {
+          plain:
+            'One assistant for the small things that eat a day: tasks, mail that needs an answer, client messages, and the health of the server it runs on. It lives in Telegram and in a phone app, and it has been in daily use since April 2026.',
+          steps: [
+            [
+              'Talk to it',
+              'Ask in chat or by voice. The answer shows the steps it took and a result card.',
+            ],
+            [
+              'Let it sort the noise',
+              'Incoming signals arrive as grouped cards, one notification per batch.',
+            ],
+            [
+              'Let it watch the server',
+              'One outage gives one alert. A short list of repairs it carries out by itself.',
+            ],
+          ],
+          flow: [
+            { label: 'Clients', note: 'Telegram bot and an Android app' },
+            { label: 'API', note: 'One door for every client' },
+            { label: 'Core', note: 'Tasks, mail, events, planner' },
+            { label: 'Memory and model', note: 'SQLite for state, Claude for reasoning' },
+            { label: 'Watchdog', note: 'On a schedule: checks the server, repairs a narrow list' },
+          ],
+          flowNote: 'Speech is transcribed locally on a GPU before it reaches the model.',
+          decisions: [
+            [
+              'One alert per outage',
+              'While the server is known to be down, alerts about everything that depends on it are held back.',
+            ],
+            [
+              'Repairs are a short, named list',
+              'It may restart one named container. Anything wider waits for a person.',
+            ],
+            [
+              'Unused features get deleted',
+              'A usage audit over the full history retired ten modules that nobody opened.',
+            ],
+            [
+              'The interface updates without reinstalling',
+              'The Android shell is rebuilt only when native code changes; the rest arrives over the air.',
+            ],
+          ],
+        },
       },
       uk: {
         name: 'nox',
@@ -498,6 +861,50 @@ export const projects: Project[] = [
           ['Клієнти', 'Telegram, Android з оновленням без перевстановлення'],
           ['Код', 'Приватний; архітектуру описано в репозиторії-вітрині'],
         ],
+        study: {
+          plain:
+            'Один асистент для дрібниць, що з’їдають день: задачі, листи, які чекають відповіді, повідомлення клієнтів і стан сервера, на якому він сам працює. Живе в Telegram і в застосунку на телефоні, у щоденній роботі з квітня 2026 року.',
+          steps: [
+            [
+              'Поговоріть з ним',
+              'Запитайте в чаті або голосом. У відповіді видно кроки, які він зробив, і картку результату.',
+            ],
+            [
+              'Дайте йому розібрати шум',
+              'Вхідні сигнали приходять згрупованими картками, одне сповіщення на пачку.',
+            ],
+            [
+              'Дайте йому стежити за сервером',
+              'Одне відключення — одна тривога. Короткий перелік ремонтів він виконує сам.',
+            ],
+          ],
+          flow: [
+            { label: 'Клієнти', note: 'Telegram-бот і застосунок для Android' },
+            { label: 'API', note: 'Одні двері для всіх клієнтів' },
+            { label: 'Ядро', note: 'Задачі, пошта, події, щоденник' },
+            { label: 'Пам’ять і модель', note: 'SQLite для стану, Claude для міркувань' },
+            { label: 'Сторож', note: 'За розкладом: перевіряє сервер, лагодить вузький перелік' },
+          ],
+          flowNote: 'Мовлення розпізнається локально на відеокарті, перш ніж потрапити до моделі.',
+          decisions: [
+            [
+              'Одна тривога на відключення',
+              'Поки відомо, що сервер лежить, тривоги про все залежне від нього притримуються.',
+            ],
+            [
+              'Ремонти — короткий іменований перелік',
+              'Він може перезапустити один названий контейнер. Усе ширше чекає на людину.',
+            ],
+            [
+              'Непотрібні функції видаляються',
+              'Аудит використання за всю історію прибрав десять модулів, які ніхто не відкривав.',
+            ],
+            [
+              'Інтерфейс оновлюється без перевстановлення',
+              'Оболонку для Android перезбирають лише при зміні нативного коду; решта приходить повітрям.',
+            ],
+          ],
+        },
       },
     },
   },
@@ -527,6 +934,45 @@ export const projects: Project[] = [
           ['Runs as', 'A command-line tool; a demo vault is bundled'],
           ['Good fit for', 'Research over internal notes and documentation'],
         ],
+        study: {
+          plain:
+            'Ask one question of a large pile of notes and a single pass will miss half of it. This tool splits the question into parts, researches each part separately, writes one answer with its sources, and then grades its own answer. A weak answer is sent back for another try.',
+          steps: [
+            ['Ask a question', 'In the command line, in plain language.'],
+            ['Watch it work', 'The plan, the parallel searches and the draft appear live.'],
+            [
+              'Get an answer with sources',
+              'It is graded first; below the pass mark it is revised before you see it.',
+            ],
+          ],
+          flow: [
+            { label: 'Planner', note: 'Splits the question into 2 to 5 parts' },
+            { label: 'Router', note: 'Quick, deep or impossible, per part' },
+            { label: 'Workers', note: 'Search the notes in parallel through MCP' },
+            { label: 'Synthesizer', note: 'One structured answer with sources' },
+            { label: 'Judge', note: 'Scores it; a low score sends it back' },
+          ],
+          flowNote:
+            'It runs from a clean clone with a bundled demo vault and a mock model, so no API key is needed to see the pipeline.',
+          decisions: [
+            [
+              'A small model plans, a larger one writes',
+              'Planning and routing use the fast model; synthesis and judging use the stronger one.',
+            ],
+            [
+              '"Impossible" is a valid route',
+              'A part the notes cannot answer is marked as such instead of being forced into an answer.',
+            ],
+            [
+              'The notes are reached through a standard protocol',
+              'Workers use MCP tools, so the same pipeline can be pointed at another source.',
+            ],
+            [
+              'A score gates the run',
+              'The evaluation set fails the run when the judged score drops below the threshold.',
+            ],
+          ],
+        },
       },
       uk: {
         name: 'vault-research-agent',
@@ -547,6 +993,45 @@ export const projects: Project[] = [
           ['Запуск', 'Інструмент командного рядка; демо-сховище в комплекті'],
           ['Кому підійде', 'Дослідження за внутрішніми нотатками й документацією'],
         ],
+        study: {
+          plain:
+            'Якщо поставити одне запитання великій купі нотаток, за один прохід половину буде пропущено. Цей інструмент розбиває запитання на частини, досліджує кожну окремо, пише одну відповідь із джерелами, а потім сам її оцінює. Слабку відповідь повертає на доопрацювання.',
+          steps: [
+            ['Поставте запитання', 'У командному рядку, звичайною мовою.'],
+            ['Дивіться, як він працює', 'План, паралельні пошуки й чернетка з’являються наживо.'],
+            [
+              'Отримайте відповідь із джерелами',
+              'Спершу її оцінюють; нижче прохідного бала вона переписується ще до того, як ви її побачите.',
+            ],
+          ],
+          flow: [
+            { label: 'Планувальник', note: 'Ділить запитання на 2–5 частин' },
+            { label: 'Маршрутизатор', note: 'Швидко, глибоко або неможливо — для кожної частини' },
+            { label: 'Виконавці', note: 'Паралельно шукають у нотатках через MCP' },
+            { label: 'Синтезатор', note: 'Одна структурована відповідь із джерелами' },
+            { label: 'Суддя', note: 'Оцінює; низький бал повертає назад' },
+          ],
+          flowNote:
+            'Запускається з чистого клону з демо-сховищем і підставною моделлю, тож побачити весь ланцюжок можна без API-ключа.',
+          decisions: [
+            [
+              'Мала модель планує, більша пише',
+              'Планування й маршрутизацію робить швидка модель; синтез і оцінку — сильніша.',
+            ],
+            [
+              '«Неможливо» — теж маршрут',
+              'Частину, на яку нотатки не відповідають, так і позначено, а не натягнуто на відповідь.',
+            ],
+            [
+              'До нотаток — через стандартний протокол',
+              'Виконавці користуються інструментами MCP, тож той самий ланцюжок можна спрямувати на інше джерело.',
+            ],
+            [
+              'Бал є умовою проходження',
+              'Набір для оцінки завалює запуск, коли бал судді падає нижче порога.',
+            ],
+          ],
+        },
       },
     },
   },
@@ -554,7 +1039,8 @@ export const projects: Project[] = [
     slug: 'benchmark-cc',
     kind: 'code',
     repo: 'https://github.com/btw-hash/benchmark-cc',
-    video: false,
+    video: true,
+    poster: 'benchmark-cc.webp',
     onStage: false,
     text: {
       en: {
@@ -579,6 +1065,45 @@ export const projects: Project[] = [
           ['Output', 'A report with per-task tables'],
           ['Good fit for', 'Teams standardizing how they use coding agents'],
         ],
+        study: {
+          plain:
+            'People add instructions, agents and skills to their AI coding assistant and judge the result by feel. This harness runs the same tasks under each setup and measures what actually changed: quality, time and cost.',
+          steps: [
+            [
+              'Define the setups',
+              'From an empty baseline to a full stack of instructions, agents and skills.',
+            ],
+            [
+              'Run the same tasks under each',
+              'Every run is isolated, and its tokens, time and cost are recorded.',
+            ],
+            [
+              'Read the report',
+              'A model judges the quality, and the report puts the setups side by side.',
+            ],
+          ],
+          flow: [
+            { label: 'Tasks', note: '13, each isolated' },
+            { label: 'Setups', note: '7 configurations' },
+            { label: 'Runs', note: '390, with tokens, time and cost' },
+            { label: 'Judge', note: 'A model scores the quality' },
+            { label: 'Report', note: 'Tables per setup and per task' },
+          ],
+          decisions: [
+            [
+              'Isolated tasks',
+              'Each run starts clean, so one setup cannot benefit from what another left behind.',
+            ],
+            [
+              'Several samples per pair',
+              'Runs are repeated to see the spread, not one lucky result.',
+            ],
+            [
+              'The dull result is published as is',
+              'On these tasks configuration barely moved quality, and the richest setups cost about 20% more per run.',
+            ],
+          ],
+        },
       },
       uk: {
         name: 'benchmark-cc',
@@ -602,6 +1127,42 @@ export const projects: Project[] = [
           ['Результат', 'Звіт із таблицями за кожним завданням'],
           ['Кому підійде', 'Командам, що стандартизують роботу з агентами'],
         ],
+        study: {
+          plain:
+            'Люди додають до свого ШІ-асистента для коду інструкції, агентів і навички, а результат оцінюють на око. Цей стенд запускає ті самі задачі на кожній конфігурації й вимірює, що насправді змінилося: якість, час і вартість.',
+          steps: [
+            [
+              'Опишіть конфігурації',
+              'Від порожньої бази до повного набору інструкцій, агентів і навичок.',
+            ],
+            [
+              'Запустіть ті самі задачі на кожній',
+              'Кожен запуск ізольований; записуються токени, час і вартість.',
+            ],
+            ['Прочитайте звіт', 'Якість оцінює модель, а звіт ставить конфігурації поруч.'],
+          ],
+          flow: [
+            { label: 'Задачі', note: '13, кожна ізольована' },
+            { label: 'Конфігурації', note: '7 варіантів' },
+            { label: 'Запуски', note: '390, з токенами, часом і вартістю' },
+            { label: 'Суддя', note: 'Модель оцінює якість' },
+            { label: 'Звіт', note: 'Таблиці за конфігураціями та задачами' },
+          ],
+          decisions: [
+            [
+              'Ізольовані задачі',
+              'Кожен запуск починається з чистого стану, тож одна конфігурація не користується залишками іншої.',
+            ],
+            [
+              'Кілька проб на пару',
+              'Запуски повторюються, щоб бачити розкид, а не один щасливий результат.',
+            ],
+            [
+              'Нудний результат опубліковано як є',
+              'На цих задачах конфігурація майже не змінила якість, а найбагатші набори коштували приблизно на 20% більше за запуск.',
+            ],
+          ],
+        },
       },
     },
   },
@@ -633,6 +1194,32 @@ export const projects: Project[] = [
           ['Runs as', 'A self-hosted container'],
           ['Good fit for', 'Brand sites and launches that need a visual hook'],
         ],
+        study: {
+          plain:
+            'The first version of this studio site, kept online as an archive. It bet on a visual hook: a live three-dimensional shape at the top and motion in every section.',
+          steps: [
+            ['Open it', 'The page loads with a 3D shape rendered live in the browser.'],
+            ['Scroll', 'Each section has its own motion.'],
+            ['Switch the language', 'There is an English and a Ukrainian version.'],
+          ],
+          flow: [
+            { label: 'Pages', note: 'Next.js, two languages' },
+            { label: '3D scene', note: 'react-three-fiber, rendered in the browser' },
+            { label: 'Motion', note: 'Framer Motion, tuned per section' },
+            { label: 'Container', note: 'Self-hosted' },
+            { label: 'Tunnel', note: 'A public address without open ports' },
+          ],
+          decisions: [
+            [
+              'Why it was replaced',
+              'The new site leads with recordings of working projects instead of a visual effect.',
+            ],
+            [
+              'Why it stays online',
+              'It is a piece of work in its own right: a 3D scene, motion and two languages.',
+            ],
+          ],
+        },
       },
       uk: {
         name: 'studio-site-v1',
@@ -653,6 +1240,29 @@ export const projects: Project[] = [
           ['Запуск', 'Власний контейнер'],
           ['Кому підійде', 'Сайти брендів і запуски, яким потрібен візуальний гачок'],
         ],
+        study: {
+          plain:
+            'Перша версія сайту студії, збережена онлайн як архів. Вона робила ставку на візуальний гачок: жива тривимірна фігура вгорі та рух у кожній секції.',
+          steps: [
+            ['Відкрийте', 'Сторінка завантажується з 3D-фігурою, яку браузер малює наживо.'],
+            ['Прокрутіть', 'У кожної секції власний рух.'],
+            ['Перемкніть мову', 'Є англійська та українська версії.'],
+          ],
+          flow: [
+            { label: 'Сторінки', note: 'Next.js, дві мови' },
+            { label: '3D-сцена', note: 'react-three-fiber, малюється в браузері' },
+            { label: 'Рух', note: 'Framer Motion, налаштований для кожної секції' },
+            { label: 'Контейнер', note: 'На власному сервері' },
+            { label: 'Тунель', note: 'Публічна адреса без відкритих портів' },
+          ],
+          decisions: [
+            [
+              'Чому його замінили',
+              'Новий сайт починає із записів робочих проєктів, а не з візуального ефекту.',
+            ],
+            ['Чому він лишається онлайн', 'Це самостійна робота: 3D-сцена, рух і дві мови.'],
+          ],
+        },
       },
     },
   },
