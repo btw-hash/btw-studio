@@ -1323,6 +1323,7 @@ export const ui = {
       send: 'Send the brief',
       sending: 'Sending…',
       ok: 'Received. We will reply within one working day.',
+      tg: 'Or answer four short questions in Telegram',
       errors: {
         what: 'Describe what to build in at least a sentence.',
         reply: 'Leave an email or a messenger handle so we can answer.',
@@ -1330,6 +1331,24 @@ export const ui = {
         down: 'The form is not connected right now. Please reach us through GitHub below.',
         fail: 'Could not send. Please try again in a minute.',
       },
+    },
+    bot: {
+      hello:
+        'This is the BTW Studio brief bot. Four short questions, then scope, timeline and price come back within one working day. In writing, no call needed.',
+      whatHint: 'One or two sentences are enough.',
+      when: 'By when do you need it? Pick one or type your own date.',
+      whenMonth: 'Within a month',
+      whenQuarter: 'In one to three months',
+      whenOpen: 'No fixed date',
+      reply: 'Where do we reply? Pick this chat or type an email.',
+      replyHere: 'Here,',
+      replyNoHandle:
+        'Where do we reply? Your account has no public username, so type an email or a messenger handle.',
+      check: 'Here is your brief. Send it?',
+      send: 'Send the brief',
+      redo: 'Start over',
+      idle: 'Send /start to write a brief.',
+      useButtons: 'Use the buttons under the previous message.',
     },
     project: {
       back: 'All work',
@@ -1402,6 +1421,7 @@ export const ui = {
       send: 'Надіслати бриф',
       sending: 'Надсилаємо…',
       ok: 'Отримали. Відповімо протягом одного робочого дня.',
+      tg: 'Або дайте відповідь на чотири короткі запитання в Telegram',
       errors: {
         what: 'Опишіть завдання хоча б одним реченням.',
         reply: 'Залиште пошту або нік у месенджері, щоб ми могли відповісти.',
@@ -1409,6 +1429,24 @@ export const ui = {
         down: "Форма зараз не під'єднана. Напишіть нам через GitHub нижче.",
         fail: 'Не вдалося надіслати. Спробуйте ще раз за хвилину.',
       },
+    },
+    bot: {
+      hello:
+        'Це бот для брифів BTW Studio. Чотири короткі запитання, і протягом одного робочого дня ми надішлемо обсяг, терміни й ціну. Письмово, без дзвінків.',
+      whatHint: 'Досить одного-двох речень.',
+      when: 'До якого терміну це потрібно? Оберіть варіант або напишіть свою дату.',
+      whenMonth: 'Протягом місяця',
+      whenQuarter: 'За один-три місяці',
+      whenOpen: 'Без жорсткого терміну',
+      reply: 'Куди відповісти? Оберіть цей чат або напишіть пошту.',
+      replyHere: 'Сюди,',
+      replyNoHandle:
+        'Куди відповісти? У вашого акаунта немає публічного імені, тож напишіть пошту або нік у месенджері.',
+      check: 'Ось ваш бриф. Надсилаємо?',
+      send: 'Надіслати бриф',
+      redo: 'Почати спочатку',
+      idle: 'Надішліть /start, щоб написати бриф.',
+      useButtons: 'Скористайтеся кнопками під попереднім повідомленням.',
     },
     project: {
       back: 'Усі роботи',

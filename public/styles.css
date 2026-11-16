@@ -382,6 +382,9 @@ form .btn {
 .status.err {
   color: var(--acc);
 }
+.alt {
+  margin: 2px 0 0;
+}
 .hp {
   position: absolute;
   left: -9999px;
