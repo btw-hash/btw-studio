@@ -81,23 +81,20 @@ describe('pages', () => {
     }
   });
 
-  it('renders a case study in layers when a project has one, and the plain page when not', async () => {
-    const citewise = projects.find((x) => x.slug === 'citewise')!;
-    for (const [path, lang] of [
-      ['/work/citewise', 'en'],
-      ['/uk/work/citewise', 'uk'],
-    ] as const) {
-      const study = citewise.text[lang].study!;
-      const html = await (await fetch(`${base}${path}`)).text();
-      expect(html).toContain(ui[lang].project.plain);
-      expect(html).toContain(ui[lang].project.hood);
-      for (const n of study.flow) expect(html).toContain(`<b>${n.label}</b>`);
-      expect(html.match(/class="node/g)?.length).toBe(study.flow.length + 1);
-      expect(html.indexOf('class="plain')).toBeLessThan(html.indexOf('class="hood'));
+  it('renders every project as a layered case study, plain words before architecture', async () => {
+    for (const p of projects) {
+      for (const lang of ['en', 'uk'] as const) {
+        const study = p.text[lang].study;
+        expect(study, `${p.slug} ${lang}`).toBeTruthy();
+        const path = `${lang === 'uk' ? '/uk' : ''}/work/${p.slug}`;
+        const html = await (await fetch(`${base}${path}`)).text();
+        expect(html).toContain(ui[lang].project.plain);
+        expect(html).toContain(ui[lang].project.hood);
+        const alts = study!.flow.filter((n) => n.or).length;
+        expect(html.match(/class="node/g)?.length, path).toBe(study!.flow.length + alts);
+        expect(html.indexOf('class="plain')).toBeLessThan(html.indexOf('class="hood'));
+      }
     }
-    const plain = await (await fetch(`${base}/work/benchmark-cc`)).text();
-    expect(plain).not.toContain('class="hood');
-    expect(plain).toContain(ui.en.project.problem);
   });
 
   it('escapes content when rendering', async () => {
