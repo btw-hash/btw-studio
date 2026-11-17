@@ -67,7 +67,7 @@ describe('pages', () => {
 
   it('shows every clip of a project with its caption, in both languages', async () => {
     const nox = projects.find((x) => x.slug === 'nox')!;
-    expect(nox.clips?.length).toBe(5);
+    expect(nox.clips?.length).toBe(10);
     for (const [path, lang] of [
       ['/work/nox', 'en'],
       ['/uk/work/nox', 'uk'],
