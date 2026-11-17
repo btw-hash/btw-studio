@@ -511,9 +511,10 @@ export const projects: Project[] = [
         problem:
           'Several agents run in parallel terminals. A wall of logs does not tell you at a glance which one is busy and which one stopped an hour ago.',
         built:
-          'The server watches the session logs and pushes changes to the browser, where each session is a character in an office: at a desk while it works, wandering when it is idle. Side panels list every agent with its current tool.',
+          'The server watches the session logs and pushes changes to the browser, where each session is a person in a pixel office: at a desk while it works, off to the break rooms when it is idle. Click a person to see what the agent is doing. Any other bot joins with one HTTP request.',
         proof: [
-          ['Updates', 'pushed live, with a polling fallback'],
+          ['Updates', 'pushed live over WebSocket'],
+          ['Leaves your machine', 'no project names, paths or message text'],
           ['Source', 'open'],
         ],
         facts: [
@@ -533,13 +534,16 @@ export const projects: Project[] = [
               'Watch the office',
               'A character sits down when its agent uses a tool and gets up when the agent goes quiet.',
             ],
-            ['Open the side panel', 'Every agent is listed with the tool it is using right now.'],
+            [
+              'Click a person',
+              'A card shows what the agent is doing right now: reading a file, running a command, thinking.',
+            ],
           ],
           flow: [
             { label: 'Session logs', note: 'Files the coding agents already write' },
             { label: 'Watcher', note: 'Reads new lines as they appear' },
             { label: 'Server', note: 'Node.js, keeps the state of each agent' },
-            { label: 'Live channel', note: 'WebSocket, with polling as a fallback' },
+            { label: 'Live channel', note: 'WebSocket' },
             { label: 'Office', note: 'Canvas 2D in the browser' },
           ],
           decisions: [
@@ -548,8 +552,8 @@ export const projects: Project[] = [
               'The agents are not modified or wrapped. The dashboard only reads files they already write.',
             ],
             [
-              'Push first, poll as a fallback',
-              'Updates arrive over WebSocket. Where that is unavailable, the page polls every two seconds.',
+              'Nothing private leaves the server',
+              'The browser receives anonymous people with a state and a kind of action. Project names, file paths and message text stay on the machine.',
             ],
             [
               'A scene instead of a table',
@@ -566,9 +570,10 @@ export const projects: Project[] = [
         problem:
           'Кілька агентів працюють у паралельних терміналах. Стіна логів не показує одразу, хто зайнятий, а хто зупинився годину тому.',
         built:
-          'Сервер стежить за журналами сесій і надсилає зміни в браузер, де кожна сесія — персонаж в офісі: за столом, коли працює, і на прогулянці, коли простоює. Бічні панелі показують кожного агента та його поточний інструмент.',
+          'Сервер стежить за журналами сесій і надсилає зміни в браузер, де кожна сесія — людина в піксельному офісі: за столом, коли працює, і в кімнатах відпочинку, коли простоює. Клацніть людину, щоб побачити, що робить агент. Будь-який інший бот підключається одним HTTP-запитом.',
         proof: [
-          ['Оновлення', 'наживо, із запасним опитуванням'],
+          ['Оновлення', 'наживо через WebSocket'],
+          ['Назовні', 'жодних назв проєктів, шляхів чи тексту повідомлень'],
           ['Код', 'відкритий'],
         ],
         facts: [
@@ -589,15 +594,15 @@ export const projects: Project[] = [
               'Персонаж сідає, коли його агент викликає інструмент, і встає, коли агент затих.',
             ],
             [
-              'Відкрийте бічну панель',
-              'Там перелічено кожного агента з інструментом, який він використовує просто зараз.',
+              'Клацніть людину',
+              'Картка показує, що агент робить просто зараз: читає файл, виконує команду, думає.',
             ],
           ],
           flow: [
             { label: 'Журнали сесій', note: 'Файли, які агенти й так пишуть' },
             { label: 'Спостерігач', note: 'Читає нові рядки, щойно з’являються' },
             { label: 'Сервер', note: 'Node.js, тримає стан кожного агента' },
-            { label: 'Живий канал', note: 'WebSocket, запасний варіант — опитування' },
+            { label: 'Живий канал', note: 'WebSocket' },
             { label: 'Офіс', note: 'Canvas 2D у браузері' },
           ],
           decisions: [
@@ -606,8 +611,8 @@ export const projects: Project[] = [
               'Агентів не змінюють і не обгортають. Панель лише читає файли, які вони вже пишуть.',
             ],
             [
-              'Спершу пуш, опитування як запас',
-              'Оновлення приходять через WebSocket. Де він недоступний, сторінка опитує сервер кожні дві секунди.',
+              'Нічого приватного не виходить із сервера',
+              'Браузер отримує знеособлених людей зі станом і типом дії. Назви проєктів, шляхи до файлів і текст повідомлень лишаються на машині.',
             ],
             [
               'Сцена замість таблиці',
