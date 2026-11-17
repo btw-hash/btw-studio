@@ -47,14 +47,24 @@
         screen.textContent = '';
         screen.appendChild(el);
       }
-      var text = document.getElementById('stage-text');
-      text.textContent = it.text;
-      text.classList.remove('swap');
-      void text.offsetWidth;
-      text.classList.add('swap');
+      // every caption and label sits in the same cell, so switching never changes the layout
+      var says = document.getElementById('stage-text').children;
+      for (var k = 0; k < says.length; k++) {
+        says[k].classList.remove('swap');
+        says[k].classList.toggle('on', k === i);
+        if (k === i) says[k].removeAttribute('aria-hidden');
+        else says[k].setAttribute('aria-hidden', 'true');
+      }
+      void says[i].offsetWidth;
+      says[i].classList.add('swap');
       var link = document.getElementById('stage-link');
       link.href = it.href;
-      link.textContent = it.label + ' ↗';
+      for (var n = 0; n < link.children.length; n++) {
+        var on = link.children[n].getAttribute('data-label') === it.label;
+        link.children[n].classList.toggle('on', on);
+        if (on) link.children[n].removeAttribute('aria-hidden');
+        else link.children[n].setAttribute('aria-hidden', 'true');
+      }
       document.getElementById('stage-more').href = it.more;
       buttons.forEach(function (b, k) {
         b.setAttribute('aria-pressed', k === i ? 'true' : 'false');

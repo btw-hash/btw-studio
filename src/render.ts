@@ -107,10 +107,12 @@ export function renderHome(lang: Lang, botUsername?: string): string {
         .join('\n      ')}
     </div>
     <div class="now">
-      <p id="stage-text">${esc(first.text[lang].stage)}</p>
+      <div class="says" id="stage-text">
+        ${stage.map((p, i) => `<p${i === 0 ? ' class="on"' : ' aria-hidden="true"'}>${esc(p.text[lang].stage)}</p>`).join('\n        ')}
+      </div>
       <span class="links">
         <a class="pill ghost" id="stage-more" href="${workPath(lang, first.slug)}">${esc(t.how)}</a>
-        <a class="pill" id="stage-link" href="${link.href}">${esc(link.label)} ↗</a>
+        <a class="pill says" id="stage-link" href="${link.href}">${[t.open, t.code].map((l) => `<span${l === link.label ? ' class="on"' : ' aria-hidden="true"'} data-label="${esc(l)}">${esc(l)} ↗</span>`).join('')}</a>
       </span>
     </div>
   </section>
