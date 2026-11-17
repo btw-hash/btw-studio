@@ -68,9 +68,9 @@ function media(p: Project, lang: Lang, id = ''): string {
   const alt = esc(p.text[lang].line);
   const idAttr = id ? ` id="${id}"` : '';
   if (p.video) {
-    return `<video${idAttr} class="shot" src="/media/${p.slug}.mp4" poster="/media/${p.poster}" muted loop playsinline autoplay preload="metadata" aria-label="${alt}"></video>`;
+    return `<video${idAttr} class="shot" src="/media/${p.slug}.mp4?v=${V}" poster="/media/${p.poster}?v=${V}" muted loop playsinline autoplay preload="metadata" aria-label="${alt}"></video>`;
   }
-  return `<img${idAttr} class="shot" src="/media/${p.poster}" alt="${alt}">`;
+  return `<img${idAttr} class="shot" src="/media/${p.poster}?v=${V}" alt="${alt}">`;
 }
 
 function primaryLink(p: Project, lang: Lang): { href: string; label: string } {
@@ -84,8 +84,8 @@ export function renderHome(lang: Lang, botUsername?: string): string {
   const first = stage[0]!;
   const stageData = stage.map((p) => ({
     slug: p.slug,
-    video: p.video ? `/media/${p.slug}.mp4` : '',
-    poster: `/media/${p.poster}`,
+    video: p.video ? `/media/${p.slug}.mp4?v=${V}` : '',
+    poster: `/media/${p.poster}?v=${V}`,
     text: p.text[lang].stage,
     href: primaryLink(p, lang).href,
     label: primaryLink(p, lang).label,
@@ -195,7 +195,7 @@ export function renderProject(lang: Lang, p: Project): string {
       ? `<div class="clips">${p.clips
           .map(
             (c) =>
-              `<figure class="rv"><video src="/media/${c.file}.mp4" poster="/media/${c.file}.webp" muted loop playsinline autoplay preload="metadata" aria-label="${esc(c.label[lang])}"></video><figcaption>${esc(c.label[lang])}</figcaption></figure>`
+              `<figure class="rv"><video src="/media/${c.file}.mp4?v=${V}" poster="/media/${c.file}.webp?v=${V}" muted loop playsinline autoplay preload="metadata" aria-label="${esc(c.label[lang])}"></video><figcaption>${esc(c.label[lang])}</figcaption></figure>`
           )
           .join('')}</div>`
       : ''
