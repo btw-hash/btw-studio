@@ -31,6 +31,7 @@ export interface Project {
   poster?: string;
   onStage: boolean;
   clips?: { file: string; label: Record<Lang, string> }[];
+  tour?: { file: string; label: Record<Lang, string> };
   text: Record<Lang, ProjectText>;
 }
 
@@ -735,6 +736,13 @@ export const projects: Project[] = [
     video: true,
     poster: 'nox.webp',
     onStage: true,
+    tour: {
+      file: 'nox-tour-en',
+      label: {
+        en: 'The whole app in two and a half minutes, with the interface switched to English for the recording. Demo data; chat replies are replayed from a script.',
+        uk: 'Увесь застосунок за дві з половиною хвилини, інтерфейс для запису перемкнено на англійську. Демо-дані; відповіді чату відтворено зі сценарію.',
+      },
+    },
     clips: [
       {
         file: 'nox-chat',

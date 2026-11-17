@@ -201,6 +201,11 @@ export function renderProject(lang: Lang, p: Project): string {
       : ''
   }
   ${
+    p.tour
+      ? `<figure class="tour rv"><video src="/media/${p.tour.file}.mp4?v=${V}" poster="/media/${p.tour.file}.webp?v=${V}" controls playsinline preload="none" aria-label="${esc(p.tour.label[lang])}"></video><figcaption>${esc(p.tour.label[lang])}</figcaption></figure>`
+      : ''
+  }
+  ${
     study
       ? `<section class="plain rv">
     <h2 class="lab">${esc(t.project.plain)}</h2>
