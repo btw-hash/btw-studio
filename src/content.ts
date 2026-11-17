@@ -496,7 +496,8 @@ export const projects: Project[] = [
   },
   {
     slug: 'agent-dashboard',
-    kind: 'code',
+    kind: 'live',
+    demo: 'https://office.btwstudio.dev',
     repo: 'https://github.com/btw-hash/agent-dashboard',
     video: true,
     poster: 'agent-dashboard.webp',
