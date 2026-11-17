@@ -424,6 +424,23 @@ form .btn {
   color: var(--soft);
   margin-top: 8px;
 }
+.tour {
+  margin: 22px 0 0;
+}
+.tour video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  background: #05080f;
+  border: 1px solid var(--line);
+}
+.tour figcaption {
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--soft);
+  margin-top: 8px;
+}
 .ptop {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

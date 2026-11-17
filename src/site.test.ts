@@ -73,6 +73,11 @@ describe('pages', () => {
       ['/uk/work/nox', 'uk'],
     ] as const) {
       const html = await (await fetch(`${base}${path}`)).text();
+      expect(html).toContain(`/media/${nox.tour!.file}.mp4`);
+      expect(html).toContain(nox.tour!.label[lang]);
+      expect((await fetch(`${base}/media/${nox.tour!.file}.mp4`, { method: 'HEAD' })).status).toBe(
+        200
+      );
       for (const c of nox.clips!) {
         expect(html).toContain(`/media/${c.file}.mp4`);
         expect(html).toContain(c.label[lang]);
