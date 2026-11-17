@@ -58,11 +58,16 @@ export function formatBrief(brief: Brief): string {
 
 export async function deliverBrief(brief: Brief, cfg: DeliveryConfig): Promise<void> {
   if (cfg.logDir) {
-    mkdirSync(cfg.logDir, { recursive: true });
-    appendFileSync(
-      join(cfg.logDir, 'briefs.jsonl'),
-      JSON.stringify({ at: new Date().toISOString(), ...brief }) + '\n'
-    );
+    // the copy is a convenience: a volume that cannot be written must not lose the brief
+    try {
+      mkdirSync(cfg.logDir, { recursive: true });
+      appendFileSync(
+        join(cfg.logDir, 'briefs.jsonl'),
+        JSON.stringify({ at: new Date().toISOString(), ...brief }) + '\n'
+      );
+    } catch (err) {
+      console.error('brief copy not written:', (err as Error).message);
+    }
   }
   const doFetch = cfg.fetchImpl ?? fetch;
   const res = await doFetch(`https://api.telegram.org/bot${cfg.tgToken}/sendMessage`, {

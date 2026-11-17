@@ -166,6 +166,20 @@ describe('brief delivery', () => {
     expect(sent[0]?.body.text).toContain('help center');
   });
 
+  it('still delivers when the copy of the brief cannot be written', async () => {
+    const before = sent.length;
+    const broken = start({
+      tgToken: 'TEST',
+      tgChatId: '42',
+      fetchImpl,
+      logDir: join(root, 'package.json', 'nope'),
+    });
+    const res = await post(broken.base, good);
+    broken.server.close();
+    expect(res.status).toBe(200);
+    expect(sent).toHaveLength(before + 1);
+  });
+
   it('returns 422 for an invalid brief and sends nothing', async () => {
     const before = sent.length;
     const res = await post(on.base, { ...good, reply: '' });
