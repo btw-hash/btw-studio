@@ -152,9 +152,7 @@
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
-          who: form.elements.who.value,
           what: what.value,
-          when: form.elements.when.value,
           reply: reply.value,
           website: form.elements.website.value,
           lang: form.getAttribute('data-lang'),

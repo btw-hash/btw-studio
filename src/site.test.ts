@@ -21,7 +21,6 @@ const post = (base: string, body: unknown) =>
   });
 
 const good = {
-  who: 'studio',
   what: 'An assistant that answers from our help center.',
   when: 'January',
   reply: 'anna@studio.example',
@@ -110,7 +109,7 @@ describe('pages', () => {
 
 describe('brief validation', () => {
   it('accepts a complete brief', () => {
-    expect(parseBrief(good)).toMatchObject({ brief: { who: 'studio', lang: 'en' } });
+    expect(parseBrief(good)).toMatchObject({ brief: { when: 'January', lang: 'en' } });
   });
   it('rejects a brief without a real description', () => {
     expect(parseBrief({ ...good, what: 'hi' })).toEqual({ error: 'what' });
@@ -122,9 +121,9 @@ describe('brief validation', () => {
     expect(parseBrief({ ...good, website: 'http://spam.example' })).toEqual({ spam: true });
   });
   it('formats the message for the studio', () => {
-    const parsed = parseBrief({ ...good, who: 'team' });
+    const parsed = parseBrief(good);
     if (!('brief' in parsed)) throw new Error('expected a brief');
-    expect(formatBrief(parsed.brief)).toContain('product team');
+    expect(formatBrief(parsed.brief)).toContain('By when: January');
     expect(formatBrief(parsed.brief)).toContain('Reply to: anna@studio.example');
   });
   it('limits repeated submissions', () => {

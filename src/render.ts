@@ -118,8 +118,8 @@ export function renderHome(lang: Lang, botUsername?: string): string {
   </section>
 
   <section class="doors">
-    <div class="d rv"><h2>${esc(t.doors[0][0])}</h2><p>${esc(t.doors[0][1])}</p></div>
-    <div class="d alt rv" style="--i:1"><h2>${esc(t.doors[1][0])}</h2><p>${esc(t.doors[1][1])}</p></div>
+    <div class="d rv"><h2>${esc(t.doors.agency.title)}</h2><ul>${t.doors.agency.points.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="d thin rv" style="--i:1"><h2>${esc(t.doors.other.title)}</h2><p>${esc(t.doors.other.text)}</p></div>
   </section>
 
   <section id="method">
@@ -148,15 +148,8 @@ export function renderHome(lang: Lang, botUsername?: string): string {
   <section class="brief rv" id="brief">
     <div><h2>${esc(t.brief.title)}</h2><p class="promise">${esc(t.brief.promise)}</p></div>
     <form id="brief-form" novalidate data-lang="${lang}" data-msg='${esc(JSON.stringify({ sending: t.brief.sending, ok: t.brief.ok, ...t.brief.errors }))}'>
-      <fieldset class="seg">
-        <legend>${esc(t.brief.who)}</legend>
-        <label><input type="radio" name="who" value="studio" checked><span>${esc(t.brief.studio)}</span></label>
-        <label><input type="radio" name="who" value="team"><span>${esc(t.brief.team)}</span></label>
-      </fieldset>
       <label for="f-what">${esc(t.brief.what)}</label>
-      <textarea id="f-what" name="what" rows="3" maxlength="2000" required placeholder="${esc(t.brief.whatPh)}"></textarea>
-      <label for="f-when">${esc(t.brief.when)}</label>
-      <input id="f-when" name="when" type="text" maxlength="120" placeholder="${esc(t.brief.whenPh)}">
+      <textarea id="f-what" name="what" rows="5" maxlength="2000" required placeholder="${esc(t.brief.whatPh)}"></textarea>
       <label for="f-reply">${esc(t.brief.reply)}</label>
       <input id="f-reply" name="reply" type="text" maxlength="200" required autocomplete="email" placeholder="${esc(t.brief.replyPh)}">
       <div class="hp" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>

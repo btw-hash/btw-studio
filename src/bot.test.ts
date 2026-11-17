@@ -55,116 +55,95 @@ function harness(options: { failDelivery?: boolean } = {}) {
 }
 
 describe('brief bot', () => {
-  it('walks a client from /start to a delivered brief', async () => {
+  const task = 'An assistant that answers from our help center.';
+
+  it('takes one message and one question, then delivers', async () => {
     const h = harness();
     await h.text('/start');
-    expect(h.last().text).toContain(ui.en.bot.hello);
-    expect(h.buttons()).toEqual(['who:studio', 'who:team']);
+    expect(h.last().text).toBe(ui.en.bot.hello);
+    expect(h.buttons()).toEqual([]);
 
-    await h.press('who:team');
-    expect(h.last().text).toContain(ui.en.brief.what);
-
-    await h.text('An assistant that answers from our help center.');
+    await h.text(task);
+    expect(h.last().text).toBe(ui.en.bot.when);
     expect(h.buttons()).toEqual(['when:month', 'when:quarter', 'when:open']);
-
-    await h.press('when:quarter');
-    expect(h.buttons()).toEqual(['reply:here']);
-
-    await h.press('reply:here');
-    expect(h.last().text).toContain('help center');
-    expect(h.last().text).toContain('@anna');
-    expect(h.buttons()).toEqual(['send:yes', 'send:redo']);
     expect(h.briefs).toHaveLength(0);
 
-    await h.press('send:yes');
+    await h.press('when:quarter');
     expect(h.briefs).toEqual([
       {
-        who: 'team',
-        what: 'An assistant that answers from our help center.',
+        what: task,
         when: ui.en.bot.whenQuarter,
         reply: '@anna (Telegram)',
         lang: 'en',
         via: 'telegram',
       },
     ]);
-    expect(h.last().text).toBe(ui.en.brief.ok);
+    expect(h.last().text).toBe(ui.en.bot.done);
     expect(formatBrief(h.briefs[0]!)).toContain('via the Telegram bot');
   });
 
-  it('accepts typed answers and speaks Ukrainian when the link asks for it', async () => {
+  it('accepts the task without /start', async () => {
+    const h = harness();
+    await h.text(task);
+    expect(h.last().text).toBe(ui.en.bot.when);
+    await h.text('end of January');
+    expect(h.briefs[0]).toMatchObject({ what: task, when: 'end of January' });
+  });
+
+  it('speaks Ukrainian when the link asks for it', async () => {
     const h = harness();
     await h.text('/start uk');
-    expect(h.last().text).toContain(ui.uk.bot.hello);
-    await h.press('who:studio');
+    expect(h.last().text).toBe(ui.uk.bot.hello);
     await h.text('Бот, який приймає замовлення і передає їх у CRM.');
     await h.text('до кінця січня');
-    await h.text('anna@studio.example');
-    await h.press('send:yes');
-    expect(h.briefs[0]).toMatchObject({
-      who: 'studio',
-      when: 'до кінця січня',
-      reply: 'anna@studio.example',
-      lang: 'uk',
-    });
+    expect(h.briefs[0]).toMatchObject({ when: 'до кінця січня', lang: 'uk' });
+    expect(h.last().text).toBe(ui.uk.bot.done);
   });
 
-  it('rejects a one-word task and a reply with no address, and keeps the step', async () => {
+  it('rejects a one-word task and keeps the step', async () => {
     const h = harness();
     await h.text('/start');
-    await h.press('who:studio');
     await h.text('a bot');
     expect(h.last().text).toBe(ui.en.brief.errors.what);
-    await h.text('A bot that takes orders and passes them to the CRM.');
-    await h.press('when:open');
-    await h.text('call me');
-    expect(h.last().text).toBe(ui.en.brief.errors.reply);
-    await h.text('anna@studio.example');
-    expect(h.buttons()).toEqual(['send:yes', 'send:redo']);
+    await h.text(task);
+    expect(h.last().text).toBe(ui.en.bot.when);
   });
 
-  it('asks for a typed contact when the account has no username', async () => {
+  it('asks for a contact only when the account has no username', async () => {
     const h = harness();
     const nobody = h.from(undefined);
-    await h.text('/start', nobody);
-    await h.press('who:studio', nobody);
-    await h.text('A bot that takes orders and passes them to the CRM.', nobody);
+    await h.text(task, nobody);
     await h.press('when:month', nobody);
     expect(h.last().text).toBe(ui.en.bot.replyNoHandle);
-    expect(h.buttons()).toEqual([]);
+    expect(h.briefs).toHaveLength(0);
+    await h.text('call me', nobody);
+    expect(h.last().text).toBe(ui.en.brief.errors.reply);
+    await h.text('anna@studio.example', nobody);
+    expect(h.briefs[0]).toMatchObject({ reply: 'anna@studio.example' });
   });
 
   it('tells the client when delivery failed and keeps the brief for a retry', async () => {
     const h = harness({ failDelivery: true });
-    await h.text('/start');
-    await h.press('who:studio');
-    await h.text('A bot that takes orders and passes them to the CRM.');
+    await h.text(task);
     await h.press('when:month');
-    await h.press('reply:here');
-    await h.press('send:yes');
     expect(h.last().text).toBe(ui.en.brief.errors.fail);
-    expect(h.buttons()).toEqual([]);
-    await h.press('send:yes');
+    await h.press('when:month');
     expect(h.last().text).toBe(ui.en.brief.errors.fail);
   });
 
-  it('answers a stale button and a stray message with the way in', async () => {
+  it('answers a stale button with the way in', async () => {
     const h = harness();
     await h.press('send:yes');
-    expect(h.last().text).toBe(ui.en.bot.idle);
-    await h.text('hello');
-    expect(h.last().text).toBe(ui.en.bot.idle);
+    expect(h.last().text).toBe(ui.en.bot.hello);
   });
 
-  it('starts over on request', async () => {
+  it('asks for text when a file arrives', async () => {
     const h = harness();
-    await h.text('/start');
-    await h.press('who:team');
-    await h.text('A bot that takes orders and passes them to the CRM.');
-    await h.press('when:month');
-    await h.press('reply:here');
-    await h.press('send:redo');
-    expect(h.buttons()).toEqual(['who:studio', 'who:team']);
-    expect(h.briefs).toHaveLength(0);
+    await h.bot.handle({
+      update_id: 900,
+      message: { chat: { id: 7, type: 'private' }, from: h.from('anna') },
+    });
+    expect(h.last().text).toBe(ui.en.bot.textOnly);
   });
 
   it('reports the chat id anywhere and stays silent in groups otherwise', async () => {
@@ -181,12 +160,8 @@ describe('brief bot', () => {
   it('stops after three briefs an hour from one chat', async () => {
     const h = harness();
     for (let i = 0; i < 4; i += 1) {
-      await h.text('/start');
-      await h.press('who:studio');
-      await h.text('A bot that takes orders and passes them to the CRM.');
+      await h.text(task);
       await h.press('when:month');
-      await h.press('reply:here');
-      await h.press('send:yes');
     }
     expect(h.briefs).toHaveLength(3);
     expect(h.last().text).toBe(ui.en.brief.errors.rate);

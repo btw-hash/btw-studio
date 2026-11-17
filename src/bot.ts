@@ -19,15 +19,13 @@ export interface TgUpdate {
   callback_query?: { id: string; from: TgUser; data?: string; message?: TgMessage };
 }
 
-type Step = 'who' | 'what' | 'when' | 'reply' | 'confirm';
+type Step = 'what' | 'when' | 'reply';
 
 interface Session {
   step: Step;
   lang: Lang;
-  who: Brief['who'];
   what: string;
   when: string;
-  reply: string;
 }
 
 export interface BotConfig {
@@ -84,45 +82,36 @@ export function createBot(cfg: BotConfig) {
     ]);
   }
 
-  function askReply(chatId: number, s: Session, username: string | undefined) {
-    const t = ui[s.lang].bot;
-    s.step = 'reply';
-    return username
-      ? say(chatId, t.reply, [[[`${t.replyHere} @${username}`, 'reply:here']]])
-      : say(chatId, t.replyNoHandle);
+  // The reply goes to the Telegram account that wrote, so nobody is asked for an address
+  // unless that account has no public username.
+  async function finish(chatId: number, s: Session, reply: string) {
+    const t = ui[s.lang];
+    if (!limiter.allow(String(chatId))) {
+      await say(chatId, t.brief.errors.rate);
+      return;
+    }
+    try {
+      await cfg.deliver({ what: s.what, when: s.when, reply, lang: s.lang, via: 'telegram' });
+      sessions.delete(chatId);
+      await say(chatId, t.bot.done);
+    } catch (error) {
+      console.error(error);
+      await say(chatId, t.brief.errors.fail);
+    }
   }
 
-  function confirm(chatId: number, s: Session) {
-    const t = ui[s.lang];
-    s.step = 'confirm';
-    const summary = [
-      t.bot.check,
-      '',
-      `${t.brief.who}: ${s.who === 'team' ? t.brief.team : t.brief.studio}`,
-      `${t.brief.what}: ${s.what}`,
-      `${t.brief.when}: ${s.when}`,
-      `${t.brief.reply}: ${s.reply}`,
-    ].join('\n');
-    return say(chatId, summary, [
-      [
-        [t.bot.send, 'send:yes'],
-        [t.bot.redo, 'send:redo'],
-      ],
-    ]);
+  function afterWhen(chatId: number, s: Session, username: string | undefined) {
+    if (username) return finish(chatId, s, `@${username} (Telegram)`);
+    s.step = 'reply';
+    return say(chatId, ui[s.lang].bot.replyNoHandle);
   }
 
   function start(chatId: number, lang: Lang) {
-    const t = ui[lang];
-    sessions.set(chatId, { step: 'who', lang, who: 'studio', what: '', when: '', reply: '' });
-    return say(chatId, `${t.bot.hello}\n\n${t.brief.who}?`, [
-      [
-        [t.brief.studio, 'who:studio'],
-        [t.brief.team, 'who:team'],
-      ],
-    ]);
+    sessions.set(chatId, { step: 'what', lang, what: '', when: '' });
+    return say(chatId, ui[lang].bot.hello);
   }
 
-  async function onText(msg: TgMessage) {
+  async function onMessage(msg: TgMessage) {
     const chatId = msg.chat.id;
     const text = (msg.text ?? '').trim();
     const command = text.split(/[\s@]/)[0];
@@ -136,13 +125,16 @@ export function createBot(cfg: BotConfig) {
       await start(chatId, arg === 'uk' || arg === 'en' ? arg : langOf(msg.from?.language_code));
       return;
     }
-    const s = sessions.get(chatId);
+    // People write the task straight away, without /start.
+    let s = sessions.get(chatId);
     if (!s) {
-      await say(chatId, ui[langOf(msg.from?.language_code)].bot.idle);
-      return;
+      s = { step: 'what', lang: langOf(msg.from?.language_code), what: '', when: '' };
+      sessions.set(chatId, s);
     }
     const t = ui[s.lang];
-    if (s.step === 'what') {
+    if (!text) {
+      await say(chatId, t.bot.textOnly);
+    } else if (s.step === 'what') {
       if (text.length < 10 || text.length > 2000) {
         await say(chatId, t.brief.errors.what);
         return;
@@ -151,16 +143,13 @@ export function createBot(cfg: BotConfig) {
       await askWhen(chatId, s);
     } else if (s.step === 'when') {
       s.when = text.slice(0, 120);
-      await askReply(chatId, s, msg.from?.username);
-    } else if (s.step === 'reply') {
+      await afterWhen(chatId, s, msg.from?.username);
+    } else {
       if (text.length < 5 || text.length > 200 || !/[@.]/.test(text)) {
         await say(chatId, t.brief.errors.reply);
         return;
       }
-      s.reply = text;
-      await confirm(chatId, s);
-    } else {
-      await say(chatId, t.bot.useButtons);
+      await finish(chatId, s, text);
     }
   }
 
@@ -170,54 +159,18 @@ export function createBot(cfg: BotConfig) {
     if (chatId === undefined || q.message?.chat.type !== 'private') return;
     const s = sessions.get(chatId);
     const [kind, value] = (q.data ?? '').split(':');
-    if (!s || s.step !== (kind === 'send' ? 'confirm' : kind)) {
-      await say(chatId, ui[s?.lang ?? langOf(q.from.language_code)].bot.idle);
+    if (!s || kind !== 'when' || s.step !== 'when') {
+      await start(chatId, s?.lang ?? langOf(q.from.language_code));
       return;
     }
-    const t = ui[s.lang];
-    if (kind === 'who') {
-      s.who = value === 'team' ? 'team' : 'studio';
-      s.step = 'what';
-      await say(chatId, `${t.brief.what}?\n\n${t.bot.whatHint}`);
-    } else if (kind === 'when') {
-      s.when =
-        value === 'month'
-          ? t.bot.whenMonth
-          : value === 'quarter'
-            ? t.bot.whenQuarter
-            : t.bot.whenOpen;
-      await askReply(chatId, s, q.from.username);
-    } else if (kind === 'reply' && q.from.username) {
-      s.reply = `@${q.from.username} (Telegram)`;
-      await confirm(chatId, s);
-    } else if (kind === 'send' && value === 'redo') {
-      await start(chatId, s.lang);
-    } else if (kind === 'send') {
-      if (!limiter.allow(String(chatId))) {
-        await say(chatId, t.brief.errors.rate);
-        return;
-      }
-      try {
-        await cfg.deliver({
-          who: s.who,
-          what: s.what,
-          when: s.when,
-          reply: s.reply,
-          lang: s.lang,
-          via: 'telegram',
-        });
-        sessions.delete(chatId);
-        await say(chatId, t.brief.ok);
-      } catch (error) {
-        console.error(error);
-        await say(chatId, t.brief.errors.fail);
-      }
-    }
+    const t = ui[s.lang].bot;
+    s.when = value === 'month' ? t.whenMonth : value === 'quarter' ? t.whenQuarter : t.whenOpen;
+    await afterWhen(chatId, s, q.from.username);
   }
 
   async function handle(update: TgUpdate): Promise<void> {
     if (update.callback_query) await onButton(update.callback_query);
-    else if (update.message?.text) await onText(update.message);
+    else if (update.message) await onMessage(update.message);
   }
 
   async function poll(signal?: AbortSignal): Promise<void> {
