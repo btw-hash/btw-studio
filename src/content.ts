@@ -771,6 +771,41 @@ export const projects: Project[] = [
           uk: 'Щоденник: лічильники, списки, журнал навчання, незроблене переноситься саме',
         },
       },
+      {
+        file: 'nox-money',
+        label: {
+          en: 'Finances: shared recurring payments, who pays, what is overdue',
+          uk: 'Фінанси: спільні регулярні платежі, хто платить, що прострочено',
+        },
+      },
+      {
+        file: 'nox-home',
+        label: {
+          en: 'Home: the power schedule, devices, the server and model limits',
+          uk: 'Дім: графік світла, пристрої, сервер і ліміти моделі',
+        },
+      },
+      {
+        file: 'nox-mail',
+        label: {
+          en: 'Mail: what matters first, phishing quarantined, the reason for each verdict',
+          uk: 'Пошта: важливе зверху, фішинг у карантині, причина кожного рішення',
+        },
+      },
+      {
+        file: 'nox-news',
+        label: {
+          en: 'News: a feed by topic with a short summary of each item',
+          uk: 'Новини: стрічка за темами з коротким переказом кожної',
+        },
+      },
+      {
+        file: 'nox-content',
+        label: {
+          en: 'Content: drafts and scheduled posts for a Telegram channel',
+          uk: 'Контент: чернетки та заплановані пости для Telegram-каналу',
+        },
+      },
     ],
     text: {
       en: {
