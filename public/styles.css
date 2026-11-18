@@ -4,6 +4,8 @@
   --soft: #4a5568;
   --acc: #ff4d1f;
   --acc-ink: #ffffff;
+  --acc-fill: #d8380e;
+  --acc-text: #c9330b;
   --card: #ffffff;
   --line: #c9d1dc;
   --stage: #111827;
@@ -90,7 +92,7 @@ nav a.btn:hover {
   text-decoration: none;
 }
 .btn.acc {
-  background: var(--acc);
+  background: var(--acc-fill);
   color: var(--acc-ink);
 }
 .btn[disabled] {
@@ -128,6 +130,7 @@ nav a.btn:hover {
   grid-template-columns: minmax(0, 1fr);
 }
 .screen {
+  cursor: zoom-in;
   border-radius: 10px;
   overflow: hidden;
   background: #000;
@@ -146,6 +149,7 @@ nav a.btn:hover {
   min-width: 0;
 }
 .chan button {
+  flex: 1 1 auto;
   text-align: left;
   background: var(--chan);
   color: var(--stage-ink);
@@ -201,7 +205,7 @@ nav a.btn:hover {
   flex-wrap: wrap;
 }
 .pill {
-  background: var(--acc);
+  background: var(--acc-fill);
   color: var(--acc-ink);
   border-radius: 999px;
   padding: 9px 18px;
@@ -327,7 +331,7 @@ nav a.btn:hover {
   font: 500 11px var(--mono) !important;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--acc) !important;
+  color: var(--acc-text) !important;
 }
 
 .brief {
@@ -420,7 +424,7 @@ form .btn {
   min-height: 1.5em;
 }
 .status.err {
-  color: var(--acc);
+  color: var(--acc-text);
 }
 .alt {
   margin: 2px 0 0;
@@ -602,12 +606,45 @@ td {
     grid-template-columns: minmax(0, 1fr);
   }
   .chan {
-    flex-direction: row;
-    overflow-x: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .chan button {
-    min-width: 170px;
+  .chan button:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
+  .chan button b {
+    font-size: 15px;
+    overflow-wrap: anywhere;
+  }
+}
+@media (max-width: 560px) {
+  .bar {
+    gap: 0 16px;
+    padding-top: 10px;
+    padding-bottom: 6px;
+  }
+  nav {
+    width: 100%;
+    gap: 0 16px;
+  }
+  nav a:not(.btn),
+  .foot a,
+  .crumb,
+  .alt a,
+  .next a:not(.btn) {
+    display: inline-block;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  nav a.btn {
+    margin-left: auto;
+  }
+}
+video:fullscreen {
+  object-fit: contain;
+  aspect-ratio: auto;
+  border-radius: 0;
+  border: 0;
 }
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -644,7 +681,7 @@ td {
 .steps li::before {
   content: '0' counter(step);
   font: 500 13px var(--mono);
-  color: var(--acc);
+  color: var(--acc-text);
 }
 .steps h3 {
   font: 700 20px / 1.15 var(--display);
@@ -877,11 +914,11 @@ td {
       transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
     transition-delay: calc(var(--i, 0) * 80ms);
   }
-  .js .rv.in {
+  .js .rv.seen {
     opacity: 1;
     transform: none;
   }
-  .js .rv.in.done {
+  .js .rv.seen.done {
     transition-delay: 0s;
   }
   .js .flow li {
@@ -892,15 +929,15 @@ td {
       transform 0.45s ease;
     transition-delay: calc(var(--i) * 160ms + 150ms);
   }
-  .js .hood.in .flow li {
+  .js .hood.seen .flow li {
     opacity: 1;
     transform: none;
   }
-  .js .hood.in .flow li::after {
+  .js .hood.seen .flow li::after {
     animation: arrow 0.4s ease both;
     animation-delay: calc(var(--i) * 160ms + 420ms);
   }
-  .js .hood.in .flow li > .node:first-child {
+  .js .hood.seen .flow li > .node:first-child {
     animation: flowpulse calc(var(--n) * 1.1s) linear infinite;
     animation-delay: calc(var(--i) * 1.1s + 1.4s);
   }

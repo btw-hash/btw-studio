@@ -57,6 +57,31 @@ describe('pages', () => {
     expect(await res.text()).toContain(ui.uk.notFound.title);
   });
 
+  it('lists every page in the sitemap and names it in robots.txt', async () => {
+    const map = await (await fetch(`${base}/sitemap.xml`)).text();
+    expect(map.match(/<loc>/g)?.length).toBe((projects.length + 1) * 2);
+    expect(await (await fetch(`${base}/robots.txt`)).text()).toContain('/sitemap.xml');
+  });
+
+  it('sends a visitor who came over http to https', async () => {
+    const res = await fetch(`${base}/work/nox?a=1`, {
+      redirect: 'manual',
+      headers: { 'cf-visitor': '{"scheme":"http"}' },
+    });
+    expect(res.status).toBe(301);
+    expect(res.headers.get('location')).toBe('https://127.0.0.1/work/nox?a=1');
+    expect(
+      (await fetch(`${base}/`, { headers: { 'cf-visitor': '{"scheme":"https"}' } })).status
+    ).toBe(200);
+  });
+
+  it('gives each project page its own preview image and the site an icon', async () => {
+    const html = await (await fetch(`${base}/work/citewise`)).text();
+    expect(html).toContain('og:image" content="https://btwstudio.dev/media/citewise.webp"');
+    expect((await fetch(`${base}/favicon.svg`)).status).toBe(200);
+    expect((await fetch(`${base}/apple-touch-icon.png`)).status).toBe(200);
+  });
+
   it('puts only projects with media on the stage', () => {
     for (const p of projects.filter((x) => x.onStage)) {
       expect(p.poster, p.slug).toBeTruthy();
