@@ -2,7 +2,6 @@ import { appendFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 export interface Brief {
-  who: 'studio' | 'team';
   what: string;
   when: string;
   reply: string;
@@ -25,7 +24,6 @@ export function parseBrief(
   if (reply.length < 5 || reply.length > 200 || !/[@.]/.test(reply)) return { error: 'reply' };
   return {
     brief: {
-      who: b.who === 'team' ? 'team' : 'studio',
       what,
       when: str(b.when).slice(0, 120),
       reply,
@@ -47,11 +45,11 @@ export function isConfigured(cfg: DeliveryConfig): boolean {
 
 export function formatBrief(brief: Brief): string {
   return [
-    `New brief (${brief.who === 'team' ? 'product team' : 'studio or agency'}, ${brief.lang}${brief.via ? ', via the Telegram bot' : ''})`,
+    `New brief (${brief.lang}${brief.via ? ', via the Telegram bot' : ''})`,
     '',
     brief.what,
     '',
-    `By when: ${brief.when || 'not stated'}`,
+    ...(brief.when ? [`By when: ${brief.when}`] : []),
     `Reply to: ${brief.reply}`,
   ].join('\n');
 }
