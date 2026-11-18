@@ -727,7 +727,7 @@ export const projects: Project[] = [
           ['Side effects', 'smoke-tested against the live system'],
         ],
         proofNote:
-          'The recordings use a fictional owner and seeded data; the interface is in Ukrainian because that is the language it is used in.',
+          'The recordings use a fictional owner and seeded data; the app is used in Ukrainian, and its interface was switched to English for the recordings.',
         facts: [
           ['Built with', 'TypeScript, grammY, SQLite, Claude Agent SDK'],
           ['Clients', 'Telegram, Android with over-the-air updates'],
