@@ -102,7 +102,7 @@
   var revealed = document.querySelectorAll('.rv');
   if (!('IntersectionObserver' in window) || reduce) {
     revealed.forEach(function (el) {
-      el.classList.add('in');
+      el.classList.add('seen');
     });
   } else {
     var io = new IntersectionObserver(
@@ -110,7 +110,7 @@
         entries.forEach(function (e) {
           if (!e.isIntersecting) return;
           io.unobserve(e.target);
-          e.target.classList.add('in');
+          e.target.classList.add('seen');
           e.target.querySelectorAll('.proof td').forEach(countUp);
           setTimeout(function () {
             e.target.classList.add('done');
@@ -121,6 +121,39 @@
     );
     revealed.forEach(function (el) {
       io.observe(el);
+    });
+  }
+
+  // a desktop-screen recording is unreadable at phone width: a tap opens it full screen
+  document.addEventListener('click', function (e) {
+    var v = e.target;
+    if (!v || v.tagName !== 'VIDEO' || v.controls) return;
+    if (v.requestFullscreen) v.requestFullscreen().catch(function () {});
+    else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+  });
+  document.addEventListener('fullscreenchange', function () {
+    document.querySelectorAll('video').forEach(function (v) {
+      v.controls = document.fullscreenElement === v;
+    });
+  });
+
+  var lazy = document.querySelectorAll('video[data-lazy]');
+  if (lazy.length && 'IntersectionObserver' in window && !reduce) {
+    var vio = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) e.target.play().catch(function () {});
+          else e.target.pause();
+        });
+      },
+      { threshold: 0.25 }
+    );
+    lazy.forEach(function (v) {
+      vio.observe(v);
+    });
+  } else {
+    lazy.forEach(function (v) {
+      v.controls = true;
     });
   }
 

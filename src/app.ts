@@ -8,7 +8,7 @@ import {
   type DeliveryConfig,
 } from './brief.js';
 import { findProject, type Lang } from './content.js';
-import { renderHome, renderNotFound, renderProject } from './render.js';
+import { renderHome, renderNotFound, renderProject, renderSitemap } from './render.js';
 
 export function createApp(
   root: string,
@@ -26,8 +26,44 @@ export function createApp(
       next();
     });
   }
+  app.use((req, res, next) => {
+    // Cloudflare reports the visitor's scheme here; the tunnel itself always reaches us over http.
+    if (String(req.headers['cf-visitor'] ?? '').includes('"scheme":"http"')) {
+      res.redirect(301, `https://${req.hostname}${req.originalUrl}`);
+      return;
+    }
+    res.setHeader('Strict-Transport-Security', 'max-age=15552000');
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    next();
+  });
   app.use(express.json({ limit: '8kb' }));
-  app.use(express.static(join(root, 'public'), { maxAge: '1h' }));
+  app.get('/robots.txt', (_req, res) => {
+    res
+      .type('text/plain')
+      .send(
+        options.noindex
+          ? 'User-agent: *\nDisallow: /\n'
+          : 'User-agent: *\nAllow: /\nSitemap: https://btwstudio.dev/sitemap.xml\n'
+      );
+  });
+  app.get('/sitemap.xml', (_req, res) => {
+    res.type('application/xml').send(renderSitemap());
+  });
+  app.get('/favicon.ico', (_req, res) => {
+    res.redirect(301, '/favicon.svg');
+  });
+  app.use(
+    express.static(join(root, 'public'), {
+      maxAge: '1h',
+      setHeaders(res, file) {
+        // media, styles and scripts are requested with a per-deploy version in the URL
+        if (/[\\/]media[\\/]|\.(css|js)$/.test(file)) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        }
+      },
+    })
+  );
 
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, briefs: isConfigured(delivery) });

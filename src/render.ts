@@ -3,6 +3,8 @@ import { projects, ui, type Lang, type Project } from './content.js';
 const ORIGIN = 'https://btwstudio.dev';
 // Changes on every deploy, so a cached stylesheet never meets newer markup.
 const V = Date.now().toString(36);
+const FONTS =
+  'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap';
 
 export function esc(value: string): string {
   return value.replace(
@@ -18,9 +20,17 @@ const workPath = (lang: Lang, slug: string) => `${prefix(lang)}/work/${slug}`;
 
 function layout(
   lang: Lang,
-  opts: { title: string; desc: string; path: (l: Lang) => string; body: string }
+  opts: {
+    title: string;
+    desc: string;
+    path: (l: Lang) => string;
+    body: string;
+    image?: string;
+    head?: string;
+  }
 ): string {
   const t = ui[lang];
+  const image = `${ORIGIN}/media/${opts.image ?? 'crm-pro.webp'}`;
   return `<!doctype html>
 <html lang="${t.htmlLang}">
 <head>
@@ -31,15 +41,23 @@ function layout(
 <link rel="canonical" href="${ORIGIN}${opts.path(lang)}">
 <link rel="alternate" hreflang="en" href="${ORIGIN}${opts.path('en')}">
 <link rel="alternate" hreflang="uk" href="${ORIGIN}${opts.path('uk')}">
+<link rel="alternate" hreflang="x-default" href="${ORIGIN}${opts.path('en')}">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:title" content="${esc(opts.title)}">
 <meta property="og:description" content="${esc(opts.desc)}">
 <meta property="og:type" content="website">
-<meta property="og:image" content="${ORIGIN}/media/crm-pro.webp">
+<meta property="og:url" content="${ORIGIN}${opts.path(lang)}">
+<meta property="og:site_name" content="BTW Studio">
+<meta property="og:image" content="${image}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${image}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="preload" as="style" href="${FONTS}" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="${FONTS}"></noscript>
 <link rel="stylesheet" href="/styles.css?v=${V}">
-<script>document.documentElement.className='js'</script>
+<script>document.documentElement.className='js'</script>${opts.head ?? ''}
 </head>
 <body>
 <div class="progress" aria-hidden="true"></div>
@@ -70,7 +88,7 @@ function media(p: Project, lang: Lang, id = ''): string {
   if (p.video) {
     return `<video${idAttr} class="shot" src="/media/${p.slug}.mp4?v=${V}" poster="/media/${p.poster}?v=${V}" muted loop playsinline autoplay preload="metadata" aria-label="${alt}"></video>`;
   }
-  return `<img${idAttr} class="shot" src="/media/${p.poster}?v=${V}" alt="${alt}">`;
+  return `<img${idAttr} class="shot" src="/media/${p.poster}?v=${V}" alt="${alt}" width="1600" height="1000">`;
 }
 
 function primaryLink(p: Project, lang: Lang): { href: string; label: string } {
@@ -164,7 +182,21 @@ export function renderHome(lang: Lang, botUsername?: string): string {
   </section>
 </div>`;
 
-  return layout(lang, { title: t.siteTitle, desc: t.siteDesc, path: home, body });
+  const org = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'BTW Studio',
+    url: ORIGIN,
+    logo: `${ORIGIN}/apple-touch-icon.png`,
+    sameAs: ['https://github.com/btw-hash'],
+  };
+  return layout(lang, {
+    title: t.siteTitle,
+    desc: t.siteDesc,
+    path: home,
+    body,
+    head: `\n<script type="application/ld+json">${JSON.stringify(org)}</script>`,
+  });
 }
 
 export function renderProject(lang: Lang, p: Project): string {
@@ -190,7 +222,7 @@ export function renderProject(lang: Lang, p: Project): string {
       ? `<div class="clips">${p.clips
           .map(
             (c) =>
-              `<figure class="rv"><video src="/media/${c.file}.mp4?v=${V}" poster="/media/${c.file}.webp?v=${V}" muted loop playsinline autoplay preload="metadata" aria-label="${esc(c.label[lang])}"></video><figcaption>${esc(c.label[lang])}</figcaption></figure>`
+              `<figure class="rv"><video src="/media/${c.file}.mp4?v=${V}" poster="/media/${c.file}.webp?v=${V}" muted loop playsinline preload="none" data-lazy aria-label="${esc(c.label[lang])}"></video><figcaption>${esc(c.label[lang])}</figcaption></figure>`
           )
           .join('')}</div>`
       : ''
@@ -261,7 +293,22 @@ export function renderProject(lang: Lang, p: Project): string {
     desc: x.line,
     path: (l) => workPath(l, p.slug),
     body,
+    image: p.poster,
   });
+}
+
+export function renderSitemap(): string {
+  const entry = (path: (l: Lang) => string) =>
+    (['en', 'uk'] as const)
+      .map(
+        (l) =>
+          `<url><loc>${ORIGIN}${path(l)}</loc><xhtml:link rel="alternate" hreflang="en" href="${ORIGIN}${path('en')}"/><xhtml:link rel="alternate" hreflang="uk" href="${ORIGIN}${path('uk')}"/></url>`
+      )
+      .join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${[entry(home), ...projects.map((p) => entry((l) => workPath(l, p.slug)))].join('\n')}
+</urlset>`;
 }
 
 export function renderNotFound(lang: Lang): string {
