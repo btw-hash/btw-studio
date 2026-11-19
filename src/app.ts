@@ -45,6 +45,10 @@ export function createApp(
       res.redirect(301, `https://${req.hostname}${req.originalUrl}`);
       return;
     }
+    if (req.hostname === 'www.btwstudio.dev') {
+      res.redirect(301, `https://btwstudio.dev${req.originalUrl}`);
+      return;
+    }
     res.setHeader('Strict-Transport-Security', 'max-age=15552000');
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');

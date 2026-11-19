@@ -268,3 +268,16 @@ describe('hardening', () => {
     for (const p of projects) expect(p.poster, p.slug).toBeTruthy();
   });
 });
+
+describe('www', () => {
+  it('sends the www host to the bare domain', async () => {
+    const { server, base } = start({});
+    const res = await fetch(`${base}/work/nox?x=1`, {
+      redirect: 'manual',
+      headers: { 'x-forwarded-host': 'www.btwstudio.dev' },
+    });
+    server.close();
+    expect(res.status).toBe(301);
+    expect(res.headers.get('location')).toBe('https://btwstudio.dev/work/nox?x=1');
+  });
+});
