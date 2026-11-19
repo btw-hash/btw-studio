@@ -13,7 +13,9 @@ import { INLINE_JS, renderHome, renderNotFound, renderProject, renderSitemap } f
 
 const CSP = [
   "default-src 'self'",
-  `script-src 'self' 'sha256-${createHash('sha256').update(INLINE_JS).digest('base64')}'`,
+  `script-src 'self' 'sha256-${createHash('sha256').update(INLINE_JS).digest('base64')}' https://static.cloudflareinsights.com`,
+  // Cloudflare adds its analytics beacon to every page at the edge
+  "connect-src 'self' https://cloudflareinsights.com",
   "style-src 'self'",
   "style-src-attr 'unsafe-inline'",
   "img-src 'self' data:",
