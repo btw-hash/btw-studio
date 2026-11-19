@@ -3,8 +3,8 @@ import { projects, ui, type Lang, type Project } from './content.js';
 const ORIGIN = 'https://btwstudio.dev';
 // Changes on every deploy, so a cached stylesheet never meets newer markup.
 const V = Date.now().toString(36);
-const FONTS =
-  'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap';
+// The only inline script; its hash is allowed in the Content-Security-Policy.
+export const INLINE_JS = "document.documentElement.className='js'";
 
 export function esc(value: string): string {
   return value.replace(
@@ -52,12 +52,10 @@ function layout(
 <meta property="og:image" content="${image}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="${image}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="${FONTS}" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="${FONTS}"></noscript>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/bricolage-grotesque-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-tight-latin.woff2" crossorigin>
 <link rel="stylesheet" href="/styles.css?v=${V}">
-<script>document.documentElement.className='js'</script>${opts.head ?? ''}
+<script>${INLINE_JS}</script>${opts.head ?? ''}
 </head>
 <body>
 <div class="progress" aria-hidden="true"></div>

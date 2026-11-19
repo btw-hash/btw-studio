@@ -850,7 +850,8 @@ export const projects: Project[] = [
     slug: 'vault-research-agent',
     kind: 'code',
     repo: 'https://github.com/btw-hash/vault-research-agent',
-    video: false,
+    video: true,
+    poster: 'vault-research-agent.webp',
     onStage: false,
     text: {
       en: {
@@ -977,7 +978,8 @@ export const projects: Project[] = [
     slug: 'ua-mcp',
     kind: 'code',
     repo: 'https://github.com/btw-hash/ua-mcp',
-    video: false,
+    video: true,
+    poster: 'ua-mcp.webp',
     onStage: false,
     text: {
       en: {
