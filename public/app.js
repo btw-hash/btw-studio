@@ -9,6 +9,31 @@
     });
   }
 
+  var clips = document.querySelector('.clips');
+  if (clips && clips.children.length > 1) {
+    var figs = clips.children;
+    var dots = document.createElement('div');
+    dots.className = 'dots';
+    dots.setAttribute('aria-hidden', 'true');
+    for (var d = 0; d < figs.length; d++) dots.appendChild(document.createElement('i'));
+    clips.parentNode.insertBefore(dots, clips.nextSibling);
+    var mark = function () {
+      var best = 0;
+      var x = clips.getBoundingClientRect().left;
+      for (var k = 0; k < figs.length; k++) {
+        if (
+          Math.abs(figs[k].getBoundingClientRect().left - x) <
+          Math.abs(figs[best].getBoundingClientRect().left - x)
+        )
+          best = k;
+      }
+      if (clips.scrollLeft + clips.clientWidth >= clips.scrollWidth - 2) best = figs.length - 1;
+      for (var n = 0; n < figs.length; n++) dots.children[n].classList.toggle('on', n === best);
+    };
+    clips.addEventListener('scroll', mark, { passive: true });
+    mark();
+  }
+
   var stage = document.querySelector('[data-stage]');
   if (stage) {
     var items = JSON.parse(stage.getAttribute('data-stage'));

@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import express, { type Express } from 'express';
 import {
@@ -8,7 +9,19 @@ import {
   type DeliveryConfig,
 } from './brief.js';
 import { findProject, type Lang } from './content.js';
-import { renderHome, renderNotFound, renderProject, renderSitemap } from './render.js';
+import { INLINE_JS, renderHome, renderNotFound, renderProject, renderSitemap } from './render.js';
+
+const CSP = [
+  "default-src 'self'",
+  `script-src 'self' 'sha256-${createHash('sha256').update(INLINE_JS).digest('base64')}'`,
+  "style-src 'self'",
+  "style-src-attr 'unsafe-inline'",
+  "img-src 'self' data:",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+].join('; ');
 
 export function createApp(
   root: string,
@@ -35,6 +48,7 @@ export function createApp(
     res.setHeader('Strict-Transport-Security', 'max-age=15552000');
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Content-Security-Policy', CSP);
     next();
   });
   app.use(express.json({ limit: '8kb' }));
@@ -57,8 +71,8 @@ export function createApp(
     express.static(join(root, 'public'), {
       maxAge: '1h',
       setHeaders(res, file) {
-        // media, styles and scripts are requested with a per-deploy version in the URL
-        if (/[\\/]media[\\/]|\.(css|js)$/.test(file)) {
+        // media, styles and scripts carry a per-deploy version in the URL; a changed font gets a new name
+        if (/[\\/](media|fonts)[\\/]|\.(css|js)$/.test(file)) {
           res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
         }
       },

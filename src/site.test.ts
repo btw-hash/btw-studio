@@ -246,3 +246,25 @@ describe('preview mode', () => {
     expect(res.headers.get('x-robots-tag')).toBe('noindex, nofollow');
   });
 });
+
+describe('hardening', () => {
+  it('sends a policy that allows only its own files and the one inline script', async () => {
+    const { server, base } = start({});
+    const res = await fetch(`${base}/`);
+    const html = await res.text();
+    const font = await fetch(`${base}/fonts/inter-tight-latin.woff2`, { method: 'HEAD' });
+    server.close();
+    const csp = res.headers.get('content-security-policy') ?? '';
+    expect(csp).toContain("default-src 'self'");
+    expect(csp).toMatch(/script-src 'self' 'sha256-[A-Za-z0-9+/=]+'/);
+    expect(html.match(/<script>/g)).toHaveLength(1);
+    expect(html).not.toContain('fonts.googleapis.com');
+    expect(html).not.toMatch(/ on[a-z]+="/);
+    expect(font.status).toBe(200);
+    expect(font.headers.get('cache-control')).toContain('immutable');
+  });
+
+  it('gives every project page a picture or a recording', () => {
+    for (const p of projects) expect(p.poster, p.slug).toBeTruthy();
+  });
+});
