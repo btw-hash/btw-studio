@@ -21,7 +21,7 @@
       var dark = isDark();
       themeButton.setAttribute('aria-pressed', dark ? 'true' : 'false');
       document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
-        m.setAttribute('content', dark ? '#0a0e17' : '#eef1f5');
+        m.setAttribute('content', dark ? '#060607' : '#eef1f5');
       });
     };
     themeButton.addEventListener('click', function () {
