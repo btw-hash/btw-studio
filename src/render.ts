@@ -4,7 +4,8 @@ const ORIGIN = 'https://btwstudio.dev';
 // Changes on every deploy, so a cached stylesheet never meets newer markup.
 const V = Date.now().toString(36);
 // The only inline script; its hash is allowed in the Content-Security-Policy.
-export const INLINE_JS = "document.documentElement.className='js'";
+export const INLINE_JS =
+  "document.documentElement.className='js';try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}";
 
 export function esc(value: string): string {
   return value.replace(
@@ -37,6 +38,9 @@ function layout(
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#eef1f5">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#060607">
 <title>${esc(opts.title)}</title>
 <meta name="description" content="${esc(opts.desc)}">
 <link rel="canonical" href="${ORIGIN}${opts.path(lang)}">
@@ -66,6 +70,7 @@ function layout(
     <a href="${home(lang)}#work">${esc(t.nav.work)}</a>
     <a href="${home(lang)}#method">${esc(t.nav.method)}</a>
     <a href="${opts.path(other(lang))}" hreflang="${other(lang)}" lang="${other(lang)}">${esc(t.langName)}</a>
+    <button type="button" class="theme" id="theme" aria-pressed="false" aria-label="${esc(t.theme)}"><span class="sun"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><span class="moon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></span></button>
     <a class="btn" href="${home(lang)}#brief">${esc(t.nav.brief)}</a>
   </nav>
 </header>

@@ -9,6 +9,59 @@
     });
   }
 
+  var themeButton = document.getElementById('theme');
+  if (themeButton) {
+    var root = document.documentElement;
+    var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+    var isDark = function () {
+      var chosen = root.getAttribute('data-theme');
+      return chosen ? chosen === 'dark' : systemDark.matches;
+    };
+    var syncTheme = function () {
+      var dark = isDark();
+      themeButton.setAttribute('aria-pressed', dark ? 'true' : 'false');
+      document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
+        m.setAttribute('content', dark ? '#060607' : '#eef1f5');
+      });
+    };
+    themeButton.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      var apply = function () {
+        root.setAttribute('data-theme', next);
+        try {
+          localStorage.setItem('theme', next);
+        } catch (e) {}
+        syncTheme();
+      };
+      if (reduce) {
+        apply();
+        return;
+      }
+      if (!document.startViewTransition) {
+        root.classList.add('fading');
+        apply();
+        setTimeout(function () {
+          root.classList.remove('fading');
+        }, 420);
+        return;
+      }
+      var box = themeButton.getBoundingClientRect();
+      var x = box.left + box.width / 2;
+      var y = box.top + box.height / 2;
+      var far = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+      root.style.setProperty('--tx', x + 'px');
+      root.style.setProperty('--ty', y + 'px');
+      root.style.setProperty('--tr', far + 'px');
+      root.classList.add('theming');
+      var done = function () {
+        root.classList.remove('theming');
+      };
+      document.startViewTransition(apply).finished.then(done, done);
+    });
+    if (systemDark.addEventListener) systemDark.addEventListener('change', syncTheme);
+    syncTheme();
+  }
+
   var clips = document.querySelector('.clips');
   if (clips && clips.children.length > 1) {
     var figs = clips.children;

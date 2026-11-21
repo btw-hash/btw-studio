@@ -220,18 +220,19 @@
 }
 :root {
   --bg: #eef1f5;
-  --ink: #111827;
-  --soft: #4a5568;
-  --acc: #ff4d1f;
-  --acc-ink: #ffffff;
-  --acc-fill: #d8380e;
-  --acc-text: #c9330b;
+  --ink: #121214;
+  --soft: #4f5158;
+  --acc: #e0560f;
+  --acc-ink: #160a02;
+  --acc-fill: var(--acc);
+  --acc-text: #b8440a;
   --card: #ffffff;
   --line: #c9d1dc;
-  --stage: #111827;
+  --stage: #121214;
   --stage-ink: #ffffff;
-  --chan: #1c2536;
-  --chan-on: #283349;
+  --chan: #1c1c20;
+  --chan-on: #2a2a30;
+  color-scheme: light;
   --display: 'Bricolage Grotesque', 'Inter Tight', system-ui, sans-serif;
   --body: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
@@ -936,7 +937,7 @@ td {
   /* links sit in a 44px row above the name and the button; the negative top lets that row scroll away */
   .bar {
     display: grid;
-    grid-template-columns: auto auto 1fr;
+    grid-template-columns: auto auto auto 1fr;
     gap: 0 16px;
     padding-top: 0;
     padding-bottom: 8px;
@@ -963,8 +964,14 @@ td {
   }
   nav a.btn {
     grid-row: 2;
-    grid-column: 3;
+    grid-column: 3 / span 2;
     justify-self: end;
+  }
+  .theme {
+    grid-row: 1;
+    grid-column: 4;
+    justify-self: end;
+    align-self: center;
   }
   .btn {
     padding-top: 13px;
@@ -1040,7 +1047,7 @@ video:fullscreen {
   margin: 0 0 20px;
 }
 .hood .lab {
-  color: #9aa7bd;
+  color: #a2a3a9;
   margin-top: 26px;
 }
 .flow {
@@ -1087,7 +1094,7 @@ video:fullscreen {
 }
 .node.alt {
   border-style: dashed;
-  border-color: #46536b;
+  border-color: #45464d;
   background: transparent;
 }
 .flow em {
@@ -1096,13 +1103,13 @@ video:fullscreen {
   font-style: normal;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #9aa7bd;
+  color: #a2a3a9;
   text-align: center;
   padding: 6px 0;
 }
 .fnote {
   font-size: 14px;
-  color: #9aa7bd;
+  color: #a2a3a9;
   max-width: 78ch;
   margin: 16px 0 0;
 }
@@ -1122,7 +1129,7 @@ video:fullscreen {
 .dec p {
   margin: 0;
   font-size: 15px;
-  color: #c3ccdb;
+  color: #cfcfd4;
 }
 
 /* ── motion ── */
@@ -1152,7 +1159,7 @@ video:fullscreen {
 .btn:hover,
 .pill:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(17, 24, 39, 0.18);
+  box-shadow: 0 6px 16px rgba(18, 18, 20, 0.18);
 }
 .btn:active,
 .pill:active {
@@ -1162,7 +1169,7 @@ video:fullscreen {
 .item:hover,
 .steps li:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(17, 24, 39, 0.1);
+  box-shadow: 0 10px 24px rgba(18, 18, 20, 0.1);
 }
 .item i {
   transition: transform 0.18s ease;
@@ -1312,5 +1319,239 @@ video:fullscreen {
   }
   .dec {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── themes ── */
+/* Light is the base. Everything a theme changes is a token, so the dark palette only redefines
+   tokens: once for the system setting, once for the switch in the header. */
+:root {
+  --edge: var(--ink);
+  --glow: none;
+  --veil: transparent;
+  --shine: 0 0 transparent;
+  --lift: 0 10px 24px rgba(18, 18, 20, 0.1);
+  --btn-bg: var(--ink);
+  --btn-ink: var(--bg);
+  --btn-edge: 0 0 transparent;
+  --btn-lift: 0 6px 16px rgba(18, 18, 20, 0.18);
+  --acc-lift: 0 8px 20px -6px rgba(224, 86, 15, 0.45);
+  --stage-glow: 0 0 transparent;
+  --sw-x: 0px;
+  --sw-sun-ink: var(--bg);
+  --sw-moon-ink: var(--soft);
+  --sw-sun-rot: 0deg;
+  --sw-moon-rot: -40deg;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #060607;
+    --ink: #f3f3f4;
+    --soft: #a2a3a9;
+    --acc: #ff7a2b;
+    --acc-text: #ff9a5c;
+    --card: #111113;
+    --line: #26262b;
+    --edge: #5b5c64;
+    --glow: radial-gradient(900px 520px at 12% -8%, rgba(255, 255, 255, 0.055), transparent 62%);
+    --veil: rgba(0, 0, 0, 0.2);
+    --shine: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    --lift: 0 16px 34px rgba(0, 0, 0, 0.6);
+    --btn-bg: #1d1d21;
+    --btn-ink: #f3f3f4;
+    --btn-edge: inset 0 0 0 1.5px #3a3a41;
+    --btn-lift: 0 8px 22px rgba(0, 0, 0, 0.6);
+    --acc-lift: 0 10px 28px -6px rgba(255, 111, 26, 0.5);
+    --stage-glow: 0 0 0 1px #2c2c32, 0 40px 90px -40px rgba(255, 111, 26, 0.24);
+    --sw-x: 30px;
+    --sw-sun-ink: var(--soft);
+    --sw-moon-ink: var(--bg);
+    --sw-sun-rot: 60deg;
+    --sw-moon-rot: 0deg;
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #060607;
+  --ink: #f3f3f4;
+  --soft: #a2a3a9;
+  --acc: #ff7a2b;
+  --acc-text: #ff9a5c;
+  --card: #111113;
+  --line: #26262b;
+  --edge: #5b5c64;
+  --glow: radial-gradient(900px 520px at 12% -8%, rgba(255, 255, 255, 0.055), transparent 62%);
+  --veil: rgba(0, 0, 0, 0.2);
+  --shine: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --lift: 0 16px 34px rgba(0, 0, 0, 0.6);
+  --btn-bg: #1d1d21;
+  --btn-ink: #f3f3f4;
+  --btn-edge: inset 0 0 0 1.5px #3a3a41;
+  --btn-lift: 0 8px 22px rgba(0, 0, 0, 0.6);
+  --acc-lift: 0 10px 28px -6px rgba(255, 111, 26, 0.5);
+  --stage-glow: 0 0 0 1px #2c2c32, 0 40px 90px -40px rgba(255, 111, 26, 0.24);
+  --sw-x: 30px;
+  --sw-sun-ink: var(--soft);
+  --sw-moon-ink: var(--bg);
+  --sw-sun-rot: 60deg;
+  --sw-moon-rot: 0deg;
+  color-scheme: dark;
+}
+
+body {
+  background-image: var(--glow);
+  background-repeat: no-repeat;
+}
+::selection {
+  background: var(--acc-fill);
+  color: var(--acc-ink);
+}
+::placeholder {
+  color: var(--soft);
+  opacity: 0.75;
+}
+.bar {
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* the plain button is quiet in the dark, so the accent one stays the loudest thing on the page */
+.btn {
+  background: var(--btn-bg);
+  color: var(--btn-ink);
+  box-shadow: var(--btn-edge);
+}
+.btn:hover {
+  box-shadow: var(--btn-edge), var(--btn-lift);
+}
+.btn:active {
+  box-shadow: var(--btn-edge);
+}
+.btn.acc {
+  background: var(--acc-fill);
+  color: var(--acc-ink);
+  box-shadow: none;
+}
+.btn.acc:hover {
+  box-shadow: var(--acc-lift);
+}
+.btn.acc:active {
+  box-shadow: none;
+}
+
+.stage,
+.hood {
+  box-shadow: var(--stage-glow);
+}
+.d,
+.item,
+.brief,
+.side,
+.steps li {
+  box-shadow: var(--shine);
+}
+.item:hover,
+.steps li:hover {
+  box-shadow: var(--lift), var(--shine);
+}
+.item:hover {
+  border-color: var(--edge);
+}
+/* recordings of light interfaces glare on a dark page: a thin veil, lifted on hover */
+.screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--veil);
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.screen:hover::after {
+  opacity: 0;
+}
+
+/* the switch: the knob sits under the icon of the theme that is on */
+.theme {
+  display: none;
+  position: relative;
+  grid-template-columns: 30px 30px;
+  padding: 2px;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+.js .theme {
+  display: inline-grid;
+}
+.theme:hover {
+  border-color: var(--edge);
+}
+.theme::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 30px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--ink);
+  transform: translateX(var(--sw-x));
+  transition: transform 0.45s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+.theme span {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 28px;
+  transition:
+    color 0.25s ease,
+    transform 0.45s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+.theme .sun {
+  color: var(--sw-sun-ink);
+  transform: rotate(var(--sw-sun-rot));
+}
+.theme .moon {
+  color: var(--sw-moon-ink);
+  transform: rotate(var(--sw-moon-rot));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* the new palette opens as a circle from the switch */
+  .theming .screen,
+  .theming .ptop .h {
+    view-transition-name: none;
+  }
+  .theming::view-transition-old(root),
+  .theming::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  .theming::view-transition-old(root) {
+    z-index: 1;
+  }
+  .theming::view-transition-new(root) {
+    z-index: 2;
+    animation: reveal 0.65s cubic-bezier(0.3, 0.7, 0.2, 1) both;
+  }
+  @keyframes reveal {
+    from {
+      clip-path: circle(0 at var(--tx) var(--ty));
+    }
+    to {
+      clip-path: circle(var(--tr) at var(--tx) var(--ty));
+    }
+  }
+  /* browsers without view transitions get a plain cross-fade of the colours */
+  .fading,
+  .fading * {
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease,
+      border-color 0.35s ease !important;
   }
 }
