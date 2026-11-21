@@ -232,51 +232,10 @@
   --stage-ink: #ffffff;
   --chan: #1c2536;
   --chan-on: #283349;
-  --sw-sun: var(--ink);
-  --sw-sun-ink: var(--bg);
-  --sw-moon: transparent;
-  --sw-moon-ink: var(--soft);
   color-scheme: light;
   --display: 'Bricolage Grotesque', 'Inter Tight', system-ui, sans-serif;
   --body: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
-}
-/* the dark palette: once for the system setting, once for the switch in the header */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --bg: #0f141c;
-    --ink: #e8ecf3;
-    --soft: #a3adbd;
-    --acc: #ff6a3d;
-    --acc-text: #ff8a63;
-    --card: #161d29;
-    --line: #2c3648;
-    --stage: #1b2433;
-    --chan: #253044;
-    --chan-on: #31405a;
-    --sw-sun: transparent;
-    --sw-sun-ink: var(--soft);
-    --sw-moon: var(--ink);
-    --sw-moon-ink: var(--bg);
-    color-scheme: dark;
-  }
-}
-:root[data-theme='dark'] {
-  --bg: #0f141c;
-  --ink: #e8ecf3;
-  --soft: #a3adbd;
-  --acc: #ff6a3d;
-  --acc-text: #ff8a63;
-  --card: #161d29;
-  --line: #2c3648;
-  --stage: #1b2433;
-  --chan: #253044;
-  --chan-on: #31405a;
-  --sw-sun: transparent;
-  --sw-sun-ink: var(--soft);
-  --sw-moon: var(--ink);
-  --sw-moon-ink: var(--bg);
-  color-scheme: dark;
 }
 * {
   box-sizing: border-box;
@@ -356,37 +315,6 @@ nav a:hover {
 }
 nav a.btn:hover {
   text-decoration: none;
-}
-.theme {
-  display: none;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  padding: 2px;
-  background: none;
-  border: 2px solid var(--line);
-  border-radius: 999px;
-  cursor: pointer;
-}
-.js .theme {
-  display: inline-grid;
-}
-.theme span {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 28px;
-  border-radius: 999px;
-  transition:
-    background-color 0.18s ease,
-    color 0.18s ease;
-}
-.theme .sun {
-  background: var(--sw-sun);
-  color: var(--sw-sun-ink);
-}
-.theme .moon {
-  background: var(--sw-moon);
-  color: var(--sw-moon-ink);
 }
 .btn.acc {
   background: var(--acc-fill);
@@ -1391,5 +1319,243 @@ video:fullscreen {
   }
   .dec {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── themes ── */
+/* Light is the base. Everything a theme changes is a token, so the dark palette only redefines
+   tokens: once for the system setting, once for the switch in the header. */
+:root {
+  --edge: var(--ink);
+  --glow: none;
+  --veil: transparent;
+  --shine: 0 0 transparent;
+  --lift: 0 10px 24px rgba(17, 24, 39, 0.1);
+  --btn-bg: var(--ink);
+  --btn-ink: var(--bg);
+  --btn-edge: 0 0 transparent;
+  --btn-lift: 0 6px 16px rgba(17, 24, 39, 0.18);
+  --acc-lift: 0 8px 20px -6px rgba(216, 56, 14, 0.5);
+  --stage-glow: 0 0 transparent;
+  --sw-x: 0px;
+  --sw-sun-ink: var(--bg);
+  --sw-moon-ink: var(--soft);
+  --sw-sun-rot: 0deg;
+  --sw-moon-rot: -40deg;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0a0e17;
+    --ink: #e9edf5;
+    --soft: #9aa6bb;
+    --acc: #ff5a2b;
+    --acc-text: #ff8f69;
+    --card: #121929;
+    --line: #26314a;
+    --edge: #4b5b7e;
+    --glow:
+      radial-gradient(900px 520px at 12% -8%, rgba(72, 104, 178, 0.2), transparent 62%),
+      radial-gradient(700px 420px at 100% 0%, rgba(255, 90, 43, 0.08), transparent 60%);
+    --veil: rgba(10, 14, 23, 0.18);
+    --shine: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    --lift: 0 16px 34px rgba(0, 0, 0, 0.5);
+    --btn-bg: #1f2942;
+    --btn-ink: #e9edf5;
+    --btn-edge: inset 0 0 0 1.5px #3a4868;
+    --btn-lift: 0 8px 22px rgba(0, 0, 0, 0.5);
+    --acc-lift: 0 10px 28px -6px rgba(255, 90, 43, 0.55);
+    --stage-glow: 0 0 0 1px #2a3653, 0 40px 90px -40px rgba(255, 90, 43, 0.28);
+    --sw-x: 30px;
+    --sw-sun-ink: var(--soft);
+    --sw-moon-ink: var(--bg);
+    --sw-sun-rot: 60deg;
+    --sw-moon-rot: 0deg;
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #0a0e17;
+  --ink: #e9edf5;
+  --soft: #9aa6bb;
+  --acc: #ff5a2b;
+  --acc-text: #ff8f69;
+  --card: #121929;
+  --line: #26314a;
+  --edge: #4b5b7e;
+  --glow:
+    radial-gradient(900px 520px at 12% -8%, rgba(72, 104, 178, 0.2), transparent 62%),
+    radial-gradient(700px 420px at 100% 0%, rgba(255, 90, 43, 0.08), transparent 60%);
+  --veil: rgba(10, 14, 23, 0.18);
+  --shine: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --lift: 0 16px 34px rgba(0, 0, 0, 0.5);
+  --btn-bg: #1f2942;
+  --btn-ink: #e9edf5;
+  --btn-edge: inset 0 0 0 1.5px #3a4868;
+  --btn-lift: 0 8px 22px rgba(0, 0, 0, 0.5);
+  --acc-lift: 0 10px 28px -6px rgba(255, 90, 43, 0.55);
+  --stage-glow: 0 0 0 1px #2a3653, 0 40px 90px -40px rgba(255, 90, 43, 0.28);
+  --sw-x: 30px;
+  --sw-sun-ink: var(--soft);
+  --sw-moon-ink: var(--bg);
+  --sw-sun-rot: 60deg;
+  --sw-moon-rot: 0deg;
+  color-scheme: dark;
+}
+
+body {
+  background-image: var(--glow);
+  background-repeat: no-repeat;
+}
+::selection {
+  background: var(--acc-fill);
+  color: #ffffff;
+}
+::placeholder {
+  color: var(--soft);
+  opacity: 0.75;
+}
+.bar {
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* the plain button is quiet in the dark, so the accent one stays the loudest thing on the page */
+.btn {
+  background: var(--btn-bg);
+  color: var(--btn-ink);
+  box-shadow: var(--btn-edge);
+}
+.btn:hover {
+  box-shadow: var(--btn-edge), var(--btn-lift);
+}
+.btn:active {
+  box-shadow: var(--btn-edge);
+}
+.btn.acc {
+  background: var(--acc-fill);
+  color: var(--acc-ink);
+  box-shadow: none;
+}
+.btn.acc:hover {
+  box-shadow: var(--acc-lift);
+}
+.btn.acc:active {
+  box-shadow: none;
+}
+
+.stage,
+.hood {
+  box-shadow: var(--stage-glow);
+}
+.d,
+.item,
+.brief,
+.side,
+.steps li {
+  box-shadow: var(--shine);
+}
+.item:hover,
+.steps li:hover {
+  box-shadow: var(--lift), var(--shine);
+}
+.item:hover {
+  border-color: var(--edge);
+}
+/* recordings of light interfaces glare on a dark page: a thin veil, lifted on hover */
+.screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--veil);
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.screen:hover::after {
+  opacity: 0;
+}
+
+/* the switch: the knob sits under the icon of the theme that is on */
+.theme {
+  display: none;
+  position: relative;
+  grid-template-columns: 30px 30px;
+  padding: 2px;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+.js .theme {
+  display: inline-grid;
+}
+.theme:hover {
+  border-color: var(--edge);
+}
+.theme::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 30px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--ink);
+  transform: translateX(var(--sw-x));
+  transition: transform 0.45s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+.theme span {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 28px;
+  transition:
+    color 0.25s ease,
+    transform 0.45s cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+.theme .sun {
+  color: var(--sw-sun-ink);
+  transform: rotate(var(--sw-sun-rot));
+}
+.theme .moon {
+  color: var(--sw-moon-ink);
+  transform: rotate(var(--sw-moon-rot));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* the new palette opens as a circle from the switch */
+  .theming .screen,
+  .theming .ptop .h {
+    view-transition-name: none;
+  }
+  .theming::view-transition-old(root),
+  .theming::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  .theming::view-transition-old(root) {
+    z-index: 1;
+  }
+  .theming::view-transition-new(root) {
+    z-index: 2;
+    animation: reveal 0.65s cubic-bezier(0.3, 0.7, 0.2, 1) both;
+  }
+  @keyframes reveal {
+    from {
+      clip-path: circle(0 at var(--tx) var(--ty));
+    }
+    to {
+      clip-path: circle(var(--tr) at var(--tx) var(--ty));
+    }
+  }
+  /* browsers without view transitions get a plain cross-fade of the colours */
+  .fading,
+  .fading * {
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease,
+      border-color 0.35s ease !important;
   }
 }

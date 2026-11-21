@@ -39,6 +39,8 @@ function layout(
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#eef1f5">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0e17">
 <title>${esc(opts.title)}</title>
 <meta name="description" content="${esc(opts.desc)}">
 <link rel="canonical" href="${ORIGIN}${opts.path(lang)}">
