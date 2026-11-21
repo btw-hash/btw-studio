@@ -9,6 +9,29 @@
     });
   }
 
+  var themeButton = document.getElementById('theme');
+  if (themeButton) {
+    var root = document.documentElement;
+    var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+    var isDark = function () {
+      var chosen = root.getAttribute('data-theme');
+      return chosen ? chosen === 'dark' : systemDark.matches;
+    };
+    var syncTheme = function () {
+      themeButton.setAttribute('aria-pressed', isDark() ? 'true' : 'false');
+    };
+    themeButton.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try {
+        localStorage.setItem('theme', next);
+      } catch (e) {}
+      syncTheme();
+    });
+    if (systemDark.addEventListener) systemDark.addEventListener('change', syncTheme);
+    syncTheme();
+  }
+
   var clips = document.querySelector('.clips');
   if (clips && clips.children.length > 1) {
     var figs = clips.children;

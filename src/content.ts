@@ -1528,6 +1528,7 @@ export const ui = {
     footer: { rights: 'BTW Studio', github: 'GitHub' },
     notFound: { title: 'This page does not exist.', back: 'Back to the work' },
     langName: 'Українською',
+    theme: 'Dark theme',
   },
   uk: {
     htmlLang: 'uk',
@@ -1711,6 +1712,7 @@ export const ui = {
     footer: { rights: 'BTW Studio', github: 'GitHub' },
     notFound: { title: 'Такої сторінки немає.', back: 'Повернутися до робіт' },
     langName: 'English',
+    theme: 'Темна тема',
   },
 } as const;
 

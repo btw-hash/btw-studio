@@ -232,9 +232,51 @@
   --stage-ink: #ffffff;
   --chan: #1c2536;
   --chan-on: #283349;
+  --sw-sun: var(--ink);
+  --sw-sun-ink: var(--bg);
+  --sw-moon: transparent;
+  --sw-moon-ink: var(--soft);
+  color-scheme: light;
   --display: 'Bricolage Grotesque', 'Inter Tight', system-ui, sans-serif;
   --body: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+}
+/* the dark palette: once for the system setting, once for the switch in the header */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #0f141c;
+    --ink: #e8ecf3;
+    --soft: #a3adbd;
+    --acc: #ff6a3d;
+    --acc-text: #ff8a63;
+    --card: #161d29;
+    --line: #2c3648;
+    --stage: #1b2433;
+    --chan: #253044;
+    --chan-on: #31405a;
+    --sw-sun: transparent;
+    --sw-sun-ink: var(--soft);
+    --sw-moon: var(--ink);
+    --sw-moon-ink: var(--bg);
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #0f141c;
+  --ink: #e8ecf3;
+  --soft: #a3adbd;
+  --acc: #ff6a3d;
+  --acc-text: #ff8a63;
+  --card: #161d29;
+  --line: #2c3648;
+  --stage: #1b2433;
+  --chan: #253044;
+  --chan-on: #31405a;
+  --sw-sun: transparent;
+  --sw-sun-ink: var(--soft);
+  --sw-moon: var(--ink);
+  --sw-moon-ink: var(--bg);
+  color-scheme: dark;
 }
 * {
   box-sizing: border-box;
@@ -314,6 +356,37 @@ nav a:hover {
 }
 nav a.btn:hover {
   text-decoration: none;
+}
+.theme {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 2px;
+  background: none;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.js .theme {
+  display: inline-grid;
+}
+.theme span {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 28px;
+  border-radius: 999px;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+.theme .sun {
+  background: var(--sw-sun);
+  color: var(--sw-sun-ink);
+}
+.theme .moon {
+  background: var(--sw-moon);
+  color: var(--sw-moon-ink);
 }
 .btn.acc {
   background: var(--acc-fill);
@@ -936,7 +1009,7 @@ td {
   /* links sit in a 44px row above the name and the button; the negative top lets that row scroll away */
   .bar {
     display: grid;
-    grid-template-columns: auto auto 1fr;
+    grid-template-columns: auto auto auto 1fr;
     gap: 0 16px;
     padding-top: 0;
     padding-bottom: 8px;
@@ -963,8 +1036,14 @@ td {
   }
   nav a.btn {
     grid-row: 2;
-    grid-column: 3;
+    grid-column: 3 / span 2;
     justify-self: end;
+  }
+  .theme {
+    grid-row: 1;
+    grid-column: 4;
+    justify-self: end;
+    align-self: center;
   }
   .btn {
     padding-top: 13px;

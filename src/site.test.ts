@@ -70,6 +70,17 @@ describe('pages', () => {
     expect(renderHome('en', 'some_bot')).not.toContain(ui.en.brief.errors.down);
   });
 
+  it('offers a dark theme: the palette, the switch and the saved choice read before paint', async () => {
+    const html = await (await fetch(`${base}/uk`)).text();
+    expect(html).toContain(`id="theme" aria-pressed="false" aria-label="${ui.uk.theme}"`);
+    expect(html).toContain("localStorage.getItem('theme')");
+    expect(html).toContain('<meta name="color-scheme" content="light dark">');
+    const css = await (await fetch(`${base}/styles.css`)).text();
+    expect(css).toContain('@media (prefers-color-scheme: dark)');
+    expect(css).toContain(":root:not([data-theme='light'])");
+    expect(css).toContain(":root[data-theme='dark']");
+  });
+
   it('serves every project page in both languages', async () => {
     for (const p of projects) {
       for (const lang of ['en', 'uk'] as const) {
