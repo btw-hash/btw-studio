@@ -9,7 +9,14 @@ import {
   type DeliveryConfig,
 } from './brief.js';
 import { findProject, type Lang } from './content.js';
-import { INLINE_JS, renderHome, renderNotFound, renderProject, renderSitemap } from './render.js';
+import {
+  INLINE_JS,
+  renderHome,
+  renderNotFound,
+  renderPrivacy,
+  renderProject,
+  renderSitemap,
+} from './render.js';
 
 const CSP = [
   "default-src 'self'",
@@ -120,6 +127,9 @@ export function createApp(
     const base = lang === 'uk' ? '/uk' : '';
     app.get(base || '/', (_req, res) => {
       res.type('html').send(renderHome(lang, options.site?.botUsername));
+    });
+    app.get(`${base}/privacy`, (_req, res) => {
+      res.type('html').send(renderPrivacy(lang));
     });
     app.get(`${base}/work/:slug`, (req, res) => {
       const project = findProject(req.params.slug);
