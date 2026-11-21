@@ -37,6 +37,136 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: 'agent-dashboard',
+    kind: 'live',
+    demo: 'https://office.btwstudio.dev',
+    repo: 'https://github.com/btw-hash/agent-dashboard',
+    video: true,
+    poster: 'agent-dashboard.webp',
+    onStage: true,
+    text: {
+      en: {
+        name: 'agent-dashboard',
+        title: ['See your agents', 'at work.'],
+        line: 'A real-time office for running AI coding agents: who is working, on what, and who has been idle too long.',
+        stage:
+          'A real-time office for running AI agents: who is working, on what, and who is stuck.',
+        problem:
+          'Several agents run in parallel terminals. A wall of logs does not tell you at a glance which one is busy and which one stopped an hour ago.',
+        built:
+          'The server watches the session logs and pushes changes to the browser, where each session is a person in a pixel office: at a desk while it works, off to the break rooms when it is idle. Click a person to see what the agent is doing. Any other bot joins with one HTTP request.',
+        proof: [
+          ['Updates', 'pushed live over WebSocket'],
+          ['Leaves your machine', 'no project names, paths or message text'],
+          ['Source', 'open'],
+        ],
+        facts: [
+          ['Built with', 'Node.js, Canvas 2D, WebSocket'],
+          ['Runs as', 'A local server next to your agents'],
+          ['Good fit for', 'Teams running several coding agents at once'],
+        ],
+        study: {
+          plain:
+            'When several AI coding agents run at once, it is hard to tell who is busy. Here each agent is a small character in a pixel office: at a desk while it works, wandering off when it is idle. One look tells you who stopped.',
+          steps: [
+            [
+              'Start it next to your agents',
+              'A small local server finds the running sessions by itself.',
+            ],
+            [
+              'Watch the office',
+              'A character sits down when its agent uses a tool and gets up when the agent goes quiet.',
+            ],
+            [
+              'Click a person',
+              'A card shows what the agent is doing right now: reading a file, running a command, thinking.',
+            ],
+          ],
+          flow: [
+            { label: 'Session logs', note: 'Files the coding agents already write' },
+            { label: 'Watcher', note: 'Reads new lines as they appear' },
+            { label: 'Server', note: 'Node.js, keeps the state of each agent' },
+            { label: 'Live channel', note: 'WebSocket' },
+            { label: 'Office', note: 'Canvas 2D in the browser' },
+          ],
+          decisions: [
+            [
+              'Read the logs, change nothing',
+              'The agents are not modified or wrapped. The dashboard only reads files they already write.',
+            ],
+            [
+              'Nothing private leaves the server',
+              'The browser receives anonymous people with a state and a kind of action. Project names, file paths and message text stay on the machine.',
+            ],
+            [
+              'A scene instead of a table',
+              'Busy and idle are visible from across the room, which a list of statuses is not.',
+            ],
+          ],
+        },
+      },
+      uk: {
+        name: 'agent-dashboard',
+        title: ['Бачте, як працюють', 'ваші агенти.'],
+        line: 'Офіс у реальному часі для ШІ-агентів, що пишуть код: хто працює, над чим і хто надто довго простоює.',
+        stage: 'Офіс у реальному часі для ШІ-агентів: хто працює, над чим і хто завис.',
+        problem:
+          'Кілька агентів працюють у паралельних терміналах. Стіна логів не показує одразу, хто зайнятий, а хто зупинився годину тому.',
+        built:
+          'Сервер стежить за журналами сесій і надсилає зміни в браузер, де кожна сесія — людина в піксельному офісі: за столом, коли працює, і в кімнатах відпочинку, коли простоює. Клацніть людину, щоб побачити, що робить агент. Будь-який інший бот підключається одним HTTP-запитом.',
+        proof: [
+          ['Оновлення', 'наживо через WebSocket'],
+          ['Назовні', 'жодних назв проєктів, шляхів чи тексту повідомлень'],
+          ['Код', 'відкритий'],
+        ],
+        facts: [
+          ['Стек', 'Node.js, Canvas 2D, WebSocket'],
+          ['Запуск', 'Локальний сервер поруч з агентами'],
+          ['Кому підійде', 'Командам, де працює кілька агентів одночасно'],
+        ],
+        study: {
+          plain:
+            'Коли кілька ШІ-агентів пишуть код одночасно, важко зрозуміти, хто зайнятий. Тут кожен агент — маленький персонаж у піксельному офісі: за столом, поки працює, і блукає, коли простоює. Одного погляду досить, щоб побачити, хто зупинився.',
+          steps: [
+            [
+              'Запустіть поруч з агентами',
+              'Невеликий локальний сервер сам знаходить активні сесії.',
+            ],
+            [
+              'Дивіться на офіс',
+              'Персонаж сідає, коли його агент викликає інструмент, і встає, коли агент затих.',
+            ],
+            [
+              'Клацніть людину',
+              'Картка показує, що агент робить просто зараз: читає файл, виконує команду, думає.',
+            ],
+          ],
+          flow: [
+            { label: 'Журнали сесій', note: 'Файли, які агенти й так пишуть' },
+            { label: 'Спостерігач', note: 'Читає нові рядки, щойно з’являються' },
+            { label: 'Сервер', note: 'Node.js, тримає стан кожного агента' },
+            { label: 'Живий канал', note: 'WebSocket' },
+            { label: 'Офіс', note: 'Canvas 2D у браузері' },
+          ],
+          decisions: [
+            [
+              'Читати журнали, нічого не міняти',
+              'Агентів не змінюють і не обгортають. Панель лише читає файли, які вони вже пишуть.',
+            ],
+            [
+              'Нічого приватного не виходить із сервера',
+              'Браузер отримує знеособлених людей зі станом і типом дії. Назви проєктів, шляхи до файлів і текст повідомлень лишаються на машині.',
+            ],
+            [
+              'Сцена замість таблиці',
+              'Хто зайнятий, а хто простоює, видно здалеку — зі списку статусів так не побачиш.',
+            ],
+          ],
+        },
+      },
+    },
+  },
+  {
     slug: 'crm-pro',
     kind: 'live',
     demo: 'https://crm-pro.btwstudio.dev',
@@ -176,6 +306,228 @@ export const projects: Project[] = [
             [
               'Шість ролей, один код',
               'У кожної ролі свій робочий простір. Технолог працює з чергою тестів, де немає комерційних даних.',
+            ],
+          ],
+        },
+      },
+    },
+  },
+  {
+    slug: 'nox',
+    kind: 'private',
+    repo: 'https://github.com/btw-hash/nox',
+    video: true,
+    poster: 'nox.webp',
+    onStage: true,
+    tour: {
+      file: 'nox-tour-en',
+      label: {
+        en: 'The whole app in two and a half minutes, with the interface switched to English for the recording. Demo data; chat replies are replayed from a script.',
+        uk: 'Увесь застосунок за дві з половиною хвилини, інтерфейс для запису перемкнено на англійську. Демо-дані; відповіді чату відтворено зі сценарію.',
+      },
+    },
+    clips: [
+      {
+        file: 'nox-chat',
+        label: {
+          en: 'Chat: an answer with its steps, a result card, search across conversations',
+          uk: 'Чат: відповідь із кроками, картка результату, пошук у всіх розмовах',
+        },
+      },
+      {
+        file: 'nox-events',
+        label: {
+          en: 'Events: signals grouped by source, read on sight, archived with a swipe',
+          uk: 'Події: сигнали згруповані за джерелом, прочитане зникає саме, свайп прибирає в архів',
+        },
+      },
+      {
+        file: 'nox-watchdog',
+        label: {
+          en: 'Watchdog: one alert per outage, false alarms swallowed with a diagnosis',
+          uk: 'Сторож: одна тривога на відключення, хибні тривоги заглушено з діагнозом',
+        },
+      },
+      {
+        file: 'nox-tasks',
+        label: {
+          en: 'Tasks and projects: today, deadlines, progress per project',
+          uk: 'Задачі та проєкти: сьогодні, дедлайни, прогрес за проєктами',
+        },
+      },
+      {
+        file: 'nox-planner',
+        label: {
+          en: 'Planner: counters, checklists, a study journal, unfinished items carried over',
+          uk: 'Щоденник: лічильники, списки, журнал навчання, незроблене переноситься саме',
+        },
+      },
+      {
+        file: 'nox-money',
+        label: {
+          en: 'Finances: shared recurring payments, who pays, what is overdue',
+          uk: 'Фінанси: спільні регулярні платежі, хто платить, що прострочено',
+        },
+      },
+      {
+        file: 'nox-home',
+        label: {
+          en: 'Home: the power schedule, devices, the server and model limits',
+          uk: 'Дім: графік світла, пристрої, сервер і ліміти моделі',
+        },
+      },
+      {
+        file: 'nox-mail',
+        label: {
+          en: 'Mail: what matters first, phishing quarantined, the reason for each verdict',
+          uk: 'Пошта: важливе зверху, фішинг у карантині, причина кожного рішення',
+        },
+      },
+      {
+        file: 'nox-news',
+        label: {
+          en: 'News: a feed by topic with a short summary of each item',
+          uk: 'Новини: стрічка за темами з коротким переказом кожної',
+        },
+      },
+      {
+        file: 'nox-content',
+        label: {
+          en: 'Content: drafts and scheduled posts for a Telegram channel',
+          uk: 'Контент: чернетки та заплановані пости для Telegram-каналу',
+        },
+      },
+    ],
+    text: {
+      en: {
+        name: 'nox',
+        title: ['A personal assistant', 'in daily use.'],
+        line: 'A Telegram bot, an Android app and a background agent on a self-hosted server. It has run every day since April 2026.',
+        stage:
+          'A personal assistant in daily use: chat, events, a server watchdog and a planner in one phone app. Recorded on demo data.',
+        problem:
+          'Tasks, mail, client replies and server alerts arrive in different places, and most assistants are demos that nobody uses a month later.',
+        built:
+          'One assistant reachable from a chat and a phone app. Incoming signals become cards with one notification per batch. A watchdog monitors the server it runs on: one outage produces one alert, and a narrow set of repairs happens without a human.',
+        proof: [
+          ['In daily use since', 'April 2026'],
+          ['Releases shipped through pull requests', '60'],
+          ['Side effects', 'smoke-tested against the live system'],
+        ],
+        proofNote:
+          'The recordings use a fictional owner and seeded data; the app is used in Ukrainian, and its interface was switched to English for the recordings.',
+        facts: [
+          ['Built with', 'TypeScript, grammY, SQLite, Claude Agent SDK'],
+          ['Clients', 'Telegram, Android with over-the-air updates'],
+          ['Code', 'Private; the showcase repository describes the design'],
+        ],
+        study: {
+          plain:
+            'One assistant for the small things that eat a day: tasks, mail that needs an answer, client messages, and the health of the server it runs on. It lives in Telegram and in a phone app, and it has been in daily use since April 2026.',
+          steps: [
+            [
+              'Talk to it',
+              'Ask in chat or by voice. The answer shows the steps it took and a result card.',
+            ],
+            [
+              'Let it sort the noise',
+              'Incoming signals arrive as grouped cards, one notification per batch.',
+            ],
+            [
+              'Let it watch the server',
+              'One outage gives one alert. A short list of repairs it carries out by itself.',
+            ],
+          ],
+          flow: [
+            { label: 'Clients', note: 'Telegram bot and an Android app' },
+            { label: 'API', note: 'One door for every client' },
+            { label: 'Core', note: 'Tasks, mail, events, planner' },
+            { label: 'Memory and model', note: 'SQLite for state, Claude for reasoning' },
+            { label: 'Watchdog', note: 'On a schedule: checks the server, repairs a narrow list' },
+          ],
+          flowNote: 'Speech is transcribed locally on a GPU before it reaches the model.',
+          decisions: [
+            [
+              'One alert per outage',
+              'While the server is known to be down, alerts about everything that depends on it are held back.',
+            ],
+            [
+              'Repairs are a short, named list',
+              'It may restart one named container. Anything wider waits for a person.',
+            ],
+            [
+              'Unused features get deleted',
+              'A usage audit over the full history retired ten modules that nobody opened.',
+            ],
+            [
+              'The interface updates without reinstalling',
+              'The Android shell is rebuilt only when native code changes; the rest arrives over the air.',
+            ],
+          ],
+        },
+      },
+      uk: {
+        name: 'nox',
+        title: ['Особистий асистент', 'у щоденній роботі.'],
+        line: 'Telegram-бот, застосунок для Android і фоновий агент на власному сервері. Працює щодня з квітня 2026 року.',
+        stage:
+          'Особистий асистент у щоденній роботі: чат, події, сторож сервера і щоденник в одному застосунку. Записано на демо-даних.',
+        problem:
+          'Завдання, пошта, відповіді клієнтів і тривоги сервера приходять у різні місця, а більшість асистентів — це демо, яким за місяць ніхто не користується.',
+        built:
+          'Один асистент, доступний із чату та з телефона. Вхідні сигнали стають картками з одним сповіщенням на пачку. Сторож стежить за сервером, на якому працює: одне відключення дає одну тривогу, а вузький набір ремонтів виконується без людини.',
+        proof: [
+          ['У щоденній роботі з', 'квітня 2026'],
+          ['Релізи через pull request', '60'],
+          ['Побічні дії', 'перевірені на живій системі'],
+        ],
+        proofNote: 'Записи зроблено на вигаданому власникові та демо-даних.',
+        facts: [
+          ['Стек', 'TypeScript, grammY, SQLite, Claude Agent SDK'],
+          ['Клієнти', 'Telegram, Android з оновленням без перевстановлення'],
+          ['Код', 'Приватний; архітектуру описано в репозиторії-вітрині'],
+        ],
+        study: {
+          plain:
+            'Один асистент для дрібниць, що з’їдають день: задачі, листи, які чекають відповіді, повідомлення клієнтів і стан сервера, на якому він сам працює. Живе в Telegram і в застосунку на телефоні, у щоденній роботі з квітня 2026 року.',
+          steps: [
+            [
+              'Поговоріть з ним',
+              'Запитайте в чаті або голосом. У відповіді видно кроки, які він зробив, і картку результату.',
+            ],
+            [
+              'Дайте йому розібрати шум',
+              'Вхідні сигнали приходять згрупованими картками, одне сповіщення на пачку.',
+            ],
+            [
+              'Дайте йому стежити за сервером',
+              'Одне відключення — одна тривога. Короткий перелік ремонтів він виконує сам.',
+            ],
+          ],
+          flow: [
+            { label: 'Клієнти', note: 'Telegram-бот і застосунок для Android' },
+            { label: 'API', note: 'Одні двері для всіх клієнтів' },
+            { label: 'Ядро', note: 'Задачі, пошта, події, щоденник' },
+            { label: 'Пам’ять і модель', note: 'SQLite для стану, Claude для міркувань' },
+            { label: 'Сторож', note: 'За розкладом: перевіряє сервер, лагодить вузький перелік' },
+          ],
+          flowNote: 'Мовлення розпізнається локально на відеокарті, перш ніж потрапити до моделі.',
+          decisions: [
+            [
+              'Одна тривога на відключення',
+              'Поки відомо, що сервер лежить, тривоги про все залежне від нього притримуються.',
+            ],
+            [
+              'Ремонти — короткий іменований перелік',
+              'Він може перезапустити один названий контейнер. Усе ширше чекає на людину.',
+            ],
+            [
+              'Непотрібні функції видаляються',
+              'Аудит використання за всю історію прибрав десять модулів, які ніхто не відкривав.',
+            ],
+            [
+              'Інтерфейс оновлюється без перевстановлення',
+              'Оболонку для Android перезбирають лише при зміні нативного коду; решта приходить повітрям.',
             ],
           ],
         },
@@ -488,358 +840,6 @@ export const projects: Project[] = [
             [
               'Обмеження записані',
               'Ціни без копійок, перенесені описи та скановані сторінки перелічено в репозиторії як відомі прогалини.',
-            ],
-          ],
-        },
-      },
-    },
-  },
-  {
-    slug: 'agent-dashboard',
-    kind: 'live',
-    demo: 'https://office.btwstudio.dev',
-    repo: 'https://github.com/btw-hash/agent-dashboard',
-    video: true,
-    poster: 'agent-dashboard.webp',
-    onStage: true,
-    text: {
-      en: {
-        name: 'agent-dashboard',
-        title: ['See your agents', 'at work.'],
-        line: 'A real-time office for running AI coding agents: who is working, on what, and who has been idle too long.',
-        stage:
-          'A real-time office for running AI agents: who is working, on what, and who is stuck.',
-        problem:
-          'Several agents run in parallel terminals. A wall of logs does not tell you at a glance which one is busy and which one stopped an hour ago.',
-        built:
-          'The server watches the session logs and pushes changes to the browser, where each session is a person in a pixel office: at a desk while it works, off to the break rooms when it is idle. Click a person to see what the agent is doing. Any other bot joins with one HTTP request.',
-        proof: [
-          ['Updates', 'pushed live over WebSocket'],
-          ['Leaves your machine', 'no project names, paths or message text'],
-          ['Source', 'open'],
-        ],
-        facts: [
-          ['Built with', 'Node.js, Canvas 2D, WebSocket'],
-          ['Runs as', 'A local server next to your agents'],
-          ['Good fit for', 'Teams running several coding agents at once'],
-        ],
-        study: {
-          plain:
-            'When several AI coding agents run at once, it is hard to tell who is busy. Here each agent is a small character in a pixel office: at a desk while it works, wandering off when it is idle. One look tells you who stopped.',
-          steps: [
-            [
-              'Start it next to your agents',
-              'A small local server finds the running sessions by itself.',
-            ],
-            [
-              'Watch the office',
-              'A character sits down when its agent uses a tool and gets up when the agent goes quiet.',
-            ],
-            [
-              'Click a person',
-              'A card shows what the agent is doing right now: reading a file, running a command, thinking.',
-            ],
-          ],
-          flow: [
-            { label: 'Session logs', note: 'Files the coding agents already write' },
-            { label: 'Watcher', note: 'Reads new lines as they appear' },
-            { label: 'Server', note: 'Node.js, keeps the state of each agent' },
-            { label: 'Live channel', note: 'WebSocket' },
-            { label: 'Office', note: 'Canvas 2D in the browser' },
-          ],
-          decisions: [
-            [
-              'Read the logs, change nothing',
-              'The agents are not modified or wrapped. The dashboard only reads files they already write.',
-            ],
-            [
-              'Nothing private leaves the server',
-              'The browser receives anonymous people with a state and a kind of action. Project names, file paths and message text stay on the machine.',
-            ],
-            [
-              'A scene instead of a table',
-              'Busy and idle are visible from across the room, which a list of statuses is not.',
-            ],
-          ],
-        },
-      },
-      uk: {
-        name: 'agent-dashboard',
-        title: ['Бачте, як працюють', 'ваші агенти.'],
-        line: 'Офіс у реальному часі для ШІ-агентів, що пишуть код: хто працює, над чим і хто надто довго простоює.',
-        stage: 'Офіс у реальному часі для ШІ-агентів: хто працює, над чим і хто завис.',
-        problem:
-          'Кілька агентів працюють у паралельних терміналах. Стіна логів не показує одразу, хто зайнятий, а хто зупинився годину тому.',
-        built:
-          'Сервер стежить за журналами сесій і надсилає зміни в браузер, де кожна сесія — людина в піксельному офісі: за столом, коли працює, і в кімнатах відпочинку, коли простоює. Клацніть людину, щоб побачити, що робить агент. Будь-який інший бот підключається одним HTTP-запитом.',
-        proof: [
-          ['Оновлення', 'наживо через WebSocket'],
-          ['Назовні', 'жодних назв проєктів, шляхів чи тексту повідомлень'],
-          ['Код', 'відкритий'],
-        ],
-        facts: [
-          ['Стек', 'Node.js, Canvas 2D, WebSocket'],
-          ['Запуск', 'Локальний сервер поруч з агентами'],
-          ['Кому підійде', 'Командам, де працює кілька агентів одночасно'],
-        ],
-        study: {
-          plain:
-            'Коли кілька ШІ-агентів пишуть код одночасно, важко зрозуміти, хто зайнятий. Тут кожен агент — маленький персонаж у піксельному офісі: за столом, поки працює, і блукає, коли простоює. Одного погляду досить, щоб побачити, хто зупинився.',
-          steps: [
-            [
-              'Запустіть поруч з агентами',
-              'Невеликий локальний сервер сам знаходить активні сесії.',
-            ],
-            [
-              'Дивіться на офіс',
-              'Персонаж сідає, коли його агент викликає інструмент, і встає, коли агент затих.',
-            ],
-            [
-              'Клацніть людину',
-              'Картка показує, що агент робить просто зараз: читає файл, виконує команду, думає.',
-            ],
-          ],
-          flow: [
-            { label: 'Журнали сесій', note: 'Файли, які агенти й так пишуть' },
-            { label: 'Спостерігач', note: 'Читає нові рядки, щойно з’являються' },
-            { label: 'Сервер', note: 'Node.js, тримає стан кожного агента' },
-            { label: 'Живий канал', note: 'WebSocket' },
-            { label: 'Офіс', note: 'Canvas 2D у браузері' },
-          ],
-          decisions: [
-            [
-              'Читати журнали, нічого не міняти',
-              'Агентів не змінюють і не обгортають. Панель лише читає файли, які вони вже пишуть.',
-            ],
-            [
-              'Нічого приватного не виходить із сервера',
-              'Браузер отримує знеособлених людей зі станом і типом дії. Назви проєктів, шляхи до файлів і текст повідомлень лишаються на машині.',
-            ],
-            [
-              'Сцена замість таблиці',
-              'Хто зайнятий, а хто простоює, видно здалеку — зі списку статусів так не побачиш.',
-            ],
-          ],
-        },
-      },
-    },
-  },
-  {
-    slug: 'nox',
-    kind: 'private',
-    repo: 'https://github.com/btw-hash/nox',
-    video: true,
-    poster: 'nox.webp',
-    onStage: true,
-    tour: {
-      file: 'nox-tour-en',
-      label: {
-        en: 'The whole app in two and a half minutes, with the interface switched to English for the recording. Demo data; chat replies are replayed from a script.',
-        uk: 'Увесь застосунок за дві з половиною хвилини, інтерфейс для запису перемкнено на англійську. Демо-дані; відповіді чату відтворено зі сценарію.',
-      },
-    },
-    clips: [
-      {
-        file: 'nox-chat',
-        label: {
-          en: 'Chat: an answer with its steps, a result card, search across conversations',
-          uk: 'Чат: відповідь із кроками, картка результату, пошук у всіх розмовах',
-        },
-      },
-      {
-        file: 'nox-events',
-        label: {
-          en: 'Events: signals grouped by source, read on sight, archived with a swipe',
-          uk: 'Події: сигнали згруповані за джерелом, прочитане зникає саме, свайп прибирає в архів',
-        },
-      },
-      {
-        file: 'nox-watchdog',
-        label: {
-          en: 'Watchdog: one alert per outage, false alarms swallowed with a diagnosis',
-          uk: 'Сторож: одна тривога на відключення, хибні тривоги заглушено з діагнозом',
-        },
-      },
-      {
-        file: 'nox-tasks',
-        label: {
-          en: 'Tasks and projects: today, deadlines, progress per project',
-          uk: 'Задачі та проєкти: сьогодні, дедлайни, прогрес за проєктами',
-        },
-      },
-      {
-        file: 'nox-planner',
-        label: {
-          en: 'Planner: counters, checklists, a study journal, unfinished items carried over',
-          uk: 'Щоденник: лічильники, списки, журнал навчання, незроблене переноситься саме',
-        },
-      },
-      {
-        file: 'nox-money',
-        label: {
-          en: 'Finances: shared recurring payments, who pays, what is overdue',
-          uk: 'Фінанси: спільні регулярні платежі, хто платить, що прострочено',
-        },
-      },
-      {
-        file: 'nox-home',
-        label: {
-          en: 'Home: the power schedule, devices, the server and model limits',
-          uk: 'Дім: графік світла, пристрої, сервер і ліміти моделі',
-        },
-      },
-      {
-        file: 'nox-mail',
-        label: {
-          en: 'Mail: what matters first, phishing quarantined, the reason for each verdict',
-          uk: 'Пошта: важливе зверху, фішинг у карантині, причина кожного рішення',
-        },
-      },
-      {
-        file: 'nox-news',
-        label: {
-          en: 'News: a feed by topic with a short summary of each item',
-          uk: 'Новини: стрічка за темами з коротким переказом кожної',
-        },
-      },
-      {
-        file: 'nox-content',
-        label: {
-          en: 'Content: drafts and scheduled posts for a Telegram channel',
-          uk: 'Контент: чернетки та заплановані пости для Telegram-каналу',
-        },
-      },
-    ],
-    text: {
-      en: {
-        name: 'nox',
-        title: ['A personal assistant', 'in daily use.'],
-        line: 'A Telegram bot, an Android app and a background agent on a self-hosted server. It has run every day since April 2026.',
-        stage:
-          'A personal assistant in daily use: chat, events, a server watchdog and a planner in one phone app. Recorded on demo data.',
-        problem:
-          'Tasks, mail, client replies and server alerts arrive in different places, and most assistants are demos that nobody uses a month later.',
-        built:
-          'One assistant reachable from a chat and a phone app. Incoming signals become cards with one notification per batch. A watchdog monitors the server it runs on: one outage produces one alert, and a narrow set of repairs happens without a human.',
-        proof: [
-          ['In daily use since', 'April 2026'],
-          ['Releases shipped through pull requests', '60'],
-          ['Side effects', 'smoke-tested against the live system'],
-        ],
-        proofNote:
-          'The recordings use a fictional owner and seeded data; the app is used in Ukrainian, and its interface was switched to English for the recordings.',
-        facts: [
-          ['Built with', 'TypeScript, grammY, SQLite, Claude Agent SDK'],
-          ['Clients', 'Telegram, Android with over-the-air updates'],
-          ['Code', 'Private; the showcase repository describes the design'],
-        ],
-        study: {
-          plain:
-            'One assistant for the small things that eat a day: tasks, mail that needs an answer, client messages, and the health of the server it runs on. It lives in Telegram and in a phone app, and it has been in daily use since April 2026.',
-          steps: [
-            [
-              'Talk to it',
-              'Ask in chat or by voice. The answer shows the steps it took and a result card.',
-            ],
-            [
-              'Let it sort the noise',
-              'Incoming signals arrive as grouped cards, one notification per batch.',
-            ],
-            [
-              'Let it watch the server',
-              'One outage gives one alert. A short list of repairs it carries out by itself.',
-            ],
-          ],
-          flow: [
-            { label: 'Clients', note: 'Telegram bot and an Android app' },
-            { label: 'API', note: 'One door for every client' },
-            { label: 'Core', note: 'Tasks, mail, events, planner' },
-            { label: 'Memory and model', note: 'SQLite for state, Claude for reasoning' },
-            { label: 'Watchdog', note: 'On a schedule: checks the server, repairs a narrow list' },
-          ],
-          flowNote: 'Speech is transcribed locally on a GPU before it reaches the model.',
-          decisions: [
-            [
-              'One alert per outage',
-              'While the server is known to be down, alerts about everything that depends on it are held back.',
-            ],
-            [
-              'Repairs are a short, named list',
-              'It may restart one named container. Anything wider waits for a person.',
-            ],
-            [
-              'Unused features get deleted',
-              'A usage audit over the full history retired ten modules that nobody opened.',
-            ],
-            [
-              'The interface updates without reinstalling',
-              'The Android shell is rebuilt only when native code changes; the rest arrives over the air.',
-            ],
-          ],
-        },
-      },
-      uk: {
-        name: 'nox',
-        title: ['Особистий асистент', 'у щоденній роботі.'],
-        line: 'Telegram-бот, застосунок для Android і фоновий агент на власному сервері. Працює щодня з квітня 2026 року.',
-        stage:
-          'Особистий асистент у щоденній роботі: чат, події, сторож сервера і щоденник в одному застосунку. Записано на демо-даних.',
-        problem:
-          'Завдання, пошта, відповіді клієнтів і тривоги сервера приходять у різні місця, а більшість асистентів — це демо, яким за місяць ніхто не користується.',
-        built:
-          'Один асистент, доступний із чату та з телефона. Вхідні сигнали стають картками з одним сповіщенням на пачку. Сторож стежить за сервером, на якому працює: одне відключення дає одну тривогу, а вузький набір ремонтів виконується без людини.',
-        proof: [
-          ['У щоденній роботі з', 'квітня 2026'],
-          ['Релізи через pull request', '60'],
-          ['Побічні дії', 'перевірені на живій системі'],
-        ],
-        proofNote: 'Записи зроблено на вигаданому власникові та демо-даних.',
-        facts: [
-          ['Стек', 'TypeScript, grammY, SQLite, Claude Agent SDK'],
-          ['Клієнти', 'Telegram, Android з оновленням без перевстановлення'],
-          ['Код', 'Приватний; архітектуру описано в репозиторії-вітрині'],
-        ],
-        study: {
-          plain:
-            'Один асистент для дрібниць, що з’їдають день: задачі, листи, які чекають відповіді, повідомлення клієнтів і стан сервера, на якому він сам працює. Живе в Telegram і в застосунку на телефоні, у щоденній роботі з квітня 2026 року.',
-          steps: [
-            [
-              'Поговоріть з ним',
-              'Запитайте в чаті або голосом. У відповіді видно кроки, які він зробив, і картку результату.',
-            ],
-            [
-              'Дайте йому розібрати шум',
-              'Вхідні сигнали приходять згрупованими картками, одне сповіщення на пачку.',
-            ],
-            [
-              'Дайте йому стежити за сервером',
-              'Одне відключення — одна тривога. Короткий перелік ремонтів він виконує сам.',
-            ],
-          ],
-          flow: [
-            { label: 'Клієнти', note: 'Telegram-бот і застосунок для Android' },
-            { label: 'API', note: 'Одні двері для всіх клієнтів' },
-            { label: 'Ядро', note: 'Задачі, пошта, події, щоденник' },
-            { label: 'Пам’ять і модель', note: 'SQLite для стану, Claude для міркувань' },
-            { label: 'Сторож', note: 'За розкладом: перевіряє сервер, лагодить вузький перелік' },
-          ],
-          flowNote: 'Мовлення розпізнається локально на відеокарті, перш ніж потрапити до моделі.',
-          decisions: [
-            [
-              'Одна тривога на відключення',
-              'Поки відомо, що сервер лежить, тривоги про все залежне від нього притримуються.',
-            ],
-            [
-              'Ремонти — короткий іменований перелік',
-              'Він може перезапустити один названий контейнер. Усе ширше чекає на людину.',
-            ],
-            [
-              'Непотрібні функції видаляються',
-              'Аудит використання за всю історію прибрав десять модулів, які ніхто не відкривав.',
-            ],
-            [
-              'Інтерфейс оновлюється без перевстановлення',
-              'Оболонку для Android перезбирають лише при зміні нативного коду; решта приходить повітрям.',
             ],
           ],
         },
@@ -1359,10 +1359,22 @@ export const ui = {
     htmlLang: 'en',
     siteTitle: 'BTW Studio — AI subcontractor for agencies and studios',
     siteDesc:
-      'We build assistants, document pipelines and agents for agencies and their clients, under the agency brand. Live demos you can open.',
-    nav: { work: 'Work', method: 'Method', brief: 'Write to us' },
+      'We build assistants, document automation and agents for agencies and their clients, under the agency brand. Live demos you can open.',
+    nav: { work: 'Work', method: 'Method', brief: 'Get an estimate' },
     hero: ['Your client asked for AI.', 'We build that part.'],
-    sub: 'BTW Studio is a subcontractor for agencies and studios. You sell the project and run it. We build the assistant, the document pipeline or the agent, and hand it to you tested and deployed.',
+    sub: 'BTW Studio is a subcontractor for agencies and studios. You sell the project and run it. We build the assistant, the document automation or the agent, and hand it to you tested and deployed.',
+    cta: {
+      label: 'Get a written estimate',
+      note: 'Scope, timeline and price within one working day.',
+    },
+    stageTitle: 'Open what we built and try it yourself',
+    task: {
+      'crm-pro': 'Sales CRM with an assistant',
+      citewise: 'Answers from company documents',
+      docfields: 'Invoices into checked data',
+      'agent-dashboard': 'Live view of AI agents',
+      nox: 'Personal assistant',
+    },
     stageGroup: 'Project',
     kind: { live: 'live demo', code: 'open source', private: 'private code' },
     open: 'Open the demo',
@@ -1370,7 +1382,7 @@ export const ui = {
     how: 'How it was built',
     doors: {
       agency: {
-        title: 'How we work with agencies',
+        title: 'Your brand, your client, your invoice',
         points: [
           'Under your brand, under NDA.',
           'We write to you. Your client never hears from us.',
@@ -1383,20 +1395,22 @@ export const ui = {
         text: 'Product teams hire us for the same work. We build the feature in your repository and leave it with tests and notes your engineers can follow.',
       },
     },
-    methodTitle: 'How we work',
+    methodTitle: 'What you can count on in every project',
     method: [
       ['Spec before code', 'What we build and what we leave out is written down first.'],
       [
-        'Tests and a real run',
-        'A change ships after the suite passes and the path was exercised live.',
+        'Tested and run live',
+        'You get a working feature, not a prototype: the tests pass and we have run it live.',
       ],
       [
-        'The model is replaceable',
-        'Providers sit behind an interface; swapping one is a one-file change.',
+        'No lock-in to one AI provider',
+        'If prices or quality change, we swap the model without rebuilding the project.',
       ],
       ['In writing', 'Every decision arrives as text you can forward to your client.'],
     ],
-    allWork: 'All work',
+    allWork: 'Everything we have built',
+    workNote:
+      'These are our own products. We built them so you can test our work before you hire us.',
     more: 'Read more',
     brief: {
       title: 'What do you need built?',
@@ -1407,15 +1421,16 @@ export const ui = {
         'Our client runs three clinics and wants an assistant on the site that books visits and answers from their price list.',
       reply: 'Email or Telegram for the reply',
       replyPh: 'name@yourstudio.com',
-      send: 'Send',
+      send: 'Get a written estimate',
       sending: 'Sending…',
-      ok: 'Received. We will reply within one working day.',
+      ok: 'Received. Within one working day you will get a written reply at the contact you left: scope, timeline and price. If something is unclear, we ask one or two questions first.',
       tg: 'Or write to us in Telegram',
       errors: {
         what: 'Describe what to build in at least a sentence.',
         reply: 'Leave an email or a messenger handle so we can answer.',
         rate: 'Too many messages from this address. Try again in a few minutes.',
         down: 'The form is not connected right now. Please reach us through GitHub below.',
+        downTg: 'The form is not connected right now. Please use the Telegram link below.',
         fail: 'Could not send. Please try again in a minute.',
       },
     },
@@ -1453,9 +1468,21 @@ export const ui = {
     siteTitle: 'BTW Studio — ШІ-субпідрядник для агенцій і студій',
     siteDesc:
       'Робимо асистентів, обробку документів і агентів для агенцій та їхніх клієнтів, під брендом агенції. Живі демо, які можна відкрити.',
-    nav: { work: 'Роботи', method: 'Підхід', brief: 'Написати нам' },
+    nav: { work: 'Роботи', method: 'Підхід', brief: 'Отримати оцінку' },
     hero: ['Клієнт попросив ШІ.', 'Цю частину зробимо ми.'],
     sub: 'BTW Studio працює субпідрядником для агенцій і студій. Ви продаєте проєкт і ведете його. Ми робимо асистента, обробку документів чи агента й передаємо вам протестованим і розгорнутим.',
+    cta: {
+      label: 'Отримати письмову оцінку',
+      note: 'Обсяг, термін і ціна протягом одного робочого дня.',
+    },
+    stageTitle: 'Відкрийте те, що ми зробили, і спробуйте самі',
+    task: {
+      'crm-pro': 'CRM для продажів з асистентом',
+      citewise: 'Відповіді за документами компанії',
+      docfields: 'Рахунки в перевірені дані',
+      'agent-dashboard': 'ШІ-агенти в реальному часі',
+      nox: 'Особистий асистент',
+    },
     stageGroup: 'Проєкт',
     kind: { live: 'живе демо', code: 'відкритий код', private: 'приватний код' },
     open: 'Відкрити демо',
@@ -1463,7 +1490,7 @@ export const ui = {
     how: 'Як це зроблено',
     doors: {
       agency: {
-        title: 'Як ми працюємо з агенціями',
+        title: 'Ваш бренд, ваш клієнт, ваш рахунок',
         points: [
           'Під вашим брендом, з NDA.',
           'Пишемо вам. Ваш клієнт про нас не чує.',
@@ -1476,20 +1503,25 @@ export const ui = {
         text: 'Продуктові команди замовляють у нас ту саму роботу. Робимо функцію у вашому репозиторії й залишаємо її з тестами та нотатками, зрозумілими вашим інженерам.',
       },
     },
-    methodTitle: 'Як ми працюємо',
+    methodTitle: 'На що ви можете розраховувати в кожному проєкті',
     method: [
       [
         'Спершу специфікація',
         'Що будуємо і що свідомо лишаємо поза межами, записано до першого рядка коду.',
       ],
-      ['Тести і справжній запуск', 'Зміна виходить після зелених тестів і перевірки шляху наживо.'],
       [
-        'Модель можна замінити',
-        'Постачальники стоять за інтерфейсом; заміна — це зміна одного файлу.',
+        'Протестовано й запущено наживо',
+        'Ви отримуєте робочу функцію, а не прототип: тести проходять, і ми запустили її наживо.',
+      ],
+      [
+        "Без прив'язки до одного постачальника ШІ",
+        'Якщо зміняться ціни чи якість, модель замінюємо без переробки проєкту.',
       ],
       ['Письмово', 'Кожне рішення приходить текстом, який можна переслати клієнтові.'],
     ],
-    allWork: 'Усі роботи',
+    allWork: 'Усе, що ми зробили',
+    workNote:
+      'Це наші власні продукти. Ми зробили їх, щоб ви могли перевірити нашу роботу до замовлення.',
     more: 'Докладніше',
     brief: {
       title: 'Що вам потрібно зробити?',
@@ -1500,15 +1532,16 @@ export const ui = {
         'Наш клієнт має три клініки і хоче асистента на сайті, який записує на прийом і відповідає за прайсом.',
       reply: 'Email або Telegram для відповіді',
       replyPh: 'name@yourstudio.com',
-      send: 'Надіслати',
+      send: 'Отримати письмову оцінку',
       sending: 'Надсилаємо…',
-      ok: 'Отримали. Відповімо протягом одного робочого дня.',
+      ok: 'Отримали. Протягом одного робочого дня на залишений контакт прийде письмова відповідь: обсяг, термін і ціна. Якщо щось незрозуміло, спершу поставимо одне-два запитання.',
       tg: 'Або напишіть нам у Telegram',
       errors: {
         what: 'Опишіть завдання хоча б одним реченням.',
         reply: 'Залиште пошту або нік у месенджері, щоб ми могли відповісти.',
         rate: 'Забагато повідомлень із цієї адреси. Спробуйте за кілька хвилин.',
         down: "Форма зараз не під'єднана. Напишіть нам через GitHub нижче.",
+        downTg: "Форма зараз не під'єднана. Скористайтеся посиланням на Telegram нижче.",
         fail: 'Не вдалося надіслати. Спробуйте ще раз за хвилину.',
       },
     },

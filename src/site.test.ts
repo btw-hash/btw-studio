@@ -4,6 +4,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { createApp } from './app.js';
 import { formatBrief, parseBrief, RateLimiter } from './brief.js';
 import { projects, ui } from './content.js';
+import { renderHome } from './render.js';
 
 const root = join(import.meta.dirname, '..');
 
@@ -37,6 +38,22 @@ describe('pages', () => {
     expect(en).toContain('hreflang="uk"');
     expect(uk).toContain(ui.uk.hero[0]);
     expect(uk).toContain('<html lang="uk">');
+  });
+
+  it('leads to the brief from the first screen and keeps the accent for that button', async () => {
+    for (const lang of ['en', 'uk'] as const) {
+      const html = await (await fetch(`${base}${lang === 'uk' ? '/uk' : '/'}`)).text();
+      expect(html).toContain(`<a class="btn acc" href="#brief">${ui[lang].cta.label}</a>`);
+      expect(html).toContain(ui[lang].workNote);
+      expect(html).toContain(`<b>${ui[lang].task.citewise}</b>`);
+      expect(html).not.toContain('downTg');
+    }
+  });
+
+  it('points a failed form at Telegram only when the bot link is on the page', () => {
+    expect(renderHome('en')).toContain(ui.en.brief.errors.down);
+    expect(renderHome('en', 'some_bot')).toContain(ui.en.brief.errors.downTg);
+    expect(renderHome('en', 'some_bot')).not.toContain(ui.en.brief.errors.down);
   });
 
   it('serves every project page in both languages', async () => {

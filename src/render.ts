@@ -108,17 +108,20 @@ export function renderHome(lang: Lang, botUsername?: string): string {
     more: workPath(lang, p.slug),
   }));
   const link = primaryLink(first, lang);
+  const { downTg, ...errors } = t.brief.errors;
 
   const body = `<div class="in">
   <h1 class="h rise">${esc(t.hero[0])} <span>${esc(t.hero[1])}</span></h1>
   <p class="sub rise" style="--i:1">${esc(t.sub)}</p>
-  <section class="stage rise" style="--i:2" id="work" data-stage='${esc(JSON.stringify(stageData))}'>
+  <p class="cta rise" style="--i:1"><a class="btn acc" href="#brief">${esc(t.cta.label)}</a><span>${esc(t.cta.note)}</span></p>
+  <h2 class="sec rise" style="--i:2" id="work">${esc(t.stageTitle)}</h2>
+  <section class="stage rise" style="--i:2" data-stage='${esc(JSON.stringify(stageData))}'>
     <div class="screen" id="screen">${media(first, lang)}</div>
     <div class="chan" role="group" aria-label="${esc(t.stageGroup)}">
       ${stage
         .map(
           (p, i) =>
-            `<button type="button" data-i="${i}" aria-pressed="${i === 0}"><b>${esc(p.text[lang].name)}</b><span>${esc(t.kind[p.kind])}</span></button>`
+            `<button type="button" data-i="${i}" aria-pressed="${i === 0}"><b>${esc((t.task as Record<string, string>)[p.slug] ?? p.text[lang].name)}</b><span>${esc(p.text[lang].name)} · ${esc(t.kind[p.kind])}</span></button>`
         )
         .join('\n      ')}
     </div>
@@ -139,14 +142,15 @@ export function renderHome(lang: Lang, botUsername?: string): string {
   </section>
 
   <section id="method">
-    <h2 class="lab">${esc(t.methodTitle)}</h2>
+    <h2 class="sec">${esc(t.methodTitle)}</h2>
     <div class="how">
       ${t.method.map(([h, p], i) => `<div class="rv" style="--i:${i}"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n      ')}
     </div>
   </section>
 
   <section>
-    <h2 class="lab">${esc(t.allWork)}</h2>
+    <h2 class="sec">${esc(t.allWork)}</h2>
+    <p class="note">${esc(t.workNote)}</p>
     <div class="list">
       ${projects
         .map(
@@ -163,7 +167,7 @@ export function renderHome(lang: Lang, botUsername?: string): string {
 
   <section class="brief rv" id="brief">
     <div><h2>${esc(t.brief.title)}</h2><p class="promise">${esc(t.brief.promise)}</p></div>
-    <form id="brief-form" novalidate data-lang="${lang}" data-msg='${esc(JSON.stringify({ sending: t.brief.sending, ok: t.brief.ok, ...t.brief.errors }))}'>
+    <form id="brief-form" novalidate data-lang="${lang}" data-msg='${esc(JSON.stringify({ sending: t.brief.sending, ok: t.brief.ok, ...errors, down: botUsername ? downTg : errors.down }))}'>
       <label for="f-what">${esc(t.brief.what)}</label>
       <textarea id="f-what" name="what" rows="5" maxlength="2000" required placeholder="${esc(t.brief.whatPh)}"></textarea>
       <label for="f-reply">${esc(t.brief.reply)}</label>
