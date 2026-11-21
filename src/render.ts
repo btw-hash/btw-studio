@@ -17,6 +17,7 @@ const prefix = (lang: Lang) => (lang === 'uk' ? '/uk' : '');
 const other = (lang: Lang): Lang => (lang === 'uk' ? 'en' : 'uk');
 const home = (lang: Lang) => prefix(lang) || '/';
 const workPath = (lang: Lang, slug: string) => `${prefix(lang)}/work/${slug}`;
+const privacyPath = (lang: Lang) => `${prefix(lang)}/privacy`;
 
 function layout(
   lang: Lang,
@@ -73,7 +74,7 @@ ${opts.body}
 </main>
 <footer class="in foot">
   <span>© 2026 ${esc(t.footer.rights)}</span>
-  <a href="https://github.com/btw-hash">${esc(t.footer.github)}</a>
+  <span class="links"><a href="${privacyPath(lang)}">${esc(t.privacy.link)}</a><a href="https://github.com/btw-hash">${esc(t.footer.github)}</a></span>
 </footer>
 <script src="/app.js?v=${V}" defer></script>
 </body>
@@ -149,6 +150,13 @@ export function renderHome(lang: Lang, botUsername?: string): string {
   </section>
 
   <section>
+    <h2 class="sec">${esc(t.promises.title)}</h2>
+    <div class="how">
+      ${t.promises.items.map(([h, p], i) => `<div class="rv" style="--i:${i}"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n      ')}
+    </div>
+  </section>
+
+  <section>
     <h2 class="sec">${esc(t.allWork)}</h2>
     <p class="note">${esc(t.workNote)}</p>
     <div class="list">
@@ -165,8 +173,15 @@ export function renderHome(lang: Lang, botUsername?: string): string {
     </div>
   </section>
 
+  <section>
+    <h2 class="sec">${esc(t.faq.title)}</h2>
+    <div class="faq">
+      ${t.faq.items.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('\n      ')}
+    </div>
+  </section>
+
   <section class="brief rv" id="brief">
-    <div><h2>${esc(t.brief.title)}</h2><p class="promise">${esc(t.brief.promise)}</p></div>
+    <div><h2>${esc(t.brief.title)}</h2><p class="promise">${esc(t.brief.promise)}</p><h3>${esc(t.brief.aboutTitle)}</h3><p class="promise">${esc(t.brief.about)}</p></div>
     <form id="brief-form" novalidate data-lang="${lang}" data-msg='${esc(JSON.stringify({ sending: t.brief.sending, ok: t.brief.ok, ...errors, down: botUsername ? downTg : errors.down }))}'>
       <label for="f-what">${esc(t.brief.what)}</label>
       <textarea id="f-what" name="what" rows="5" maxlength="2000" required placeholder="${esc(t.brief.whatPh)}"></textarea>
@@ -174,6 +189,7 @@ export function renderHome(lang: Lang, botUsername?: string): string {
       <input id="f-reply" name="reply" type="text" maxlength="200" required autocomplete="email" placeholder="${esc(t.brief.replyPh)}">
       <div class="hp" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
       <button type="submit" class="btn acc">${esc(t.brief.send)}</button>
+      <p class="data">${esc(t.brief.data)} <a href="${privacyPath(lang)}">${esc(t.privacy.link)}</a></p>
       <p class="status" id="brief-status" role="status" aria-live="polite"></p>${
         botUsername
           ? `
@@ -299,6 +315,22 @@ export function renderProject(lang: Lang, p: Project): string {
   });
 }
 
+export function renderPrivacy(lang: Lang): string {
+  const t = ui[lang];
+  const body = `<div class="in policy">
+  <h1 class="h">${esc(t.privacy.title)}</h1>
+  <p class="sub">${esc(t.privacy.lead)}</p>
+  ${t.privacy.items.map(([h, p]) => `<h2>${esc(h)}</h2>\n  <p>${esc(p)}</p>`).join('\n  ')}
+  <p><a class="btn" href="${home(lang)}">${esc(t.privacy.back)}</a></p>
+</div>`;
+  return layout(lang, {
+    title: `${t.privacy.title} — BTW Studio`,
+    desc: t.privacy.desc,
+    path: privacyPath,
+    body,
+  });
+}
+
 export function renderSitemap(): string {
   const entry = (path: (l: Lang) => string) =>
     (['en', 'uk'] as const)
@@ -309,7 +341,7 @@ export function renderSitemap(): string {
       .join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${[entry(home), ...projects.map((p) => entry((l) => workPath(l, p.slug)))].join('\n')}
+${[entry(home), ...projects.map((p) => entry((l) => workPath(l, p.slug))), entry(privacyPath)].join('\n')}
 </urlset>`;
 }
 

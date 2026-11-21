@@ -1412,6 +1412,68 @@ export const ui = {
     workNote:
       'These are our own products. We built them so you can test our work before you hire us.',
     more: 'Read more',
+    promises: {
+      title: 'Three promises in writing',
+      items: [
+        ['The price holds', 'After we agree on the scope, the price does not change.'],
+        ['30 days of fixes', 'Any defect found within 30 days of handover is fixed at no cost.'],
+        ['Your client stays yours', 'We work under your brand and never contact your client.'],
+      ],
+    },
+    faq: {
+      title: 'Questions agencies ask first',
+      items: [
+        [
+          'Who owns the code?',
+          'You do. After payment the code and all rights to it pass to your agency.',
+        ],
+        [
+          "Where does our client's data go?",
+          'Only to the AI provider we agree on with you. We do not keep client data after the project is handed over.',
+        ],
+        [
+          'How is payment arranged?',
+          'Half after we agree on the scope, half at handover. We invoice your agency, never your client.',
+        ],
+        [
+          'What if the client changes the task midway?',
+          'We estimate the change in writing before any work on it starts.',
+        ],
+        [
+          'Who supports the project after handover?',
+          'Fixes are free for 30 days. After that, support and new features go by a separate written agreement.',
+        ],
+      ],
+    },
+    privacy: {
+      link: 'Privacy',
+      title: 'Privacy',
+      desc: 'What BTW Studio keeps when you send a brief, and how to have it deleted.',
+      lead: 'This page says what happens to a message you send us. It is short because we keep very little.',
+      items: [
+        [
+          'What we receive',
+          'The text of your message, the email or Telegram handle you leave for the reply, the language of the page and the time of sending. The same applies when you write to our Telegram bot.',
+        ],
+        [
+          'Where it goes',
+          'The message is delivered to us through Telegram, and a copy is kept on our own server. Nobody else gets it.',
+        ],
+        [
+          'What we use it for',
+          'Only to reply to you and, if we work together, to do the work you asked for.',
+        ],
+        [
+          'Cookies and counting',
+          'The site sets no cookies. Visits are counted by Cloudflare Web Analytics, which works without cookies. Your address is used for a few minutes to limit repeated sends and is not saved.',
+        ],
+        [
+          'How to have it deleted',
+          'Reply to our answer or write to the Telegram bot, and we delete your message and contact from the server copy.',
+        ],
+      ],
+      back: 'Back to the home page',
+    },
     brief: {
       title: 'What do you need built?',
       promise:
@@ -1425,6 +1487,10 @@ export const ui = {
       sending: 'Sending…',
       ok: 'Received. Within one working day you will get a written reply at the contact you left: scope, timeline and price. If something is unclear, we ask one or two questions first.',
       tg: 'Or write to us in Telegram',
+      data: 'We use your message only to reply to you.',
+      aboutTitle: 'Who you are writing to',
+      about:
+        'BTW Studio works on Eastern European Time (UTC+2, UTC+3 in summer) and replies in English and Ukrainian. Your message goes to the people who build the work.',
       errors: {
         what: 'Describe what to build in at least a sentence.',
         reply: 'Leave an email or a messenger handle so we can answer.',
@@ -1523,6 +1589,74 @@ export const ui = {
     workNote:
       'Це наші власні продукти. Ми зробили їх, щоб ви могли перевірити нашу роботу до замовлення.',
     more: 'Докладніше',
+    promises: {
+      title: 'Три письмові обіцянки',
+      items: [
+        ['Ціна не змінюється', 'Після погодження обсягу ціна лишається тією самою.'],
+        [
+          '30 днів виправлень',
+          'Будь-який дефект, знайдений протягом 30 днів після передачі, виправляємо безкоштовно.',
+        ],
+        [
+          'Ваш клієнт лишається вашим',
+          'Працюємо під вашим брендом і ніколи не пишемо вашому клієнтові.',
+        ],
+      ],
+    },
+    faq: {
+      title: 'Що агенції питають насамперед',
+      items: [
+        [
+          'Кому належить код?',
+          'Вам. Після оплати код і всі права на нього переходять вашій агенції.',
+        ],
+        [
+          'Куди потрапляють дані нашого клієнта?',
+          'Лише до постачальника ШІ, якого ми погодили з вами. Після передачі проєкту ми не зберігаємо дані клієнта.',
+        ],
+        [
+          'Як відбувається оплата?',
+          'Половина після погодження обсягу, половина під час передачі. Рахунок виставляємо вашій агенції, а не клієнтові.',
+        ],
+        [
+          'Що, як клієнт змінить завдання посеред роботи?',
+          'Зміну оцінюємо письмово до початку роботи над нею.',
+        ],
+        [
+          'Хто підтримує проєкт після передачі?',
+          'Виправлення безкоштовні 30 днів. Далі підтримка й нові функції йдуть за окремою письмовою домовленістю.',
+        ],
+      ],
+    },
+    privacy: {
+      link: 'Конфіденційність',
+      title: 'Конфіденційність',
+      desc: 'Що BTW Studio зберігає, коли ви надсилаєте бриф, і як це видалити.',
+      lead: 'Ця сторінка пояснює, що відбувається з повідомленням, яке ви нам надсилаєте. Вона коротка, бо зберігаємо ми дуже мало.',
+      items: [
+        [
+          'Що ми отримуємо',
+          'Текст вашого повідомлення, пошту або нік у Telegram для відповіді, мову сторінки й час надсилання. Те саме стосується повідомлень нашому Telegram-боту.',
+        ],
+        [
+          'Куди це потрапляє',
+          'Повідомлення надходить до нас через Telegram, а копія зберігається на нашому власному сервері. Більше ніхто його не отримує.',
+        ],
+        [
+          'Для чого ми це використовуємо',
+          'Лише щоб відповісти вам і, якщо ми працюватимемо разом, виконати замовлену роботу.',
+        ],
+        [
+          'Cookies і лічильник',
+          'Сайт не ставить cookies. Відвідування рахує Cloudflare Web Analytics, який працює без cookies. Вашу адресу використовуємо кілька хвилин, щоб обмежити повторні надсилання, і не зберігаємо.',
+        ],
+        [
+          'Як це видалити',
+          'Дайте відповідь на наш лист або напишіть Telegram-боту, і ми видалимо ваше повідомлення та контакт із копії на сервері.',
+        ],
+      ],
+      back: 'Повернутися на головну',
+    },
     brief: {
       title: 'Що вам потрібно зробити?',
       promise:
@@ -1536,6 +1670,10 @@ export const ui = {
       sending: 'Надсилаємо…',
       ok: 'Отримали. Протягом одного робочого дня на залишений контакт прийде письмова відповідь: обсяг, термін і ціна. Якщо щось незрозуміло, спершу поставимо одне-два запитання.',
       tg: 'Або напишіть нам у Telegram',
+      data: 'Ваше повідомлення використовуємо лише для відповіді вам.',
+      aboutTitle: 'Кому ви пишете',
+      about:
+        'BTW Studio працює за східноєвропейським часом (UTC+2, влітку UTC+3) і відповідає англійською та українською. Ваше повідомлення читають ті, хто виконує роботу.',
       errors: {
         what: 'Опишіть завдання хоча б одним реченням.',
         reply: 'Залиште пошту або нік у месенджері, щоб ми могли відповісти.',

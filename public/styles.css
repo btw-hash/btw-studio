@@ -677,6 +677,50 @@ form .btn {
 .alt {
   margin: 2px 0 0;
 }
+.data {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--soft);
+}
+.brief h3 {
+  font: 700 17px var(--display);
+  margin: 22px 0 4px;
+}
+.faq {
+  border-top: 2px solid var(--line);
+  margin-bottom: 30px;
+  max-width: 780px;
+}
+.faq details {
+  border-bottom: 2px solid var(--line);
+}
+.faq summary {
+  font: 700 19px / 1.2 var(--display);
+  padding: 14px 0;
+  cursor: pointer;
+}
+.faq p {
+  margin: 0 0 16px;
+  color: var(--soft);
+  max-width: 64ch;
+}
+.policy {
+  padding-bottom: 40px;
+}
+.policy h2 {
+  font: 700 22px var(--display);
+  margin: 24px 0 6px;
+}
+.policy p {
+  margin: 0 0 8px;
+  max-width: 64ch;
+}
+.policy .btn {
+  margin-top: 20px;
+}
+.foot .links {
+  gap: 18px;
+}
 .hp {
   position: absolute;
   left: -9999px;

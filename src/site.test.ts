@@ -50,6 +50,20 @@ describe('pages', () => {
     }
   });
 
+  it('shows the promises, the questions and a privacy page linked from the form', async () => {
+    for (const lang of ['en', 'uk'] as const) {
+      const base2 = `${base}${lang === 'uk' ? '/uk' : ''}`;
+      const html = await (await fetch(`${base2}/`)).text();
+      expect(html).toContain(ui[lang].promises.title);
+      expect(html.match(/<details>/g)).toHaveLength(ui[lang].faq.items.length);
+      expect(html).toContain(`<a href="${lang === 'uk' ? '/uk' : ''}/privacy">`);
+      const res = await fetch(`${base2}/privacy`);
+      expect(res.status).toBe(200);
+      expect(await res.text()).toContain(ui[lang].privacy.items[4][0]);
+    }
+    expect(await (await fetch(`${base}/sitemap.xml`)).text()).toContain('/uk/privacy');
+  });
+
   it('points a failed form at Telegram only when the bot link is on the page', () => {
     expect(renderHome('en')).toContain(ui.en.brief.errors.down);
     expect(renderHome('en', 'some_bot')).toContain(ui.en.brief.errors.downTg);
@@ -76,7 +90,7 @@ describe('pages', () => {
 
   it('lists every page in the sitemap and names it in robots.txt', async () => {
     const map = await (await fetch(`${base}/sitemap.xml`)).text();
-    expect(map.match(/<loc>/g)?.length).toBe((projects.length + 1) * 2);
+    expect(map.match(/<loc>/g)?.length).toBe((projects.length + 2) * 2);
     expect(await (await fetch(`${base}/robots.txt`)).text()).toContain('/sitemap.xml');
   });
 
