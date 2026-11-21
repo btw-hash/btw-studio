@@ -1359,10 +1359,22 @@ export const ui = {
     htmlLang: 'en',
     siteTitle: 'BTW Studio — AI subcontractor for agencies and studios',
     siteDesc:
-      'We build assistants, document pipelines and agents for agencies and their clients, under the agency brand. Live demos you can open.',
-    nav: { work: 'Work', method: 'Method', brief: 'Write to us' },
+      'We build assistants, document automation and agents for agencies and their clients, under the agency brand. Live demos you can open.',
+    nav: { work: 'Work', method: 'Method', brief: 'Get an estimate' },
     hero: ['Your client asked for AI.', 'We build that part.'],
-    sub: 'BTW Studio is a subcontractor for agencies and studios. You sell the project and run it. We build the assistant, the document pipeline or the agent, and hand it to you tested and deployed.',
+    sub: 'BTW Studio is a subcontractor for agencies and studios. You sell the project and run it. We build the assistant, the document automation or the agent, and hand it to you tested and deployed.',
+    cta: {
+      label: 'Get a written estimate',
+      note: 'Scope, timeline and price within one working day.',
+    },
+    stageTitle: 'Open what we built and try it yourself',
+    task: {
+      'crm-pro': 'Sales CRM with an assistant',
+      citewise: 'Answers from company documents',
+      docfields: 'Invoices into checked data',
+      'agent-dashboard': 'Live view of AI agents',
+      nox: 'Personal assistant',
+    },
     stageGroup: 'Project',
     kind: { live: 'live demo', code: 'open source', private: 'private code' },
     open: 'Open the demo',
@@ -1370,7 +1382,7 @@ export const ui = {
     how: 'How it was built',
     doors: {
       agency: {
-        title: 'How we work with agencies',
+        title: 'Your brand, your client, your invoice',
         points: [
           'Under your brand, under NDA.',
           'We write to you. Your client never hears from us.',
@@ -1383,20 +1395,22 @@ export const ui = {
         text: 'Product teams hire us for the same work. We build the feature in your repository and leave it with tests and notes your engineers can follow.',
       },
     },
-    methodTitle: 'How we work',
+    methodTitle: 'What you can count on in every project',
     method: [
       ['Spec before code', 'What we build and what we leave out is written down first.'],
       [
-        'Tests and a real run',
-        'A change ships after the suite passes and the path was exercised live.',
+        'Tested and run live',
+        'You get a working feature, not a prototype: the tests pass and we have run it live.',
       ],
       [
-        'The model is replaceable',
-        'Providers sit behind an interface; swapping one is a one-file change.',
+        'No lock-in to one AI provider',
+        'If prices or quality change, we swap the model without rebuilding the project.',
       ],
       ['In writing', 'Every decision arrives as text you can forward to your client.'],
     ],
-    allWork: 'All work',
+    allWork: 'Everything we have built',
+    workNote:
+      'These are our own products. We built them so you can test our work before you hire us.',
     more: 'Read more',
     brief: {
       title: 'What do you need built?',
@@ -1407,15 +1421,16 @@ export const ui = {
         'Our client runs three clinics and wants an assistant on the site that books visits and answers from their price list.',
       reply: 'Email or Telegram for the reply',
       replyPh: 'name@yourstudio.com',
-      send: 'Send',
+      send: 'Get a written estimate',
       sending: 'Sending…',
-      ok: 'Received. We will reply within one working day.',
+      ok: 'Received. Within one working day you will get a written reply at the contact you left: scope, timeline and price. If something is unclear, we ask one or two questions first.',
       tg: 'Or write to us in Telegram',
       errors: {
         what: 'Describe what to build in at least a sentence.',
         reply: 'Leave an email or a messenger handle so we can answer.',
         rate: 'Too many messages from this address. Try again in a few minutes.',
         down: 'The form is not connected right now. Please reach us through GitHub below.',
+        downTg: 'The form is not connected right now. Please use the Telegram link below.',
         fail: 'Could not send. Please try again in a minute.',
       },
     },
@@ -1453,9 +1468,21 @@ export const ui = {
     siteTitle: 'BTW Studio — ШІ-субпідрядник для агенцій і студій',
     siteDesc:
       'Робимо асистентів, обробку документів і агентів для агенцій та їхніх клієнтів, під брендом агенції. Живі демо, які можна відкрити.',
-    nav: { work: 'Роботи', method: 'Підхід', brief: 'Написати нам' },
+    nav: { work: 'Роботи', method: 'Підхід', brief: 'Отримати оцінку' },
     hero: ['Клієнт попросив ШІ.', 'Цю частину зробимо ми.'],
     sub: 'BTW Studio працює субпідрядником для агенцій і студій. Ви продаєте проєкт і ведете його. Ми робимо асистента, обробку документів чи агента й передаємо вам протестованим і розгорнутим.',
+    cta: {
+      label: 'Отримати письмову оцінку',
+      note: 'Обсяг, термін і ціна протягом одного робочого дня.',
+    },
+    stageTitle: 'Відкрийте те, що ми зробили, і спробуйте самі',
+    task: {
+      'crm-pro': 'CRM для продажів з асистентом',
+      citewise: 'Відповіді за документами компанії',
+      docfields: 'Рахунки в перевірені дані',
+      'agent-dashboard': 'ШІ-агенти в реальному часі',
+      nox: 'Особистий асистент',
+    },
     stageGroup: 'Проєкт',
     kind: { live: 'живе демо', code: 'відкритий код', private: 'приватний код' },
     open: 'Відкрити демо',
@@ -1463,7 +1490,7 @@ export const ui = {
     how: 'Як це зроблено',
     doors: {
       agency: {
-        title: 'Як ми працюємо з агенціями',
+        title: 'Ваш бренд, ваш клієнт, ваш рахунок',
         points: [
           'Під вашим брендом, з NDA.',
           'Пишемо вам. Ваш клієнт про нас не чує.',
@@ -1476,20 +1503,25 @@ export const ui = {
         text: 'Продуктові команди замовляють у нас ту саму роботу. Робимо функцію у вашому репозиторії й залишаємо її з тестами та нотатками, зрозумілими вашим інженерам.',
       },
     },
-    methodTitle: 'Як ми працюємо',
+    methodTitle: 'На що ви можете розраховувати в кожному проєкті',
     method: [
       [
         'Спершу специфікація',
         'Що будуємо і що свідомо лишаємо поза межами, записано до першого рядка коду.',
       ],
-      ['Тести і справжній запуск', 'Зміна виходить після зелених тестів і перевірки шляху наживо.'],
       [
-        'Модель можна замінити',
-        'Постачальники стоять за інтерфейсом; заміна — це зміна одного файлу.',
+        'Протестовано й запущено наживо',
+        'Ви отримуєте робочу функцію, а не прототип: тести проходять, і ми запустили її наживо.',
+      ],
+      [
+        "Без прив'язки до одного постачальника ШІ",
+        'Якщо зміняться ціни чи якість, модель замінюємо без переробки проєкту.',
       ],
       ['Письмово', 'Кожне рішення приходить текстом, який можна переслати клієнтові.'],
     ],
-    allWork: 'Усі роботи',
+    allWork: 'Усе, що ми зробили',
+    workNote:
+      'Це наші власні продукти. Ми зробили їх, щоб ви могли перевірити нашу роботу до замовлення.',
     more: 'Докладніше',
     brief: {
       title: 'Що вам потрібно зробити?',
@@ -1500,15 +1532,16 @@ export const ui = {
         'Наш клієнт має три клініки і хоче асистента на сайті, який записує на прийом і відповідає за прайсом.',
       reply: 'Email або Telegram для відповіді',
       replyPh: 'name@yourstudio.com',
-      send: 'Надіслати',
+      send: 'Отримати письмову оцінку',
       sending: 'Надсилаємо…',
-      ok: 'Отримали. Відповімо протягом одного робочого дня.',
+      ok: 'Отримали. Протягом одного робочого дня на залишений контакт прийде письмова відповідь: обсяг, термін і ціна. Якщо щось незрозуміло, спершу поставимо одне-два запитання.',
       tg: 'Або напишіть нам у Telegram',
       errors: {
         what: 'Опишіть завдання хоча б одним реченням.',
         reply: 'Залиште пошту або нік у месенджері, щоб ми могли відповісти.',
         rate: 'Забагато повідомлень із цієї адреси. Спробуйте за кілька хвилин.',
         down: "Форма зараз не під'єднана. Напишіть нам через GitHub нижче.",
+        downTg: "Форма зараз не під'єднана. Скористайтеся посиланням на Telegram нижче.",
         fail: 'Не вдалося надіслати. Спробуйте ще раз за хвилину.',
       },
     },
