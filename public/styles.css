@@ -224,7 +224,7 @@
   --soft: #4f5158;
   --acc: #e0560f;
   --acc-ink: #160a02;
-  --acc-fill: #ff6f1a;
+  --acc-fill: var(--acc);
   --acc-text: #b8440a;
   --card: #ffffff;
   --line: #c9d1dc;
