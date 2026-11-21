@@ -43,18 +43,20 @@ describe('pages', () => {
   it('leads to the brief from the first screen and keeps the accent for that button', async () => {
     for (const lang of ['en', 'uk'] as const) {
       const html = await (await fetch(`${base}${lang === 'uk' ? '/uk' : '/'}`)).text();
-      expect(html).toContain(`<a class="btn acc" href="#brief">${ui[lang].cta.label}</a>`);
+      expect(html).toContain(`<a class="btn acc go" href="#brief">${ui[lang].cta.label}</a>`);
       expect(html).toContain(ui[lang].workNote);
-      expect(html).toContain(`<b>${ui[lang].task.citewise}</b>`);
+      for (const n of ui[lang].needs.items) expect(html).toContain(`>${n.ask}</button>`);
+      expect(html.match(/<table class="proof/g)).toHaveLength(ui[lang].needs.items.length);
       expect(html).not.toContain('downTg');
     }
   });
 
-  it('shows the promises, the questions and a privacy page linked from the form', async () => {
+  it('shows the terms, the questions and a privacy page linked from the form', async () => {
     for (const lang of ['en', 'uk'] as const) {
       const base2 = `${base}${lang === 'uk' ? '/uk' : ''}`;
       const html = await (await fetch(`${base2}/`)).text();
-      expect(html).toContain(ui[lang].promises.title);
+      expect(html).toContain(ui[lang].terms.title);
+      expect(html).toContain(ui[lang].terms.items[3][0]);
       expect(html.match(/<details>/g)).toHaveLength(ui[lang].faq.items.length);
       expect(html).toContain(`<a href="${lang === 'uk' ? '/uk' : ''}/privacy">`);
       const res = await fetch(`${base2}/privacy`);

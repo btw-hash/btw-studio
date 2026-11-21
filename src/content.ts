@@ -1362,64 +1362,52 @@ export const ui = {
       'We build assistants, document automation and agents for agencies and their clients, under the agency brand. Live demos you can open.',
     nav: { work: 'Work', method: 'Method', brief: 'Get an estimate' },
     hero: ['Your client asked for AI.', 'We build that part.'],
-    sub: 'BTW Studio is a subcontractor for agencies and studios. You sell the project and run it. We build the assistant, the document automation or the agent, and hand it to you tested and deployed.',
+    sub: 'A subcontractor for agencies and studios. You sell the project and run it. We build the AI part and hand it over tested and deployed.',
     cta: {
       label: 'Get a written estimate',
       note: 'Scope, timeline and price within one working day.',
     },
-    stageTitle: 'Open what we built and try it yourself',
-    task: {
-      'crm-pro': 'Sales CRM with an assistant',
-      citewise: 'Answers from company documents',
-      docfields: 'Invoices into checked data',
-      'agent-dashboard': 'Live view of AI agents',
-      nox: 'Personal assistant',
+    needs: {
+      title: 'What did your client ask for?',
+      built: 'We have built it',
+      items: [
+        { slug: 'citewise', ask: 'Answers from their own documents', proof: [0, 4, 3] },
+        { slug: 'docfields', ask: 'Documents into data, without retyping', proof: [1, 2, 3] },
+        { slug: 'crm-pro', ask: 'An assistant inside their system', proof: [0, 1, 2] },
+      ],
     },
-    stageGroup: 'Project',
     kind: { live: 'live demo', code: 'open source', private: 'private code' },
     open: 'Open the demo',
     code: 'Read the code',
     how: 'How it was built',
-    doors: {
-      agency: {
-        title: 'Your brand, your client, your invoice',
-        points: [
-          'Under your brand, under NDA.',
-          'We write to you. Your client never hears from us.',
-          'Scope and price in writing before any work starts.',
-          'You invoice the client, we invoice you.',
-        ],
-      },
-      other: {
-        title: 'Not an agency?',
-        text: 'Product teams hire us for the same work. We build the feature in your repository and leave it with tests and notes your engineers can follow.',
-      },
+    other: {
+      title: 'Not an agency?',
+      text: 'Product teams hire us for the same work. We build the feature in your repository and leave it with tests and notes your engineers can follow.',
     },
-    methodTitle: 'What you can count on in every project',
-    method: [
-      ['Spec before code', 'What we build and what we leave out is written down first.'],
-      [
-        'Tested and run live',
-        'You get a working feature, not a prototype: the tests pass and we have run it live.',
+    terms: {
+      title: 'Your brand, your client, your invoice',
+      items: [
+        ['Under your brand, under NDA', 'We write to you. Your client never hears from us.'],
+        [
+          'Scope and price in writing',
+          'Agreed before any work starts. After that the price holds.',
+        ],
+        ['Tested and run live', 'You get a working feature, not a prototype.'],
+        ['30 days of fixes', 'Any defect found within 30 days of handover is fixed at no cost.'],
+        [
+          'No lock-in to one AI provider',
+          'If prices or quality change, we swap the model without rebuilding the project.',
+        ],
+        [
+          'You invoice the client',
+          'We invoice you: half after the scope is agreed, half at handover.',
+        ],
       ],
-      [
-        'No lock-in to one AI provider',
-        'If prices or quality change, we swap the model without rebuilding the project.',
-      ],
-      ['In writing', 'Every decision arrives as text you can forward to your client.'],
-    ],
+    },
     allWork: 'Everything we have built',
     workNote:
       'These are our own products. We built them so you can test our work before you hire us.',
     more: 'Read more',
-    promises: {
-      title: 'Three promises in writing',
-      items: [
-        ['The price holds', 'After we agree on the scope, the price does not change.'],
-        ['30 days of fixes', 'Any defect found within 30 days of handover is fixed at no cost.'],
-        ['Your client stays yours', 'We work under your brand and never contact your client.'],
-      ],
-    },
     faq: {
       title: 'Questions agencies ask first',
       items: [
@@ -1536,73 +1524,52 @@ export const ui = {
       'Робимо асистентів, обробку документів і агентів для агенцій та їхніх клієнтів, під брендом агенції. Живі демо, які можна відкрити.',
     nav: { work: 'Роботи', method: 'Підхід', brief: 'Отримати оцінку' },
     hero: ['Клієнт попросив ШІ.', 'Цю частину зробимо ми.'],
-    sub: 'BTW Studio працює субпідрядником для агенцій і студій. Ви продаєте проєкт і ведете його. Ми робимо асистента, обробку документів чи агента й передаємо вам протестованим і розгорнутим.',
+    sub: 'Субпідрядник для агенцій і студій. Ви продаєте проєкт і ведете його. Ми робимо ШІ-частину й передаємо її протестованою та розгорнутою.',
     cta: {
       label: 'Отримати письмову оцінку',
       note: 'Обсяг, термін і ціна протягом одного робочого дня.',
     },
-    stageTitle: 'Відкрийте те, що ми зробили, і спробуйте самі',
-    task: {
-      'crm-pro': 'CRM для продажів з асистентом',
-      citewise: 'Відповіді за документами компанії',
-      docfields: 'Рахунки в перевірені дані',
-      'agent-dashboard': 'ШІ-агенти в реальному часі',
-      nox: 'Особистий асистент',
+    needs: {
+      title: 'Що попросив ваш клієнт?',
+      built: 'Ми це вже зробили',
+      items: [
+        { slug: 'citewise', ask: 'Відповіді за їхніми документами', proof: [0, 4, 3] },
+        { slug: 'docfields', ask: 'Документи в дані без передруку', proof: [1, 2, 3] },
+        { slug: 'crm-pro', ask: 'Асистент усередині їхньої системи', proof: [0, 1, 2] },
+      ],
     },
-    stageGroup: 'Проєкт',
     kind: { live: 'живе демо', code: 'відкритий код', private: 'приватний код' },
     open: 'Відкрити демо',
     code: 'Переглянути код',
     how: 'Як це зроблено',
-    doors: {
-      agency: {
-        title: 'Ваш бренд, ваш клієнт, ваш рахунок',
-        points: [
-          'Під вашим брендом, з NDA.',
-          'Пишемо вам. Ваш клієнт про нас не чує.',
-          'Обсяг і ціна письмово до початку роботи.',
-          'Ви виставляєте рахунок клієнтові, ми виставляємо вам.',
-        ],
-      },
-      other: {
-        title: 'Ви не агенція?',
-        text: 'Продуктові команди замовляють у нас ту саму роботу. Робимо функцію у вашому репозиторії й залишаємо її з тестами та нотатками, зрозумілими вашим інженерам.',
-      },
+    other: {
+      title: 'Ви не агенція?',
+      text: 'Продуктові команди замовляють у нас ту саму роботу. Робимо функцію у вашому репозиторії й залишаємо її з тестами та нотатками, зрозумілими вашим інженерам.',
     },
-    methodTitle: 'На що ви можете розраховувати в кожному проєкті',
-    method: [
-      [
-        'Спершу специфікація',
-        'Що будуємо і що свідомо лишаємо поза межами, записано до першого рядка коду.',
-      ],
-      [
-        'Протестовано й запущено наживо',
-        'Ви отримуєте робочу функцію, а не прототип: тести проходять, і ми запустили її наживо.',
-      ],
-      [
-        "Без прив'язки до одного постачальника ШІ",
-        'Якщо зміняться ціни чи якість, модель замінюємо без переробки проєкту.',
-      ],
-      ['Письмово', 'Кожне рішення приходить текстом, який можна переслати клієнтові.'],
-    ],
-    allWork: 'Усе, що ми зробили',
-    workNote:
-      'Це наші власні продукти. Ми зробили їх, щоб ви могли перевірити нашу роботу до замовлення.',
-    more: 'Докладніше',
-    promises: {
-      title: 'Три письмові обіцянки',
+    terms: {
+      title: 'Ваш бренд, ваш клієнт, ваш рахунок',
       items: [
-        ['Ціна не змінюється', 'Після погодження обсягу ціна лишається тією самою.'],
+        ['Під вашим брендом, з NDA', 'Пишемо вам. Ваш клієнт про нас не чує.'],
+        ['Обсяг і ціна письмово', 'Погоджуємо до початку роботи. Після цього ціна не змінюється.'],
+        ['Протестовано й запущено наживо', 'Ви отримуєте робочу функцію, а не прототип.'],
         [
           '30 днів виправлень',
           'Будь-який дефект, знайдений протягом 30 днів після передачі, виправляємо безкоштовно.',
         ],
         [
-          'Ваш клієнт лишається вашим',
-          'Працюємо під вашим брендом і ніколи не пишемо вашому клієнтові.',
+          "Без прив'язки до одного постачальника ШІ",
+          'Якщо зміняться ціни чи якість, модель замінюємо без переробки проєкту.',
+        ],
+        [
+          'Рахунок клієнтові виставляєте ви',
+          'Ми виставляємо вам: половина після погодження обсягу, половина під час передачі.',
         ],
       ],
     },
+    allWork: 'Усе, що ми зробили',
+    workNote:
+      'Це наші власні продукти. Ми зробили їх, щоб ви могли перевірити нашу роботу до замовлення.',
+    more: 'Докладніше',
     faq: {
       title: 'Що агенції питають насамперед',
       items: [

@@ -38,7 +38,8 @@
   if (stage) {
     var items = JSON.parse(stage.getAttribute('data-stage'));
     var screen = document.getElementById('screen');
-    var buttons = stage.querySelectorAll('.chan button');
+    var buttons = stage.querySelectorAll('button[data-i]');
+    var swaps = stage.querySelectorAll('[data-swap]');
     var show = function (i) {
       var it = items[i];
       while (screen.children.length > 1) screen.removeChild(screen.firstChild);
@@ -73,15 +74,17 @@
         screen.appendChild(el);
       }
       // every caption and label sits in the same cell, so switching never changes the layout
-      var says = document.getElementById('stage-text').children;
-      for (var k = 0; k < says.length; k++) {
-        says[k].classList.remove('swap');
-        says[k].classList.toggle('on', k === i);
-        if (k === i) says[k].removeAttribute('aria-hidden');
-        else says[k].setAttribute('aria-hidden', 'true');
-      }
-      void says[i].offsetWidth;
-      says[i].classList.add('swap');
+      swaps.forEach(function (box) {
+        var says = box.children;
+        for (var k = 0; k < says.length; k++) {
+          says[k].classList.remove('swap');
+          says[k].classList.toggle('on', k === i);
+          if (k === i) says[k].removeAttribute('aria-hidden');
+          else says[k].setAttribute('aria-hidden', 'true');
+        }
+        void says[i].offsetWidth;
+        says[i].classList.add('swap');
+      });
       var link = document.getElementById('stage-link');
       link.href = it.href;
       for (var n = 0; n < link.children.length; n++) {

@@ -1,4 +1,4 @@
-import { projects, ui, type Lang, type Project } from './content.js';
+import { findProject, projects, ui, type Lang, type Project } from './content.js';
 
 const ORIGIN = 'https://btwstudio.dev';
 // Changes on every deploy, so a cached stylesheet never meets newer markup.
@@ -97,9 +97,9 @@ function primaryLink(p: Project, lang: Lang): { href: string; label: string } {
 
 export function renderHome(lang: Lang, botUsername?: string): string {
   const t = ui[lang];
-  const stage = projects.filter((p) => p.onStage);
-  const first = stage[0]!;
-  const stageData = stage.map((p) => ({
+  const needs = t.needs.items.map((n) => ({ ...n, p: findProject(n.slug)! }));
+  const first = needs[0]!.p;
+  const stageData = needs.map(({ p }) => ({
     slug: p.slug,
     video: p.video ? `/media/${p.slug}.mp4?v=${V}` : '',
     poster: `/media/${p.poster}?v=${V}`,
@@ -109,52 +109,61 @@ export function renderHome(lang: Lang, botUsername?: string): string {
     more: workPath(lang, p.slug),
   }));
   const link = primaryLink(first, lang);
+  // every variant sits in the same cell; the script only moves the "on" class
+  const swap = (i: number, cls = '') =>
+    i === 0
+      ? ` class="${cls ? cls + ' ' : ''}on"`
+      : `${cls ? ` class="${cls}"` : ''} aria-hidden="true"`;
   const { downTg, ...errors } = t.brief.errors;
 
   const body = `<div class="in">
   <h1 class="h rise">${esc(t.hero[0])} <span>${esc(t.hero[1])}</span></h1>
   <p class="sub rise" style="--i:1">${esc(t.sub)}</p>
-  <p class="cta rise" style="--i:1"><a class="btn acc" href="#brief">${esc(t.cta.label)}</a><span>${esc(t.cta.note)}</span></p>
-  <h2 class="sec rise" style="--i:2" id="work">${esc(t.stageTitle)}</h2>
-  <section class="stage rise" style="--i:2" data-stage='${esc(JSON.stringify(stageData))}'>
-    <div class="screen" id="screen">${media(first, lang)}</div>
-    <div class="chan" role="group" aria-label="${esc(t.stageGroup)}">
-      ${stage
-        .map(
-          (p, i) =>
-            `<button type="button" data-i="${i}" aria-pressed="${i === 0}"><b>${esc((t.task as Record<string, string>)[p.slug] ?? p.text[lang].name)}</b><span>${esc(p.text[lang].name)} · ${esc(t.kind[p.kind])}</span></button>`
-        )
-        .join('\n      ')}
-    </div>
-    <div class="now">
-      <div class="says" id="stage-text">
-        ${stage.map((p, i) => `<p${i === 0 ? ' class="on"' : ' aria-hidden="true"'}>${esc(p.text[lang].stage)}</p>`).join('\n        ')}
+  <section class="need rise" style="--i:2" id="work" data-stage='${esc(JSON.stringify(stageData))}'>
+    <div class="pick">
+      <h2 class="sec">${esc(t.needs.title)}</h2>
+      <div class="asks" role="group" aria-label="${esc(t.needs.title)}">
+        ${needs.map((n, i) => `<button type="button" data-i="${i}" aria-pressed="${i === 0}">${esc(n.ask)}</button>`).join('\n        ')}
       </div>
-      <span class="links">
-        <a class="pill ghost" id="stage-more" href="${workPath(lang, first.slug)}">${esc(t.how)}</a>
-        <a class="pill says" id="stage-link" href="${link.href}">${[t.open, t.code].map((l) => `<span${l === link.label ? ' class="on"' : ' aria-hidden="true"'} data-label="${esc(l)}">${esc(l)} ↗</span>`).join('')}</a>
-      </span>
+      <a class="btn acc go" href="#brief">${esc(t.cta.label)}</a>
+      <p class="go-note">${esc(t.cta.note)}</p>
+    </div>
+    <div class="stage solo">
+      <div class="screen" id="screen">${media(first, lang)}</div>
+      <div class="info">
+        <div>
+          <span class="built">${esc(t.needs.built)}</span>
+          <div class="says name" data-swap>${needs.map(({ p }, i) => `<b${swap(i)}>${esc(p.text[lang].name)}</b>`).join('')}</div>
+          <div class="says" data-swap>
+            ${needs.map(({ p }, i) => `<p${swap(i)}>${esc(p.text[lang].stage)}</p>`).join('\n            ')}
+          </div>
+          <span class="links">
+            <a class="says" id="stage-link" href="${link.href}">${[t.open, t.code].map((l) => `<span${l === link.label ? ' class="on"' : ' aria-hidden="true"'} data-label="${esc(l)}">${esc(l)} ↗</span>`).join('')}</a>
+            <a id="stage-more" href="${workPath(lang, first.slug)}">${esc(t.how)}</a>
+          </span>
+        </div>
+        <div class="says" data-swap>
+          ${needs
+            .map(
+              ({ p, proof }, i) =>
+                `<table${swap(i, 'proof')}>${proof
+                  .map((k) => p.text[lang].proof[k]!)
+                  .map(([k, v]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td></tr>`)
+                  .join('')}</table>`
+            )
+            .join('\n          ')}
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="doors">
-    <div class="d rv"><h2>${esc(t.doors.agency.title)}</h2><ul>${t.doors.agency.points.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>
-    <div class="d thin rv" style="--i:1"><h2>${esc(t.doors.other.title)}</h2><p>${esc(t.doors.other.text)}</p></div>
-  </section>
-
-  <section id="method">
-    <h2 class="sec">${esc(t.methodTitle)}</h2>
-    <div class="how">
-      ${t.method.map(([h, p], i) => `<div class="rv" style="--i:${i}"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n      ')}
+  <section class="terms rv" id="method">
+    <h2>${esc(t.terms.title)}</h2>
+    <div class="six">
+      ${t.terms.items.map(([h, p]) => `<div><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n      ')}
     </div>
   </section>
-
-  <section>
-    <h2 class="sec">${esc(t.promises.title)}</h2>
-    <div class="how">
-      ${t.promises.items.map(([h, p], i) => `<div class="rv" style="--i:${i}"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n      ')}
-    </div>
-  </section>
+  <p class="other rv"><b>${esc(t.other.title)}</b> ${esc(t.other.text)}</p>
 
   <section>
     <h2 class="sec">${esc(t.allWork)}</h2>
