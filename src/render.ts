@@ -78,13 +78,7 @@ function layout(
 ${opts.body}
 </main>
 <footer class="in foot">
-  <div class="fnotes">
-    <p><b>${esc(t.other.title)}</b> ${esc(t.other.text)}</p>
-    <p><b>${esc(t.moreWork)}:</b> ${projects
-      .filter((p) => !p.onStage)
-      .map((p) => `<a href="${workPath(lang, p.slug)}">${esc(p.text[lang].name)}</a>`)
-      .join(', ')}</p>
-  </div>
+  <p class="fnote"><b>${esc(t.other.title)}</b> ${esc(t.other.text)}</p>
   <div class="frow">
     <span>© 2026 ${esc(t.footer.rights)}</span>
     <span class="links"><a href="${privacyPath(lang)}">${esc(t.privacy.link)}</a><a href="https://github.com/btw-hash">${esc(t.footer.github)}</a></span>
@@ -191,6 +185,23 @@ export function renderHome(lang: Lang, botUsername?: string): string {
   <section class="doors blk">
     <div class="d rv"><h2>${esc(t.promises.title)}</h2><ul>${t.promises.items.map(([h, p]) => `<li><b>${esc(h)}.</b> ${esc(p)}</li>`).join('')}</ul></div>
     <div class="d thin rv" style="--i:1"><h2>${esc(t.brief.aboutTitle)}</h2><p>${esc(t.brief.about)}</p></div>
+  </section>
+
+  <section class="blk">
+    <h2 class="sec">${esc(t.moreWork)}</h2>
+    <div class="list four">
+      ${projects
+        .filter((p) => !p.onStage)
+        .map(
+          (p, i) => `<a class="item proj rv" style="--i:${i}" href="${workPath(lang, p.slug)}">
+        <span class="tag">${esc(t.kind[p.kind])}</span>
+        <b>${esc(p.text[lang].title.join(' '))}</b>
+        <span>${esc(p.text[lang].line)}</span>
+        <i>${esc(p.text[lang].name)} →</i>
+      </a>`
+        )
+        .join('\n      ')}
+    </div>
   </section>
 
   <section class="blk">
