@@ -71,14 +71,14 @@ function layout(
     <a href="${home(lang)}#method">${esc(t.nav.method)}</a>
     <a href="${opts.path(other(lang))}" hreflang="${other(lang)}" lang="${other(lang)}">${esc(t.langName)}</a>
     <button type="button" class="theme" id="theme" aria-pressed="false" aria-label="${esc(t.theme)}"><span class="sun"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><span class="moon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></span></button>
-    <a class="btn" href="${home(lang)}#brief">${esc(t.nav.brief)}</a>
+    <a class="btn acc" href="${home(lang)}#brief">${esc(t.nav.brief)}</a>
   </nav>
 </header>
 <main>
 ${opts.body}
 </main>
 <footer class="in foot">
-  <p class="fnote"><b>${esc(t.other.title)}</b> ${esc(t.other.text)}</p>
+  <p class="other"><b>${esc(t.other.title)}</b> ${esc(t.other.text)}</p>
   <div class="frow">
     <span>© 2026 ${esc(t.footer.rights)}</span>
     <span class="links"><a href="${privacyPath(lang)}">${esc(t.privacy.link)}</a><a href="https://github.com/btw-hash">${esc(t.footer.github)}</a></span>
@@ -119,16 +119,17 @@ export function renderHome(lang: Lang, botUsername?: string): string {
   const link = primaryLink(first, lang);
   const { downTg, ...errors } = t.brief.errors;
   const tg = botUsername ? `https://t.me/${esc(botUsername)}?start=${lang}` : '';
-  const cta = (note: string) =>
-    `<p class="cta"><a class="btn acc" href="#brief">${esc(t.cta.label)}</a><span>${esc(note)}</span></p>`;
+  const order = (big = '') =>
+    `<a class="btn acc${big}" href="#brief">${esc(t.cta.label)}<i aria-hidden="true">→</i></a>`;
+  const cta = (note: string) => `<p class="cta">${order()}<span>${esc(note)}</span></p>`;
 
   const body = `<div class="in">
   <h1 class="h rise">${esc(t.hero[0])} <span>${esc(t.hero[1])}</span></h1>
   <p class="sub rise" style="--i:1">${esc(t.sub)}</p>
-  <p class="cta rise" style="--i:1"><a class="btn acc" href="#brief">${esc(t.cta.label)}</a><span>${esc(t.cta.note)}</span></p>
-  <h2 class="sec rise" style="--i:2" id="work">${esc(t.stageTitle)}</h2>
-  <p class="note rise" style="--i:2">${esc(t.workNote)}</p>
-  <section class="stage rise" style="--i:2" data-stage='${esc(JSON.stringify(stageData))}'>
+  <p class="cta rise" style="--i:2">${order(' big')}<span>${esc(t.cta.note)}</span></p>
+  <h2 class="sec rise" style="--i:3" id="work">${esc(t.stageTitle)}</h2>
+  <p class="note rise" style="--i:3">${esc(t.workNote)}</p>
+  <section class="stage rise" style="--i:3" data-stage='${esc(JSON.stringify(stageData))}'>
     <div class="screen" id="screen">${media(first, lang)}</div>
     <div class="chan" role="group" aria-label="${esc(t.stageGroup)}">
       ${stage
@@ -260,7 +261,7 @@ export function renderProject(lang: Lang, p: Project): string {
   const index = projects.indexOf(p);
   const next = projects[(index + 1) % projects.length]!;
   const buttons = [
-    p.demo ? `<a class="btn acc" href="${p.demo}">${esc(t.open)} ↗</a>` : '',
+    p.demo ? `<a class="btn" href="${p.demo}">${esc(t.open)} ↗</a>` : '',
     p.repo ? `<a class="btn" href="${p.repo}">${esc(t.code)}</a>` : '',
   ].join('');
 

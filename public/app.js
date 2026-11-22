@@ -62,6 +62,33 @@
     syncTheme();
   }
 
+  var bar = document.querySelector('.bar');
+  if (bar) {
+    var onScroll = function () {
+      bar.classList.toggle('scrolled', window.scrollY > 8);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // an order button lands on the form: ring it once and, with a mouse, put the cursor in it
+  var brief = document.getElementById('brief');
+  if (brief) {
+    document.querySelectorAll('a[href$="#brief"]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        brief.classList.remove('ping');
+        void brief.offsetWidth;
+        brief.classList.add('ping');
+        var field = document.getElementById('f-what');
+        if (!field || !window.matchMedia('(pointer: fine)').matches) return;
+        // after the jump: moving to the anchor takes the focus away
+        setTimeout(function () {
+          field.focus({ preventScroll: true });
+        }, 60);
+      });
+    });
+  }
+
   var clips = document.querySelector('.clips');
   if (clips && clips.children.length > 1) {
     var figs = clips.children;
