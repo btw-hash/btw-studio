@@ -235,13 +235,6 @@
     });
   }
 
-  document.querySelectorAll('a.item').forEach(function (a) {
-    a.addEventListener('click', function () {
-      var b = a.querySelector('b');
-      if (b) b.style.viewTransitionName = 'ptitle';
-    });
-  });
-
   var form = document.getElementById('brief-form');
   if (form) {
     var msg = JSON.parse(form.getAttribute('data-msg'));

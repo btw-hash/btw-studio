@@ -50,6 +50,34 @@ describe('pages', () => {
     }
   });
 
+  it('follows the order of the review: benefits, orders, steps, promises, questions, brief', async () => {
+    for (const lang of ['en', 'uk'] as const) {
+      const t = ui[lang];
+      const html = renderHome(lang, 'some_bot');
+      const at = [
+        t.tagline,
+        t.stageTitle,
+        t.benefits.title,
+        t.orders.title,
+        t.steps.title,
+        t.promises.title,
+        t.faq.title,
+        t.brief.title,
+        t.other.title,
+      ].map((x) => html.indexOf(x.replace(/'/g, '&#39;')));
+      expect(at.every((n) => n > 0)).toBe(true);
+      expect(at).toEqual([...at].sort((a, b) => a - b));
+      expect(html.match(/class="btn acc" href="#brief"/g)).toHaveLength(3);
+      expect(html.match(/<a class="item/g)).toHaveLength(t.orders.items.length);
+      expect(html).not.toContain('class="pill says"');
+      expect(html).toContain(`${t.faq.moreTg} →`);
+      for (const p of projects.filter((x) => !x.onStage)) {
+        expect(html).toContain(`/work/${p.slug}">${p.text[lang].name}</a>`);
+      }
+    }
+    expect(renderHome('en')).not.toContain(ui.en.faq.moreTg);
+  });
+
   it('shows the promises, the questions and a privacy page linked from the form', async () => {
     for (const lang of ['en', 'uk'] as const) {
       const base2 = `${base}${lang === 'uk' ? '/uk' : ''}`;

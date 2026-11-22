@@ -65,7 +65,7 @@ function layout(
 <body>
 <div class="progress" aria-hidden="true"></div>
 <header class="in bar">
-  <a class="mark" href="${home(lang)}">BTW Studio</a>
+  <a class="mark" href="${home(lang)}">BTW Studio<span>${esc(t.tagline)}</span></a>
   <nav aria-label="Main">
     <a href="${home(lang)}#work">${esc(t.nav.work)}</a>
     <a href="${home(lang)}#method">${esc(t.nav.method)}</a>
@@ -78,8 +78,17 @@ function layout(
 ${opts.body}
 </main>
 <footer class="in foot">
-  <span>© 2026 ${esc(t.footer.rights)}</span>
-  <span class="links"><a href="${privacyPath(lang)}">${esc(t.privacy.link)}</a><a href="https://github.com/btw-hash">${esc(t.footer.github)}</a></span>
+  <div class="fnotes">
+    <p><b>${esc(t.other.title)}</b> ${esc(t.other.text)}</p>
+    <p><b>${esc(t.moreWork)}:</b> ${projects
+      .filter((p) => !p.onStage)
+      .map((p) => `<a href="${workPath(lang, p.slug)}">${esc(p.text[lang].name)}</a>`)
+      .join(', ')}</p>
+  </div>
+  <div class="frow">
+    <span>© 2026 ${esc(t.footer.rights)}</span>
+    <span class="links"><a href="${privacyPath(lang)}">${esc(t.privacy.link)}</a><a href="https://github.com/btw-hash">${esc(t.footer.github)}</a></span>
+  </div>
 </footer>
 <script src="/app.js?v=${V}" defer></script>
 </body>
@@ -115,12 +124,16 @@ export function renderHome(lang: Lang, botUsername?: string): string {
   }));
   const link = primaryLink(first, lang);
   const { downTg, ...errors } = t.brief.errors;
+  const tg = botUsername ? `https://t.me/${esc(botUsername)}?start=${lang}` : '';
+  const cta = (note: string) =>
+    `<p class="cta"><a class="btn acc" href="#brief">${esc(t.cta.label)}</a><span>${esc(note)}</span></p>`;
 
   const body = `<div class="in">
   <h1 class="h rise">${esc(t.hero[0])} <span>${esc(t.hero[1])}</span></h1>
   <p class="sub rise" style="--i:1">${esc(t.sub)}</p>
   <p class="cta rise" style="--i:1"><a class="btn acc" href="#brief">${esc(t.cta.label)}</a><span>${esc(t.cta.note)}</span></p>
   <h2 class="sec rise" style="--i:2" id="work">${esc(t.stageTitle)}</h2>
+  <p class="note rise" style="--i:2">${esc(t.workNote)}</p>
   <section class="stage rise" style="--i:2" data-stage='${esc(JSON.stringify(stageData))}'>
     <div class="screen" id="screen">${media(first, lang)}</div>
     <div class="chan" role="group" aria-label="${esc(t.stageGroup)}">
@@ -136,57 +149,64 @@ export function renderHome(lang: Lang, botUsername?: string): string {
         ${stage.map((p, i) => `<p${i === 0 ? ' class="on"' : ' aria-hidden="true"'}>${esc(p.text[lang].stage)}</p>`).join('\n        ')}
       </div>
       <span class="links">
-        <a class="pill ghost" id="stage-more" href="${workPath(lang, first.slug)}">${esc(t.how)}</a>
-        <a class="pill says" id="stage-link" href="${link.href}">${[t.open, t.code].map((l) => `<span${l === link.label ? ' class="on"' : ' aria-hidden="true"'} data-label="${esc(l)}">${esc(l)} ↗</span>`).join('')}</a>
+        <a class="tlink" id="stage-more" href="${workPath(lang, first.slug)}">${esc(t.how)}</a>
+        <a class="pill ghost says" id="stage-link" href="${link.href}">${[t.open, t.code].map((l) => `<span${l === link.label ? ' class="on"' : ' aria-hidden="true"'} data-label="${esc(l)}">${esc(l)} ↗</span>`).join('')}</a>
       </span>
     </div>
   </section>
 
-  <section class="doors">
-    <div class="d rv"><h2>${esc(t.doors.agency.title)}</h2><ul>${t.doors.agency.points.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>
-    <div class="d thin rv" style="--i:1"><h2>${esc(t.doors.other.title)}</h2><p>${esc(t.doors.other.text)}</p></div>
-  </section>
-
-  <section id="method">
-    <h2 class="sec">${esc(t.methodTitle)}</h2>
-    <div class="how">
-      ${t.method.map(([h, p], i) => `<div class="rv" style="--i:${i}"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n      ')}
+  <section class="blk">
+    <h2 class="sec">${esc(t.benefits.title)}</h2>
+    <div class="how ben">
+      ${t.benefits.items.map(([h, p], i) => `<div class="rv" style="--i:${i}"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n      ')}
     </div>
   </section>
 
-  <section>
-    <h2 class="sec">${esc(t.promises.title)}</h2>
-    <div class="how">
-      ${t.promises.items.map(([h, p], i) => `<div class="rv" style="--i:${i}"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n      ')}
-    </div>
-  </section>
-
-  <section>
-    <h2 class="sec">${esc(t.allWork)}</h2>
-    <p class="note">${esc(t.workNote)}</p>
+  <section class="blk">
+    <h2 class="sec">${esc(t.orders.title)}</h2>
     <div class="list">
-      ${projects
-        .map(
-          (p, i) => `<a class="item rv" style="--i:${i % 3}" href="${workPath(lang, p.slug)}">
-        <span class="tag">${esc(t.kind[p.kind])}</span>
-        <b>${esc(p.text[lang].title.join(' '))}</b>
-        <span>${esc(p.text[lang].line)}</span>
-        <i>${esc(p.text[lang].name)} · ${esc(t.more)} →</i>
-      </a>`
-        )
+      ${t.orders.items
+        .map((o, i) => {
+          const p = projects.find((x) => x.slug === o.slug)!;
+          return `<a class="item rv" style="--i:${i}" href="${workPath(lang, p.slug)}">
+        <span class="tag">${esc(o.tag)}</span>
+        <b>${esc(o.title)}</b>
+        <span>${esc(o.text)}</span>
+        <i><img src="/media/${p.poster}?v=${V}" alt="" width="76" height="48" loading="lazy">${esc(t.orders.example)}: ${esc(p.text[lang].name)} →</i>
+      </a>`;
+        })
         .join('\n      ')}
     </div>
+    ${cta(t.orders.note)}
   </section>
 
-  <section>
+  <section class="blk" id="method">
+    <h2 class="sec">${esc(t.steps.title)}</h2>
+    <ol class="steps">
+      ${t.steps.items.map(([h, p], i) => `<li class="rv" style="--i:${i}"><h3>${esc(h)}</h3><p>${esc(p)}</p></li>`).join('\n      ')}
+    </ol>
+    ${cta(t.steps.note)}
+  </section>
+
+  <section class="doors blk">
+    <div class="d rv"><h2>${esc(t.promises.title)}</h2><ul>${t.promises.items.map(([h, p]) => `<li><b>${esc(h)}.</b> ${esc(p)}</li>`).join('')}</ul></div>
+    <div class="d thin rv" style="--i:1"><h2>${esc(t.brief.aboutTitle)}</h2><p>${esc(t.brief.about)}</p></div>
+  </section>
+
+  <section class="blk">
     <h2 class="sec">${esc(t.faq.title)}</h2>
     <div class="faq">
       ${t.faq.items.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('\n      ')}
-    </div>
+    </div>${
+      tg
+        ? `
+    <p class="ask">${esc(t.faq.more)} <a href="${tg}" rel="noopener">${esc(t.faq.moreTg)} →</a></p>`
+        : ''
+    }
   </section>
 
-  <section class="brief rv" id="brief">
-    <div><h2>${esc(t.brief.title)}</h2><p class="promise">${esc(t.brief.promise)}</p><h3>${esc(t.brief.aboutTitle)}</h3><p class="promise">${esc(t.brief.about)}</p></div>
+  <section class="brief blk rv" id="brief">
+    <div><h2>${esc(t.brief.title)}</h2><p class="promise">${esc(t.brief.promise)}</p></div>
     <form id="brief-form" novalidate data-lang="${lang}" data-msg='${esc(JSON.stringify({ sending: t.brief.sending, ok: t.brief.ok, ...errors, down: botUsername ? downTg : errors.down }))}'>
       <label for="f-what">${esc(t.brief.what)}</label>
       <textarea id="f-what" name="what" rows="5" maxlength="2000" required placeholder="${esc(t.brief.whatPh)}"></textarea>
@@ -196,9 +216,9 @@ export function renderHome(lang: Lang, botUsername?: string): string {
       <button type="submit" class="btn acc">${esc(t.brief.send)}</button>
       <p class="data">${esc(t.brief.data)} <a href="${privacyPath(lang)}">${esc(t.privacy.link)}</a></p>
       <p class="status" id="brief-status" role="status" aria-live="polite"></p>${
-        botUsername
+        tg
           ? `
-      <p class="alt"><a href="https://t.me/${esc(botUsername)}?start=${lang}" rel="noopener">${esc(t.brief.tg)} →</a></p>`
+      <p class="alt"><a href="${tg}" rel="noopener">${esc(t.brief.tg)} →</a></p>`
           : ''
       }
     </form>
