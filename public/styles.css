@@ -305,8 +305,11 @@ nav {
 nav a {
   text-decoration: none;
 }
-nav a:hover {
-  text-decoration: underline;
+nav a:not(.btn) {
+  background: linear-gradient(currentColor, currentColor) 0 calc(50% + 11px) / 0 1.5px no-repeat;
+}
+nav a:not(.btn):hover {
+  background-size: 100% 1.5px;
 }
 .btn {
   display: inline-block;
@@ -470,8 +473,10 @@ nav a.btn:hover {
 }
 .pill.ghost {
   background: transparent;
-  color: var(--stage-ink);
-  box-shadow: inset 0 0 0 1.5px #5b5c64;
+  color: #d9d9de;
+  box-shadow: inset 0 0 0 1.5px #3a3a41;
+  padding: 7px 14px;
+  font-size: 15px;
 }
 .pill.ghost:hover {
   box-shadow: inset 0 0 0 1.5px var(--stage-ink);
@@ -481,7 +486,8 @@ nav a.btn:hover {
   align-items: center;
 }
 .tlink {
-  color: var(--stage-ink);
+  color: #d9d9de;
+  font-size: 15px;
   font-weight: 600;
   text-underline-offset: 3px;
 }
@@ -562,8 +568,16 @@ nav a.btn:hover {
   gap: 20px;
 }
 .ben > div {
-  border-top: 3px solid var(--acc);
-  padding-top: 12px;
+  position: relative;
+  padding-top: 15px;
+}
+.ben > div::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--acc);
+  transform-origin: 0 50%;
 }
 .how h3 {
   font: 700 19px var(--display);
@@ -747,6 +761,29 @@ form .btn {
   font: 700 19px / 1.2 var(--display);
   padding: 14px 0;
   cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary::after {
+  content: '';
+  flex: none;
+  width: 14px;
+  height: 14px;
+  background:
+    linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 2px 100% no-repeat;
+}
+.faq details[open] summary::after {
+  transform: rotate(45deg);
+}
+.faq summary:hover {
+  color: var(--acc-text);
 }
 .faq p {
   margin: 0 0 16px;
@@ -922,11 +959,11 @@ td {
   color: var(--soft);
   border-top: 1px solid var(--line);
 }
-.fnote {
-  margin: 0 0 14px;
+.foot .other {
+  margin: 0 0 18px;
   max-width: 72ch;
 }
-.fnote b {
+.foot .other b {
   color: var(--ink);
 }
 .frow {
@@ -1617,5 +1654,207 @@ body {
       background-color 0.35s ease,
       color 0.35s ease,
       border-color 0.35s ease !important;
+  }
+}
+
+/* ── the order button outweighs everything else on the first screen ── */
+.btn i {
+  font-style: normal;
+  display: inline-block;
+  margin-left: 8px;
+}
+.btn.acc.big {
+  position: relative;
+  overflow: hidden;
+  padding: 15px 28px;
+  font-size: 17px;
+  box-shadow: 0 10px 28px -12px color-mix(in srgb, var(--acc) 75%, transparent);
+}
+.btn.acc.big:hover {
+  box-shadow: 0 14px 34px -10px color-mix(in srgb, var(--acc) 85%, transparent);
+}
+.btn.acc.big::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 36%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 64%
+  );
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+.bar {
+  transition: box-shadow 0.25s ease;
+}
+.bar.scrolled {
+  box-shadow: 0 1px 0 var(--line);
+}
+input[type='text']:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--acc);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--acc) 24%, transparent);
+}
+
+/* ── motion, second pass ── */
+@media (prefers-reduced-motion: no-preference) {
+  .btn:active,
+  .pill:active,
+  .chan button:active {
+    transform: scale(0.97);
+  }
+  .btn i,
+  .item i img,
+  .crumb,
+  .faq summary,
+  .faq summary::after,
+  nav a:not(.btn),
+  input[type='text'],
+  textarea {
+    transition:
+      transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+      color 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      background-size 0.25s ease;
+  }
+  .btn:hover i {
+    transform: translateX(4px);
+  }
+  .item:hover i img {
+    transform: scale(1.06);
+  }
+  .crumb:hover {
+    transform: translateX(-3px);
+  }
+  .btn.acc.big::after {
+    animation: sheen 6s ease-in-out 1.8s infinite;
+  }
+  @keyframes sheen {
+    0% {
+      transform: translateX(-120%);
+    }
+    16%,
+    100% {
+      transform: translateX(120%);
+    }
+  }
+
+  /* benefits: each accent line draws from the left */
+  .js .ben > div::before {
+    transform: scaleX(0);
+    transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: calc(var(--i, 0) * 120ms + 200ms);
+  }
+  .js .ben > div.seen::before {
+    transform: scaleX(1);
+  }
+
+  /* steps: the accent runs 01 to 04 once */
+  .js .blk .steps li.seen {
+    animation: stepwave 1s ease both;
+    animation-delay: calc(var(--i, 0) * 300ms + 500ms);
+  }
+  @keyframes stepwave {
+    0%,
+    100% {
+      border-color: var(--line);
+    }
+    35% {
+      border-color: var(--acc);
+    }
+  }
+
+  /* promises: the dashes are ticked off one by one */
+  .js .d li::before {
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 0.4s ease 0.3s;
+  }
+  .js .d.seen li::before {
+    transform: scaleX(1);
+  }
+  .js .d li:nth-child(2)::before {
+    transition-delay: 0.42s;
+  }
+  .js .d li:nth-child(3)::before {
+    transition-delay: 0.54s;
+  }
+  .js .d li:nth-child(4)::before {
+    transition-delay: 0.66s;
+  }
+
+  /* questions open and close smoothly where the browser can animate to auto */
+  @supports (interpolate-size: allow-keywords) {
+    .faq {
+      interpolate-size: allow-keywords;
+    }
+    .faq details::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition:
+        block-size 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+        content-visibility 0.35s allow-discrete;
+    }
+    .faq details[open]::details-content {
+      block-size: auto;
+    }
+  }
+  .faq details[open] p {
+    animation: swap 0.4s ease both;
+  }
+
+  /* the form answers: a ring when an order button brought you here, a shake on a wrong field */
+  .brief.ping {
+    animation: ping 1.3s ease 0.35s both;
+  }
+  @keyframes ping {
+    0%,
+    100% {
+      border-color: var(--line);
+    }
+    30% {
+      border-color: var(--acc);
+      box-shadow: 0 0 0 5px color-mix(in srgb, var(--acc) 22%, transparent);
+    }
+  }
+  [aria-invalid='true'] {
+    animation: shake 0.35s ease;
+  }
+  @keyframes shake {
+    20% {
+      transform: translateX(-5px);
+    }
+    40% {
+      transform: translateX(5px);
+    }
+    60% {
+      transform: translateX(-3px);
+    }
+    80% {
+      transform: translateX(3px);
+    }
+  }
+  .status:not(:empty) {
+    animation: swap 0.4s ease both;
+  }
+  .btn[disabled] {
+    animation: breathe 1s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    50% {
+      opacity: 0.45;
+    }
+  }
+}
+
+/* the quiet demo button still needs a finger-sized target on a phone */
+@media (max-width: 560px) {
+  .pill.ghost {
+    padding-top: 13px;
+    padding-bottom: 13px;
   }
 }

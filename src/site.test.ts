@@ -43,7 +43,8 @@ describe('pages', () => {
   it('leads to the brief from the first screen and keeps the accent for that button', async () => {
     for (const lang of ['en', 'uk'] as const) {
       const html = await (await fetch(`${base}${lang === 'uk' ? '/uk' : '/'}`)).text();
-      expect(html).toContain(`<a class="btn acc" href="#brief">${ui[lang].cta.label}</a>`);
+      expect(html).toContain(`<a class="btn acc big" href="#brief">${ui[lang].cta.label}<i`);
+      expect(html).toContain(`<a class="btn acc" href="${lang === 'uk' ? '/uk' : '/'}#brief">`);
       expect(html).toContain(ui[lang].workNote);
       expect(html).toContain(`<b>${ui[lang].task.citewise}</b>`);
       expect(html).not.toContain('downTg');
@@ -68,7 +69,8 @@ describe('pages', () => {
       ].map((x) => html.indexOf(x.replace(/'/g, '&#39;')));
       expect(at.every((n) => n > 0)).toBe(true);
       expect(at).toEqual([...at].sort((a, b) => a - b));
-      expect(html.match(/class="btn acc" href="#brief"/g)).toHaveLength(3);
+      expect(html.match(/class="btn acc( big)?" href="#brief"/g)).toHaveLength(3);
+      expect(html).not.toMatch(/class="btn acc" href="https:/);
       expect(html.match(/<a class="item rv/g)).toHaveLength(t.orders.items.length);
       expect(html.match(/<a class="item proj/g)).toHaveLength(
         projects.filter((x) => !x.onStage).length
