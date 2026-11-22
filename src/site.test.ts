@@ -61,6 +61,7 @@ describe('pages', () => {
         t.orders.title,
         t.steps.title,
         t.promises.title,
+        t.moreWork,
         t.faq.title,
         t.brief.title,
         t.other.title,
@@ -68,11 +69,15 @@ describe('pages', () => {
       expect(at.every((n) => n > 0)).toBe(true);
       expect(at).toEqual([...at].sort((a, b) => a - b));
       expect(html.match(/class="btn acc" href="#brief"/g)).toHaveLength(3);
-      expect(html.match(/<a class="item/g)).toHaveLength(t.orders.items.length);
+      expect(html.match(/<a class="item rv/g)).toHaveLength(t.orders.items.length);
+      expect(html.match(/<a class="item proj/g)).toHaveLength(
+        projects.filter((x) => !x.onStage).length
+      );
+      expect(html.match(/<li><b>/g)).toHaveLength(t.promises.items.length);
       expect(html).not.toContain('class="pill says"');
       expect(html).toContain(`${t.faq.moreTg} →`);
       for (const p of projects.filter((x) => !x.onStage)) {
-        expect(html).toContain(`/work/${p.slug}">${p.text[lang].name}</a>`);
+        expect(html).toContain(`${p.text[lang].name} →</i>`);
       }
     }
     expect(renderHome('en')).not.toContain(ui.en.faq.moreTg);

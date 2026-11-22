@@ -1436,10 +1436,13 @@ export const ui = {
           'We agree the scope',
           'What we build and what we leave out is written down first. Half is paid before the start.',
         ],
-        ['We build and test', 'Every decision arrives as text you can forward to your client.'],
+        [
+          'We build and test',
+          'We work in your repository. Every week you get a written report you can forward to your client.',
+        ],
         [
           'We hand it over',
-          'The code and all rights pass to your agency. The second half is paid at handover.',
+          'All rights to the code pass to your agency. The second half is paid at handover.',
         ],
       ],
     },
@@ -1451,9 +1454,13 @@ export const ui = {
     workNote:
       'These are our own products. We built them so you can test our work before you hire us.',
     promises: {
-      title: 'Three promises in writing',
+      title: 'Four promises in writing',
       items: [
         ['The price holds', 'After we agree on the scope, it does not change.'],
+        [
+          'The deadline is in writing',
+          'If it is at risk, we tell you in advance and name a new date.',
+        ],
         ['30 days of fixes', 'Any defect found within 30 days of handover is fixed at no cost.'],
         ['Your client stays yours', 'We never contact your client.'],
       ],
@@ -1465,7 +1472,7 @@ export const ui = {
       items: [
         [
           'Who owns the code?',
-          'You do. After payment the code and all rights to it pass to your agency.',
+          'You do. The code is in your repository from the first day, and after payment all rights to it pass to your agency.',
         ],
         [
           "Where does our client's data go?",
@@ -1482,6 +1489,10 @@ export const ui = {
         [
           'Who supports the project after handover?',
           'Fixes are free for 30 days. After that, support and new features go by a separate written agreement.',
+        ],
+        [
+          'What if you cannot continue mid-project?',
+          'One engineer leads the work and brings in contractors for separate parts. The code is in your repository from the first day, so everything built is already yours. If we cannot continue, we tell you the same day.',
         ],
       ],
     },
@@ -1651,10 +1662,13 @@ export const ui = {
           'Погоджуємо обсяг',
           'Що будуємо і що лишаємо поза межами, записуємо спершу. Половину сплачуєте до старту.',
         ],
-        ['Будуємо й тестуємо', 'Кожне рішення приходить текстом, який можна переслати клієнтові.'],
+        [
+          'Будуємо й тестуємо',
+          'Працюємо у вашому репозиторії. Щотижня ви отримуєте письмовий звіт, який можна переслати клієнтові.',
+        ],
         [
           'Передаємо вам',
-          'Код і всі права переходять вашій агенції. Другу половину сплачуєте під час передачі.',
+          'Усі права на код переходять вашій агенції. Другу половину сплачуєте під час передачі.',
         ],
       ],
     },
@@ -1666,9 +1680,13 @@ export const ui = {
     workNote:
       'Це наші власні продукти. Ми зробили їх, щоб ви могли перевірити нашу роботу до замовлення.',
     promises: {
-      title: 'Три письмові обіцянки',
+      title: 'Чотири письмові обіцянки',
       items: [
         ['Ціна не змінюється', 'Після погодження обсягу вона лишається тією самою.'],
+        [
+          'Термін зафіксовано письмово',
+          'Якщо він під загрозою, попереджаємо заздалегідь і називаємо нову дату.',
+        ],
         [
           '30 днів виправлень',
           'Будь-який дефект, знайдений протягом 30 днів після передачі, виправляємо безкоштовно.',
@@ -1683,7 +1701,7 @@ export const ui = {
       items: [
         [
           'Кому належить код?',
-          'Вам. Після оплати код і всі права на нього переходять вашій агенції.',
+          'Вам. Код від першого дня лежить у вашому репозиторії, а після оплати всі права на нього переходять вашій агенції.',
         ],
         [
           'Куди потрапляють дані нашого клієнта?',
@@ -1700,6 +1718,10 @@ export const ui = {
         [
           'Хто підтримує проєкт після передачі?',
           'Виправлення безкоштовні 30 днів. Далі підтримка й нові функції йдуть за окремою письмовою домовленістю.',
+        ],
+        [
+          'Що, як ви не зможете продовжити посеред проєкту?',
+          'Роботу веде один інженер і залучає підрядників на окремі частини. Код від першого дня лежить у вашому репозиторії, тож усе зроблене вже ваше. Якщо ми не можемо продовжити, повідомляємо того ж дня.',
         ],
       ],
     },
