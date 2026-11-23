@@ -412,7 +412,7 @@ export function renderSample(lang: Lang): string {
   <a class="crumb" href="${home(lang)}">← ${esc(t.privacy.back)}</a>
   <h1 class="h">${esc(s.title[0])} <span>${esc(s.title[1])}</span></h1>
   <p class="sub">${esc(s.lead)}</p>
-  <article class="d doc rv">
+  <article class="d doc seen">
     <p class="tag">${esc(s.badge)}</p>
     <h2>${esc(s.name)}</h2>
     <section><h3>${esc(s.request)}</h3><blockquote>${esc(t.brief.whatPh)}</blockquote></section>

@@ -125,6 +125,8 @@ describe('pages', () => {
       const html = await res.text();
       const s = ui[lang].sample;
       expect(html).toContain(s.badge);
+      // the document is the page: it must not wait for a scroll to appear
+      expect(html).toContain('<article class="d doc seen">');
       expect(html).toContain(`<blockquote>${ui[lang].brief.whatPh}</blockquote>`);
       expect(html.match(/<section/g)).toHaveLength(s.sections.length + 2);
       expect(html).toContain(`<a class="btn acc big" href="${pre || '/'}#brief">`);
