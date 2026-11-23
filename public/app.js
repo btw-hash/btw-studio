@@ -273,6 +273,12 @@
   if (form) {
     var msg = JSON.parse(form.getAttribute('data-msg'));
     var status = document.getElementById('brief-status');
+    var sent = document.getElementById('brief-sent');
+    document.getElementById('brief-again').addEventListener('click', function () {
+      sent.hidden = true;
+      form.hidden = false;
+      form.elements.what.focus();
+    });
     var say = function (text, isError) {
       status.textContent = text;
       status.className = 'status' + (isError ? ' err' : '');
@@ -304,7 +310,10 @@
         .then(function (r) {
           if (r.ok) {
             form.reset();
-            say(msg.ok, false);
+            say('', false);
+            form.hidden = true;
+            sent.hidden = false;
+            sent.focus();
             return;
           }
           var key = r.data && r.data.error;

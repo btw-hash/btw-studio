@@ -1858,3 +1858,239 @@ textarea:focus-visible {
     padding-bottom: 13px;
   }
 }
+/* comparison, fit, sample proposal, after-send */
+[hidden] {
+  display: none !important;
+}
+.more {
+  font-weight: 600;
+  font-size: 15px;
+  text-underline-offset: 3px;
+}
+.promise + .alt {
+  margin-top: 12px;
+}
+.note.after {
+  margin: 14px 0 0;
+}
+
+.cmp {
+  table-layout: fixed;
+}
+.cmp th,
+.cmp td {
+  padding: 13px 16px;
+  border-top: 2px solid var(--line);
+  font-family: var(--body);
+  font-variant-numeric: normal;
+  text-align: left;
+}
+.cmp td {
+  color: var(--soft);
+}
+.cmp thead th,
+.cmp thead td {
+  border-top: 0;
+  vertical-align: bottom;
+}
+.cmp thead th {
+  font: 700 18px / 1.15 var(--display);
+}
+.cmp tbody th {
+  padding-left: 0;
+  font-weight: 700;
+}
+.cmp thead td {
+  width: 19%;
+}
+.cmp .us {
+  background: var(--card);
+  color: var(--ink);
+  font-weight: 600;
+}
+.cmp thead .us {
+  border-top: 3px solid var(--acc);
+}
+
+.d h3 {
+  font: 800 21px / 1.05 var(--display);
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+.d.no li::before {
+  background: var(--soft);
+}
+
+.sent {
+  outline: none;
+  align-self: start;
+}
+.sent h3 {
+  font: 800 24px / 1.05 var(--display);
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+}
+.sent ol {
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+  counter-reset: s;
+  display: grid;
+  gap: 12px;
+}
+.sent li {
+  counter-increment: s;
+  position: relative;
+  padding-left: 36px;
+}
+.sent li::before {
+  content: counter(s);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--acc);
+  color: var(--acc-ink);
+  font: 700 13px / 24px var(--mono);
+  text-align: center;
+}
+.sent p {
+  margin: 12px 0 0;
+}
+
+.sample {
+  padding-bottom: 40px;
+}
+.doc {
+  max-width: 820px;
+  padding: 28px;
+  margin-bottom: 22px;
+  counter-reset: sec;
+}
+.doc > .tag {
+  margin: 0 0 8px;
+}
+.doc h2 {
+  font-size: 30px;
+  margin: 0;
+}
+.doc section {
+  border-top: 2px solid var(--line);
+  margin-top: 20px;
+  padding-top: 18px;
+}
+.doc h3 {
+  font: 500 13px var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin: 0 0 10px;
+}
+.doc h3::before {
+  counter-increment: sec;
+  content: counter(sec, decimal-leading-zero) ' · ';
+  color: var(--acc-text);
+}
+.doc blockquote {
+  margin: 0;
+  padding-left: 16px;
+  border-left: 3px solid var(--acc);
+  font-size: 17px;
+  font-weight: 500;
+  max-width: 62ch;
+}
+.doc li,
+.doc section p {
+  max-width: 68ch;
+}
+.doc .alt {
+  margin-top: 12px;
+}
+.doc .alt a {
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+.doc section.open {
+  border-top-style: dashed;
+}
+.doc section.open p {
+  color: var(--soft);
+}
+
+@media (max-width: 700px) {
+  .cmp thead {
+    position: absolute;
+    left: -9999px;
+  }
+  .cmp,
+  .cmp tbody,
+  .cmp tr,
+  .cmp tbody th,
+  .cmp td {
+    display: block;
+    width: auto;
+  }
+  .cmp tr {
+    border-top: 2px solid var(--line);
+    padding: 14px 0 6px;
+  }
+  .cmp tbody th {
+    border: 0;
+    padding: 0 0 8px;
+    font: 700 19px var(--display);
+  }
+  .cmp td {
+    border: 0;
+    padding: 8px 12px;
+    border-radius: 10px;
+  }
+  .cmp td::before {
+    content: attr(data-col);
+    display: block;
+    font: 500 12px var(--mono);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .cmp td.us::before {
+    color: var(--acc-text);
+  }
+}
+@media (max-width: 560px) {
+  .more {
+    display: inline-block;
+    padding: 12px 0;
+  }
+  .doc {
+    padding: 20px;
+  }
+  .doc h2 {
+    font-size: 24px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sent:not([hidden]) h3,
+  .sent:not([hidden]) li,
+  .sent:not([hidden]) p {
+    animation: sent-in 0.45s ease both;
+  }
+  .sent li:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .sent li:nth-child(2) {
+    animation-delay: 0.22s;
+  }
+  .sent li:nth-child(3) {
+    animation-delay: 0.34s;
+  }
+  .sent p {
+    animation-delay: 0.46s;
+  }
+  @keyframes sent-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+}
