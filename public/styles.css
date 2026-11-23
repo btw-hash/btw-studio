@@ -1113,6 +1113,17 @@ td {
     text-align: center;
   }
 }
+@media (max-width: 370px) {
+  /* at 360 the menu row needed 313px and had 312, so "How it works" broke into two lines */
+  .bar {
+    column-gap: 12px;
+  }
+}
+@media (max-width: 350px) {
+  .bar {
+    column-gap: 8px;
+  }
+}
 video:fullscreen {
   object-fit: contain;
   aspect-ratio: auto;
