@@ -19,6 +19,7 @@ const other = (lang: Lang): Lang => (lang === 'uk' ? 'en' : 'uk');
 const home = (lang: Lang) => prefix(lang) || '/';
 const workPath = (lang: Lang, slug: string) => `${prefix(lang)}/work/${slug}`;
 const privacyPath = (lang: Lang) => `${prefix(lang)}/privacy`;
+const samplePath = (lang: Lang) => `${prefix(lang)}/sample`;
 
 function layout(
   lang: Lang,
@@ -122,11 +123,12 @@ export function renderHome(lang: Lang, botUsername?: string): string {
   const order = (big = '') =>
     `<a class="btn acc${big}" href="#brief">${esc(t.cta.label)}<i aria-hidden="true">→</i></a>`;
   const cta = (note: string) => `<p class="cta">${order()}<span>${esc(note)}</span></p>`;
+  const sample = `<a class="more" href="${samplePath(lang)}">${esc(t.sample.link)} →</a>`;
 
   const body = `<div class="in">
   <h1 class="h rise">${esc(t.hero[0])} <span>${esc(t.hero[1])}</span></h1>
   <p class="sub rise" style="--i:1">${esc(t.sub)}</p>
-  <p class="cta rise" style="--i:2">${order(' big')}<span>${esc(t.cta.note)}</span></p>
+  <p class="cta rise" style="--i:2">${order(' big')}<span>${esc(t.cta.note)}</span>${sample}</p>
   <h2 class="sec rise" style="--i:3" id="work">${esc(t.stageTitle)}</h2>
   <p class="note rise" style="--i:3">${esc(t.workNote)}</p>
   <section class="stage rise" style="--i:3" data-stage='${esc(JSON.stringify(stageData))}'>
@@ -155,6 +157,22 @@ export function renderHome(lang: Lang, botUsername?: string): string {
     <div class="how ben">
       ${t.benefits.items.map(([h, p], i) => `<div class="rv" style="--i:${i}"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join('\n      ')}
     </div>
+  </section>
+
+  <section class="blk">
+    <h2 class="sec">${esc(t.compare.title)}</h2>
+    <table class="cmp rv">
+      <thead><tr><td></td>${t.compare.cols.map((c, i) => `<th scope="col"${i === 0 ? ' class="us"' : ''}>${esc(c)}</th>`).join('')}</tr></thead>
+      <tbody>
+        ${t.compare.rows
+          .map(
+            ([h, ...cells]) =>
+              `<tr><th scope="row">${esc(h)}</th>${cells.map((c, i) => `<td${i === 0 ? ' class="us"' : ''} data-col="${esc(t.compare.cols[i]!)}">${esc(c)}</td>`).join('')}</tr>`
+          )
+          .join('\n        ')}
+      </tbody>
+    </table>
+    <p class="note after">${esc(t.compare.note)}</p>
   </section>
 
   <section class="blk">
@@ -217,9 +235,17 @@ export function renderHome(lang: Lang, botUsername?: string): string {
     }
   </section>
 
+  <section class="blk">
+    <h2 class="sec">${esc(t.fit.title)}</h2>
+    <div class="doors">
+      <div class="d rv"><h3>${esc(t.fit.yes.title)}</h3><ul>${t.fit.yes.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>
+      <div class="d thin no rv" style="--i:1"><h3>${esc(t.fit.no.title)}</h3><ul>${t.fit.no.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul></div>
+    </div>
+  </section>
+
   <section class="brief blk rv" id="brief">
-    <div><h2>${esc(t.brief.title)}</h2><p class="promise">${esc(t.brief.promise)}</p></div>
-    <form id="brief-form" novalidate data-lang="${lang}" data-msg='${esc(JSON.stringify({ sending: t.brief.sending, ok: t.brief.ok, ...errors, down: botUsername ? downTg : errors.down }))}'>
+    <div><h2>${esc(t.brief.title)}</h2><p class="promise">${esc(t.brief.promise)}</p><p class="alt">${sample}</p></div>
+    <form id="brief-form" novalidate data-lang="${lang}" data-msg='${esc(JSON.stringify({ sending: t.brief.sending, ...errors, down: botUsername ? downTg : errors.down }))}'>
       <label for="f-what">${esc(t.brief.what)}</label>
       <textarea id="f-what" name="what" rows="5" maxlength="2000" required placeholder="${esc(t.brief.whatPh)}"></textarea>
       <label for="f-reply">${esc(t.brief.reply)}</label>
@@ -234,6 +260,16 @@ export function renderHome(lang: Lang, botUsername?: string): string {
           : ''
       }
     </form>
+    <div class="sent" id="brief-sent" role="status" tabindex="-1" hidden>
+      <h3>${esc(t.brief.sent.title)}</h3>
+      <ol>${t.brief.sent.items.map((x) => `<li>${esc(x)}</li>`).join('')}</ol>${
+        tg
+          ? `
+      <p class="alt"><a href="${tg}" rel="noopener">${esc(t.brief.sent.urgent)} →</a></p>`
+          : ''
+      }
+      <p><button type="button" class="btn" id="brief-again">${esc(t.brief.sent.again)}</button></p>
+    </div>
   </section>
 </div>`;
 
@@ -368,6 +404,36 @@ export function renderPrivacy(lang: Lang): string {
   });
 }
 
+export function renderSample(lang: Lang): string {
+  const t = ui[lang];
+  const s = t.sample;
+  const example = projects.find((p) => p.slug === 'citewise')!;
+  const body = `<div class="in sample">
+  <a class="crumb" href="${home(lang)}">← ${esc(t.privacy.back)}</a>
+  <h1 class="h">${esc(s.title[0])} <span>${esc(s.title[1])}</span></h1>
+  <p class="sub">${esc(s.lead)}</p>
+  <article class="d doc rv">
+    <p class="tag">${esc(s.badge)}</p>
+    <h2>${esc(s.name)}</h2>
+    <section><h3>${esc(s.request)}</h3><blockquote>${esc(t.brief.whatPh)}</blockquote></section>
+    ${s.sections
+      .map(
+        ([h, items], i) =>
+          `<section><h3>${esc(h)}</h3><ul>${items.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>${i === 0 ? `<p class="alt"><a href="${workPath(lang, example.slug)}">${esc(t.orders.example)}: ${esc(example.text[lang].name)} →</a></p>` : ''}</section>`
+      )
+      .join('\n    ')}
+    <section class="open"><h3>${esc(s.price[0])}</h3><p>${esc(s.price[1])}</p></section>
+  </article>
+  <p class="cta"><a class="btn acc big" href="${home(lang)}#brief">${esc(s.cta)}<i aria-hidden="true">→</i></a><span>${esc(t.cta.note)}</span></p>
+</div>`;
+  return layout(lang, {
+    title: `${s.title[0]} — BTW Studio`,
+    desc: s.desc,
+    path: samplePath,
+    body,
+  });
+}
+
 export function renderSitemap(): string {
   const entry = (path: (l: Lang) => string) =>
     (['en', 'uk'] as const)
@@ -378,7 +444,7 @@ export function renderSitemap(): string {
       .join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${[entry(home), ...projects.map((p) => entry((l) => workPath(l, p.slug))), entry(privacyPath)].join('\n')}
+${[entry(home), ...projects.map((p) => entry((l) => workPath(l, p.slug))), entry(samplePath), entry(privacyPath)].join('\n')}
 </urlset>`;
 }
 

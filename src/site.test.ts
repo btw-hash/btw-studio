@@ -85,6 +85,55 @@ describe('pages', () => {
     expect(renderHome('en')).not.toContain(ui.en.faq.moreTg);
   });
 
+  it('compares the three ways, says what we take and keeps the order buttons at three', () => {
+    for (const lang of ['en', 'uk'] as const) {
+      const t = ui[lang];
+      const html = renderHome(lang, 'some_bot');
+      const at = [
+        t.benefits.title,
+        t.compare.title,
+        t.orders.title,
+        t.faq.title,
+        t.fit.title,
+        t.brief.title,
+      ].map((x) => html.indexOf(x));
+      expect(at.every((n) => n > 0)).toBe(true);
+      expect(at).toEqual([...at].sort((a, b) => a - b));
+      expect(html.match(/<th scope="row">/g)).toHaveLength(t.compare.rows.length);
+      expect(html.match(/<td class="us"/g)).toHaveLength(t.compare.rows.length);
+      for (const x of [...t.fit.yes.items, ...t.fit.no.items]) expect(html).toContain(`<li>${x}`);
+      expect(html.match(/class="btn acc( big)?" href="#brief"/g)).toHaveLength(3);
+    }
+  });
+
+  it('replaces the sent form with what happens next, with Telegram only when the bot is on', () => {
+    const html = renderHome('uk', 'some_bot');
+    expect(html).toContain('id="brief-sent" role="status" tabindex="-1" hidden');
+    for (const x of ui.uk.brief.sent.items) expect(html).toContain(`<li>${x}</li>`);
+    expect(html).toContain(`${ui.uk.brief.sent.urgent} →`);
+    expect(renderHome('uk')).not.toContain(ui.uk.brief.sent.urgent);
+    expect(renderHome('uk')).toContain(ui.uk.brief.sent.again);
+  });
+
+  it('serves a sample proposal without a price or a date, linked from the home page twice', async () => {
+    for (const lang of ['en', 'uk'] as const) {
+      const pre = lang === 'uk' ? '/uk' : '';
+      const home = await (await fetch(`${base}${pre || '/'}`)).text();
+      expect(home.match(new RegExp(`<a class="more" href="${pre}/sample">`, 'g'))).toHaveLength(2);
+      const res = await fetch(`${base}${pre}/sample`);
+      expect(res.status).toBe(200);
+      const html = await res.text();
+      const s = ui[lang].sample;
+      expect(html).toContain(s.badge);
+      expect(html).toContain(`<blockquote>${ui[lang].brief.whatPh}</blockquote>`);
+      expect(html.match(/<section/g)).toHaveLength(s.sections.length + 2);
+      expect(html).toContain(`<a class="btn acc big" href="${pre || '/'}#brief">`);
+      expect(html).toContain(`href="${pre}/work/citewise"`);
+      const doc = html.slice(html.indexOf('<article'), html.indexOf('</article>'));
+      expect(doc).not.toMatch(/[$€₴]|\b\d+ (weeks?|days? to|тижн)/);
+    }
+  });
+
   it('shows the promises, the questions and a privacy page linked from the form', async () => {
     for (const lang of ['en', 'uk'] as const) {
       const base2 = `${base}${lang === 'uk' ? '/uk' : ''}`;
@@ -136,7 +185,7 @@ describe('pages', () => {
 
   it('lists every page in the sitemap and names it in robots.txt', async () => {
     const map = await (await fetch(`${base}/sitemap.xml`)).text();
-    expect(map.match(/<loc>/g)?.length).toBe((projects.length + 2) * 2);
+    expect(map.match(/<loc>/g)?.length).toBe((projects.length + 3) * 2);
     expect(await (await fetch(`${base}/robots.txt`)).text()).toContain('/sitemap.xml');
   });
 

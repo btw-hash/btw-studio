@@ -1399,6 +1399,116 @@ export const ui = {
         ],
       ],
     },
+    compare: {
+      title: 'Three ways to deliver the AI part',
+      cols: ['Subcontract it to us', 'Hire an engineer', 'Buy a ready-made platform'],
+      rows: [
+        [
+          'Start',
+          'As soon as the scope is agreed',
+          'After you find and onboard the person',
+          'The same day',
+        ],
+        [
+          'Cost',
+          'One fixed price for the project',
+          'A salary every month, with or without AI work',
+          'A subscription for as long as the client uses it',
+        ],
+        [
+          'Fit to the task',
+          "Built around the client's task and data",
+          'Whatever one person can build',
+          'What the platform allows',
+        ],
+        [
+          'What stays with you',
+          'The code, in your repository',
+          'The code and a role to keep filled',
+          'An account with the vendor',
+        ],
+      ],
+      note: 'A platform is the right choice for a standard task. Hiring pays off when AI work comes every month. We are for the projects in between.',
+    },
+    fit: {
+      title: 'What we take and what we do not',
+      yes: {
+        title: 'We take',
+        items: [
+          'One AI feature inside your client project: an assistant, document automation or an agent.',
+          'Work under your brand and an NDA, invoiced to your agency.',
+          'A task whose scope can be written down before the start.',
+        ],
+      },
+      no: {
+        title: 'We do not take',
+        items: [
+          'Hourly work or an engineer on loan with no agreed scope.',
+          'Whole websites, design or marketing. That part stays with your agency.',
+          'Projects where we would have to talk to your client directly.',
+        ],
+      },
+    },
+    sample: {
+      link: 'See a sample proposal',
+      title: ['A sample proposal.', 'This is what you get.'],
+      desc: 'What a BTW Studio proposal contains: the task, what we build, what is left out, stages, acceptance and handover.',
+      lead: 'You get a document like this within one working day after you write to us. The client and the project below are invented. The structure is the one we use.',
+      badge: 'Example, invented project',
+      name: 'An assistant for a network of three clinics',
+      request: 'The request',
+      sections: [
+        [
+          'What we build',
+          [
+            'An assistant on the clinic site that answers questions about services and prices from the price list and the clinic documents, and shows the source of every answer.',
+            'Booking: the assistant collects the service, the clinic, a convenient time and a contact, and passes the request to the administrator.',
+            'A handoff to a person when the answer is not in the documents. The assistant says so instead of guessing.',
+            'A page where the clinic staff replace the price list themselves, without us.',
+          ],
+        ],
+        [
+          'What is left out',
+          [
+            'Medical advice and diagnoses. The assistant answers about services, prices and visits only.',
+            'The design and the rest of the site. That part stays with your agency.',
+            'Phone calls and messengers. This project covers the site; other channels are estimated separately.',
+          ],
+        ],
+        [
+          'Stages and what you see after each',
+          [
+            'Answers from documents. You get a link where you ask questions and see the sources.',
+            "Booking and handoff. A test request arrives in the administrator's inbox.",
+            'Launch on the client site. The assistant works on the live site under your brand.',
+            'Every week you get a written report you can forward to your client.',
+          ],
+        ],
+        [
+          'How the work is accepted',
+          [
+            'Before the start we agree a list of test questions with you.',
+            'The assistant answers each of them from the documents and shows the source.',
+            'A question outside the documents gets a handoff to a person, not a guess.',
+            'A booking request reaches the administrator with every field filled.',
+          ],
+        ],
+        [
+          'What your agency gets',
+          [
+            'The code in your repository, with all rights after payment.',
+            'The assistant deployed and running on the client site.',
+            'Tests that pass, and a short guide for the clinic staff.',
+            '30 days of free fixes after handover.',
+          ],
+        ],
+      ],
+      price: [
+        'Timeline and price',
+        'In a real proposal this section holds one date and one fixed price. Both depend on the task, so we name them in the reply to your message, not on the site. Payment: half before the start, half at handover.',
+      ],
+      cta: 'Get a proposal for your project',
+    },
     orders: {
       title: 'See what your client could order',
       example: 'Working example',
@@ -1536,7 +1646,16 @@ export const ui = {
       replyPh: 'name@yourstudio.com',
       send: 'Get a proposal',
       sending: 'Sending…',
-      ok: 'Received. Within one working day you will get a written reply at the contact you left: scope, timeline and price. If something is unclear, we ask one or two questions first.',
+      sent: {
+        title: 'Received. Here is what happens next',
+        items: [
+          'We read your message. If something is unclear, we ask one or two questions at the contact you left.',
+          'Within one working day you get a written proposal: scope, timeline and price.',
+          'You decide. If it does not fit, you owe us nothing, not even a reply.',
+        ],
+        urgent: 'Urgent? Write to us in Telegram',
+        again: 'Send another message',
+      },
       tg: 'Or write to us in Telegram',
       data: 'We use your message only to reply to you.',
       aboutTitle: 'Who you are writing to',
@@ -1624,6 +1743,111 @@ export const ui = {
           'Якщо зміняться ціни чи якість, модель замінюємо без переробки проєкту.',
         ],
       ],
+    },
+    compare: {
+      title: 'Три способи зробити ШІ-частину',
+      cols: ['Передати нам', 'Найняти інженера', 'Купити готову платформу'],
+      rows: [
+        ['Старт', 'Щойно погоджено обсяг', 'Після пошуку й адаптації людини', 'Того ж дня'],
+        [
+          'Вартість',
+          'Одна фіксована ціна за проєкт',
+          'Зарплата щомісяця, є ШІ-робота чи ні',
+          'Підписка, доки клієнт користується',
+        ],
+        [
+          'Відповідність завданню',
+          'Зроблено під завдання й дані клієнта',
+          'Те, що вміє одна людина',
+          'Те, що дозволяє платформа',
+        ],
+        [
+          'Що лишається у вас',
+          'Код у вашому репозиторії',
+          'Код і посада, яку треба закривати',
+          'Обліковий запис у постачальника',
+        ],
+      ],
+      note: 'Платформа підходить для типового завдання. Найм виправданий, коли ШІ-робота є щомісяця. Ми робимо проєкти між цими двома випадками.',
+    },
+    fit: {
+      title: 'Що ми беремо і чого не беремо',
+      yes: {
+        title: 'Беремо',
+        items: [
+          'Одну ШІ-функцію у вашому клієнтському проєкті: асистента, обробку документів або агента.',
+          'Роботу під вашим брендом і з NDA, з рахунком на вашу агенцію.',
+          'Завдання, обсяг якого можна записати до старту.',
+        ],
+      },
+      no: {
+        title: 'Не беремо',
+        items: [
+          'Погодинну роботу або інженера «в оренду» без погодженого обсягу.',
+          'Сайти цілком, дизайн чи маркетинг. Ця частина лишається за вашою агенцією.',
+          'Проєкти, де нам довелося б спілкуватися з вашим клієнтом напряму.',
+        ],
+      },
+    },
+    sample: {
+      link: 'Подивитися зразок пропозиції',
+      title: ['Зразок пропозиції.', 'Ось що ви отримаєте.'],
+      desc: 'Що містить пропозиція BTW Studio: завдання, що ми робимо, що лишається поза межами, етапи, приймання й передача.',
+      lead: 'Такий документ ви отримаєте протягом одного робочого дня після того, як напишете нам. Клієнт і проєкт нижче вигадані. Структура та сама, якою ми користуємося.',
+      badge: 'Приклад, вигаданий проєкт',
+      name: 'Асистент для мережі з трьох клінік',
+      request: 'Запит',
+      sections: [
+        [
+          'Що ми робимо',
+          [
+            'Асистента на сайті клініки, який відповідає на запитання про послуги й ціни за прайсом і документами клініки та показує джерело кожної відповіді.',
+            'Запис на прийом: асистент збирає послугу, клініку, зручний час і контакт та передає заявку адміністраторові.',
+            'Передачу людині, коли відповіді в документах немає. Асистент каже про це, а не вгадує.',
+            'Сторінку, де працівники клініки самі замінюють прайс, без нас.',
+          ],
+        ],
+        [
+          'Що лишається поза межами',
+          [
+            'Медичні поради й діагнози. Асистент відповідає лише про послуги, ціни й запис.',
+            'Дизайн і решта сайту. Ця частина лишається за вашою агенцією.',
+            'Дзвінки й месенджери. Цей проєкт охоплює сайт; інші канали оцінюємо окремо.',
+          ],
+        ],
+        [
+          'Етапи і що ви бачите після кожного',
+          [
+            'Відповіді за документами. Ви отримуєте посилання, де ставите запитання й бачите джерела.',
+            'Запис і передача людині. Тестова заявка надходить на пошту адміністратора.',
+            'Запуск на сайті клієнта. Асистент працює на живому сайті під вашим брендом.',
+            'Щотижня ви отримуєте письмовий звіт, який можна переслати клієнтові.',
+          ],
+        ],
+        [
+          'Як приймається робота',
+          [
+            'До старту погоджуємо з вами список тестових запитань.',
+            'На кожне з них асистент відповідає за документами й показує джерело.',
+            'На запитання поза документами асистент передає розмову людині, а не вгадує.',
+            'Заявка на запис надходить адміністраторові з усіма заповненими полями.',
+          ],
+        ],
+        [
+          'Що отримує ваша агенція',
+          [
+            'Код у вашому репозиторії, з усіма правами після оплати.',
+            'Асистента, розгорнутого на сайті клієнта.',
+            'Тести, що проходять, і коротку інструкцію для працівників клініки.',
+            '30 днів безкоштовних виправлень після передачі.',
+          ],
+        ],
+      ],
+      price: [
+        'Термін і ціна',
+        'У справжній пропозиції тут стоять одна дата й одна фіксована ціна. Обидві залежать від завдання, тож називаємо їх у відповіді на ваше повідомлення, а не на сайті. Оплата: половина до старту, половина під час передачі.',
+      ],
+      cta: 'Отримати пропозицію для вашого проєкту',
     },
     orders: {
       title: 'Подивіться, що міг би замовити ваш клієнт',
@@ -1765,7 +1989,16 @@ export const ui = {
       replyPh: 'name@yourstudio.com',
       send: 'Отримати пропозицію',
       sending: 'Надсилаємо…',
-      ok: 'Отримали. Протягом одного робочого дня на залишений контакт прийде письмова відповідь: обсяг, термін і ціна. Якщо щось незрозуміло, спершу поставимо одне-два запитання.',
+      sent: {
+        title: 'Отримали. Ось що буде далі',
+        items: [
+          'Читаємо ваше повідомлення. Якщо щось незрозуміло, поставимо одне-два запитання на залишений контакт.',
+          'Протягом одного робочого дня ви отримаєте письмову пропозицію: обсяг, термін і ціна.',
+          'Рішення за вами. Якщо не підійде, ви нам нічого не винні, навіть відповіді.',
+        ],
+        urgent: 'Терміново? Напишіть нам у Telegram',
+        again: 'Надіслати ще одне повідомлення',
+      },
       tg: 'Або напишіть нам у Telegram',
       data: 'Ваше повідомлення використовуємо лише для відповіді вам.',
       aboutTitle: 'Кому ви пишете',

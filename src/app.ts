@@ -15,6 +15,7 @@ import {
   renderNotFound,
   renderPrivacy,
   renderProject,
+  renderSample,
   renderSitemap,
 } from './render.js';
 
@@ -130,6 +131,9 @@ export function createApp(
     });
     app.get(`${base}/privacy`, (_req, res) => {
       res.type('html').send(renderPrivacy(lang));
+    });
+    app.get(`${base}/sample`, (_req, res) => {
+      res.type('html').send(renderSample(lang));
     });
     app.get(`${base}/work/:slug`, (req, res) => {
       const project = findProject(req.params.slug);
