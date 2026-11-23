@@ -978,6 +978,30 @@ td {
 }
 
 @media (max-width: 900px) {
+  /* the descriptor moves under the name instead of disappearing */
+  .mark span {
+    display: block;
+    margin: 2px 0 0;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+}
+@media (max-width: 767px) {
+  /* no room beside the menu here, and a phone held sideways has no height to spare */
+  .mark span {
+    display: none;
+  }
+}
+@media (max-width: 560px) {
+  /* upright phone: two short lines under the name, never wider than the name's own columns */
+  .mark span {
+    display: block;
+    width: 0;
+    min-width: 100%;
+    text-wrap: balance;
+  }
+}
+@media (max-width: 349px) {
   .mark span {
     display: none;
   }
@@ -1072,6 +1096,12 @@ td {
     grid-column: 4;
     justify-self: end;
     align-self: center;
+  }
+  /* the switch keeps its size; its touch area grows to the 44px row */
+  .theme::after {
+    content: '';
+    position: absolute;
+    inset: -6px -2px;
   }
   .btn,
   .pill {
